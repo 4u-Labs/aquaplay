@@ -281,163 +281,13 @@
     #confettiCanvas {
       position: fixed; inset: 0; pointer-events: none; z-index: 9999;
     }
-
-    /* Layout Responsivo do Gabinete (Retrato vs Paisagem) */
-    .toy-body-layout {
-      display: grid;
-      grid-template-areas:
-        "center center center"
-        "left   util   right"
-        "tilt   tilt   tilt";
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      justify-items: center;
-      gap: 12px 6px;
-    }
-    .toy-col-center {
-      grid-area: center;
-      width: 100%;
-    }
-    .toy-col-left {
-      grid-area: left;
-    }
-    .toy-col-util {
-      grid-area: util;
-    }
-    .toy-col-right {
-      grid-area: right;
-    }
-    .toy-col-tilt {
-      grid-area: tilt;
-      margin-top: 4px;
-    }
-
-    /* ================= ADAPTAÇÃO HORIZONTAL / PAISAGEM (CONSOLE RETRÔ) ================= */
-    @media (orientation: landscape) and (max-height: 640px) {
-      body {
-        overflow-y: hidden;
-      }
-      .app-container {
-        padding-top: 2px !important;
-        padding-bottom: 2px !important;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-      header.header-toolbar {
-        margin-bottom: 2px !important;
-        padding: 2px 8px !important;
-        gap: 4px !important;
-        border-radius: 12px !important;
-      }
-      header.header-toolbar .w-8.h-8 {
-        width: 1.5rem !important;
-        height: 1.5rem !important;
-        border-radius: 8px !important;
-      }
-      header.header-toolbar .font-black.text-sm {
-        font-size: 11px !important;
-      }
-      header.header-toolbar .text-white\/50 {
-        display: none !important;
-      }
-      header.header-toolbar #btnModeDropdown {
-        padding: 2px 8px !important;
-        font-size: 10px !important;
-      }
-      .scoreboard-bar {
-        padding: 2px 8px !important;
-        font-size: 10px !important;
-        margin-bottom: 2px !important;
-      }
-
-      /* Gabinete em formato console horizontal com zero rolagem */
-      .toy-shell {
-        width: auto !important;
-        max-width: min(98vw, 700px) !important;
-        padding: 6px 14px 8px 14px !important;
-        border-radius: 24px !important;
-      }
-      .toy-header {
-        margin-bottom: 2px !important;
-      }
-
-      /* Grid horizontal: Pistão Esquerdo | Câmara D'água Central | Pistão Direito */
-      .toy-body-layout {
-        grid-template-areas:
-          "left center center right"
-          "left util   tilt   right";
-        grid-template-columns: auto 1fr 1fr auto;
-        align-items: center;
-        justify-content: center;
-        gap: 2px 14px;
-      }
-      .toy-col-center {
-        max-height: min(52vh, 195px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .water-chamber {
-        max-height: min(52vh, 195px) !important;
-        border-width: 3px !important;
-      }
-      #gameCanvas {
-        max-height: min(52vh, 195px) !important;
-        width: auto !important;
-        aspect-ratio: 320 / 360;
-      }
-
-      .toy-col-left {
-        align-self: center;
-      }
-      .toy-col-right {
-        align-self: center;
-      }
-      .pump-button {
-        width: 56px !important;
-        height: 56px !important;
-      }
-      .pump-label-box {
-        margin-top: 2px !important;
-      }
-      .pump-label-box span {
-        font-size: 8px !important;
-      }
-
-      .toy-col-util {
-        flex-direction: row !important;
-        gap: 8px !important;
-        align-items: center;
-      }
-      .util-button {
-        width: 30px !important;
-        height: 30px !important;
-      }
-      .util-label, .util-sublabel {
-        display: none !important;
-      }
-      .toy-col-tilt {
-        margin-top: 0 !important;
-      }
-      #tiltStatusBadge {
-        padding: 2px 8px !important;
-        font-size: 9px !important;
-      }
-
-      footer {
-        display: none !important;
-      }
-    }
   </style>
 </head>
 <body class="p-2 sm:p-4">
 
   <canvas id="confettiCanvas"></canvas>
 
-  <div class="app-container w-full max-w-xl flex flex-col items-center">
+  <div class="w-full max-w-xl flex flex-col items-center">
 
     <!-- Top Toolbar (Modo com Caixa Acesa, Temas, Áudio, Placar) -->
     <header class="header-toolbar w-full flex flex-wrap items-center justify-between gap-2 px-3 py-2 mb-2 bg-slate-900/95 backdrop-blur-md rounded-2xl border border-white/10 shadow-lg" style="position: relative; z-index: 1000 !important;">
@@ -509,7 +359,7 @@
       <div class="screw absolute bottom-4 right-3"></div>
 
       <!-- Plaqueta Vintage de Metal / Logotipo Estrela -->
-      <div class="toy-header flex items-center justify-between px-3 mb-2">
+      <div class="flex items-center justify-between px-3 mb-2">
         <div class="flex items-center gap-1.5">
           <span class="w-2.5 h-2.5 rounded-full bg-red-600 border border-white/50 shadow-inner"></span>
           <span class="font-black text-xs tracking-wider text-slate-900 drop-shadow-sm uppercase">AquaPlay</span>
@@ -519,68 +369,64 @@
         </div>
       </div>
 
-      <!-- Container do Corpo do Brinquedo (Grid adaptável Retrato / Paisagem) -->
-      <div class="toy-body-layout">
+      <!-- Câmara Acrílica com Canvas -->
+      <div class="water-chamber">
+        <div class="acrylic-glass-reflection"></div>
+        <canvas id="gameCanvas" width="320" height="360" class="block w-full h-auto"></canvas>
+      </div>
 
-        <!-- Centro: Câmara Acrílica com Canvas -->
-        <div class="toy-col-center">
-          <div class="water-chamber">
-            <div class="acrylic-glass-reflection"></div>
-            <canvas id="gameCanvas" width="320" height="360" class="block w-full h-auto"></canvas>
-          </div>
-        </div>
-
-        <!-- Coluna Esquerda: Bomba Esquerda (Pistão) -->
-        <div class="toy-col-left flex flex-col items-center">
+      <!-- Painel Inferior de Controles Reais (Duas Bombas + Shake + Reset) -->
+      <div class="mt-3 px-2 flex items-center justify-between">
+        
+        <!-- Bomba Esquerda (Pistão) -->
+        <div class="flex flex-col items-center">
           <button id="btnPumpLeft" class="pump-button" aria-label="Bomba Esquerda">
             <i class="fas fa-arrow-up text-white/90 text-lg drop-shadow"></i>
             <span class="text-[9px] font-black text-white/80 tracking-wider -mt-0.5">ESQ</span>
           </button>
-          <div class="pump-label-box mt-3.5 flex flex-col items-center">
+          <div class="mt-3.5 flex flex-col items-center">
             <span class="text-[9px] font-black tracking-widest text-slate-900 drop-shadow-sm uppercase">JATO ESQ</span>
             <span class="text-[8px] font-bold text-slate-800/80 px-2 py-0.5 rounded-full bg-black/10 border border-black/15 shadow-inner mt-0.5 tracking-wider hidden sm:inline-block">[Z / ←]</span>
           </div>
         </div>
 
-        <!-- Coluna Central: Controles Secundários (Agitar e Reiniciar) -->
-        <div class="toy-col-util flex flex-col items-center gap-1.5">
-          <div class="flex flex-col items-center">
-            <button id="btnShake" class="util-button" title="Chacoalhar o Brinquedo" aria-label="Chacoalhar">
-              <i class="fas fa-hand-sparkles text-white text-sm"></i>
-            </button>
-            <span class="util-label text-[8px] font-black tracking-wider text-slate-900 drop-shadow-sm uppercase">AGITAR</span>
-            <span class="util-sublabel text-[7px] font-bold text-slate-800/80 px-1.5 py-0.5 rounded-full bg-black/10 border border-black/15 shadow-inner hidden sm:inline-block">[ESPAÇO]</span>
-          </div>
+        <!-- Botões Centrais (Chacoalhar e Novo Jogo) -->
+        <div class="flex flex-col items-center gap-1.5">
+          <button id="btnShake" class="util-button" title="Chacoalhar o Brinquedo" aria-label="Chacoalhar">
+            <i class="fas fa-hand-sparkles text-white text-sm"></i>
+          </button>
+          <span class="text-[8px] font-black tracking-wider text-slate-900 drop-shadow-sm uppercase">AGITAR</span>
+          <span class="text-[7px] font-bold text-slate-800/80 px-1.5 py-0.5 rounded-full bg-black/10 border border-black/15 shadow-inner hidden sm:inline-block">[ESPAÇO]</span>
 
           <button id="btnReset" class="w-6 h-6 rounded-full bg-slate-800 hover:bg-slate-700 border border-white/20 text-white text-[10px] flex items-center justify-center shadow-md active:scale-95 transition-transform mt-1" title="Reiniciar Partida" aria-label="Reiniciar">
             <i class="fas fa-rotate-right"></i>
           </button>
         </div>
 
-        <!-- Coluna Direita: Bomba Direita (Pistão) -->
-        <div class="toy-col-right flex flex-col items-center">
+        <!-- Bomba Direita (Pistão) -->
+        <div class="flex flex-col items-center">
           <button id="btnPumpRight" class="pump-button" aria-label="Bomba Direita">
             <i class="fas fa-arrow-up text-white/90 text-lg drop-shadow"></i>
             <span class="text-[9px] font-black text-white/80 tracking-wider -mt-0.5">DIR</span>
           </button>
-          <div class="pump-label-box mt-3.5 flex flex-col items-center">
+          <div class="mt-3.5 flex flex-col items-center">
             <span class="text-[9px] font-black tracking-widest text-slate-900 drop-shadow-sm uppercase">JATO DIR</span>
             <span class="text-[8px] font-bold text-slate-800/80 px-2 py-0.5 rounded-full bg-black/10 border border-black/15 shadow-inner mt-0.5 tracking-wider hidden sm:inline-block">[X / →]</span>
           </div>
         </div>
 
-        <!-- Indicador do Giroscópio Vintage (Sempre Ativo com Sensor Físico 360°) -->
-        <div id="tiltSupportArea" class="toy-col-tilt text-center flex items-center justify-center">
-          <div id="tiltStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/20 border border-emerald-500/40 text-emerald-950 font-black text-[10px] shadow-sm select-none">
-            <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <i class="fas fa-compass text-emerald-800"></i>
-            <span id="tiltBadgeText" class="tracking-wide">Giroscópio Ativo</span>
-          </div>
-        </div>
+      </div>
 
+      <!-- Indicador do Giroscópio Vintage (Sempre Ativo com Sensor Físico 360°) -->
+      <div id="tiltSupportArea" class="mt-3 text-center flex items-center justify-center">
+        <div id="tiltStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/20 border border-emerald-500/40 text-emerald-950 font-black text-[10px] shadow-sm select-none">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <i class="fas fa-compass text-emerald-800"></i>
+          <span id="tiltBadgeText" class="tracking-wide">Giroscópio Ativo</span>
+        </div>
       </div>
 
     </main>
@@ -1857,37 +1703,8 @@
               if (basket.checkBasket(ball)) break;
             }
           }
+          ball.draw();
         });
-
-        // Colisões físicas realistas entre as bolinhas (efeito de pilha e quique na água)
-        for (let i = 0; i < state.balls.length; i++) {
-          for (let j = i + 1; j < state.balls.length; j++) {
-            const b1 = state.balls[i], b2 = state.balls[j];
-            if (b1.scored && b2.scored) continue;
-            const dx = b2.x - b1.x;
-            const dy = b2.y - b1.y;
-            const dist = Math.hypot(dx, dy);
-            const minDist = b1.radius + b2.radius;
-            if (dist < minDist && dist > 0.001) {
-              const nx = dx / dist;
-              const ny = dy / dist;
-              const overlap = minDist - dist;
-              if (!b1.scored) { b1.x -= overlap * 0.5 * nx; b1.y -= overlap * 0.5 * ny; }
-              if (!b2.scored) { b2.x += overlap * 0.5 * nx; b2.y += overlap * 0.5 * ny; }
-
-              // Troca elástica de momento na água
-              const kx = b1.vx - b2.vx;
-              const ky = b1.vy - b2.vy;
-              const p = 2 * (nx * kx + ny * ky) / 2;
-              if (p > 0) {
-                if (!b1.scored) { b1.vx -= p * 0.5 * nx * 0.75; b1.vy -= p * 0.5 * ny * 0.75; }
-                if (!b2.scored) { b2.vx += p * 0.5 * nx * 0.75; b2.vy += p * 0.5 * ny * 0.75; }
-              }
-            }
-          }
-        }
-
-        state.balls.forEach(ball => ball.draw());
       }
 
       requestAnimationFrame(gameLoop);
@@ -2075,22 +1892,28 @@
         if (k === 'x' || k === 'arrowright') endPumpRight();
       });
 
-      // Suporte a Giroscópio 360° e Acelerômetro Físico (DeviceOrientation + DeviceMotion)
-      let lastShakeTime = 0;
+      // Suporte a Giroscópio 360° (Mobile DeviceOrientation - Sempre Ativo por Padrão)
+      function initGyroscope() {
+        if (!window.DeviceOrientationEvent) return;
 
-      function handleMotion(e) {
-        if (state.gameWon) return;
-        const acc = e.acceleration || e.accelerationIncludingGravity;
-        if (!acc) return;
-        const x = acc.x || 0;
-        const y = acc.y || 0;
-        const z = acc.z || 0;
-        const speed = Math.hypot(x, y, z);
-        const threshold = e.acceleration ? 13 : 23;
-        const now = Date.now();
-        if (speed > threshold && (now - lastShakeTime > 750)) {
-          lastShakeTime = now;
-          triggerShake();
+        // Se iOS 13+ requer permissão em gesto do usuário
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+          const enableOnFirstGesture = () => {
+            DeviceOrientationEvent.requestPermission().then(res => {
+              if (res === 'granted') {
+                window.addEventListener('deviceorientation', handleOrientation);
+                const badge = document.getElementById('tiltBadgeText');
+                if (badge) badge.textContent = "Giroscópio Ativo";
+              }
+            }).catch(() => {});
+            window.removeEventListener('touchstart', enableOnFirstGesture);
+            window.removeEventListener('click', enableOnFirstGesture);
+          };
+          window.addEventListener('touchstart', enableOnFirstGesture, { once: true });
+          window.addEventListener('click', enableOnFirstGesture, { once: true });
+        } else {
+          // Android, Chrome e navegadores modernos: ativa imediatamente no carregamento!
+          window.addEventListener('deviceorientation', handleOrientation);
         }
       }
 
@@ -2105,65 +1928,21 @@
         const radBeta = beta * Math.PI / 180;
         const radGamma = gamma * Math.PI / 180;
 
-        // Projeção física do vetor de gravidade 3D no plano do aparelho
-        let devGx = Math.sin(radGamma);
-        let devGy = Math.sin(radBeta);
+        // Projeção física do vetor de gravidade 3D na água 2D do brinquedo
+        let gx = Math.sin(radGamma);
+        let gy = Math.sin(radBeta);
 
-        // Se o celular estiver virado com a tela para baixo
+        // Se o celular estiver virado de costas
         if (Math.abs(gamma) > 90) {
-          devGy = -devGy;
+          gy = -gy;
         }
-
-        // Compensação pelo ângulo de orientação da tela do celular (0°, 90°, 180°, 270°)
-        const screenAngle = (window.screen && window.screen.orientation && typeof window.screen.orientation.angle === 'number')
-          ? window.screen.orientation.angle
-          : (window.orientation || 0);
-
-        const radScreen = (screenAngle * Math.PI) / 180;
-        // Rotação 2D do vetor gravidade para coincidir sempre com o eixo visual da tela
-        let screenGx = devGx * Math.cos(radScreen) - devGy * Math.sin(radScreen);
-        let screenGy = devGx * Math.sin(radScreen) + devGy * Math.cos(radScreen);
 
         // Zona morta suave para estabilidade das mãos
-        if (Math.abs(screenGx) < 0.04) screenGx = 0;
+        if (Math.abs(gx) < 0.04) gx = 0;
 
         // Atualizar alvos de aceleração da gravidade
-        state.targetGravityX = clamp(screenGx * 1.35, -1.6, 1.6);
-        state.targetGravityY = clamp(screenGy * 1.25, -1.6, 1.6);
-      }
-
-      function initGyroscope() {
-        if (!window.DeviceOrientationEvent) return;
-
-        // Se iOS 13+ requer permissão em gesto do usuário
-        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-          const enableOnFirstGesture = () => {
-            DeviceOrientationEvent.requestPermission().then(res => {
-              if (res === 'granted') {
-                window.addEventListener('deviceorientation', handleOrientation);
-                if (window.DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === 'function') {
-                  DeviceMotionEvent.requestPermission().then(mRes => {
-                    if (mRes === 'granted') window.addEventListener('devicemotion', handleMotion);
-                  }).catch(() => {});
-                } else if (window.DeviceMotionEvent) {
-                  window.addEventListener('devicemotion', handleMotion);
-                }
-                const badge = document.getElementById('tiltBadgeText');
-                if (badge) badge.textContent = "Giroscópio Ativo";
-              }
-            }).catch(() => {});
-            window.removeEventListener('touchstart', enableOnFirstGesture);
-            window.removeEventListener('click', enableOnFirstGesture);
-          };
-          window.addEventListener('touchstart', enableOnFirstGesture, { once: true });
-          window.addEventListener('click', enableOnFirstGesture, { once: true });
-        } else {
-          // Android, Chrome e navegadores modernos: ativa imediatamente no carregamento!
-          window.addEventListener('deviceorientation', handleOrientation);
-          if (window.DeviceMotionEvent) {
-            window.addEventListener('devicemotion', handleMotion);
-          }
-        }
+        state.targetGravityX = clamp(gx * 1.35, -1.6, 1.6);
+        state.targetGravityY = clamp(gy * 1.25, -1.6, 1.6);
       }
 
       initGyroscope();
@@ -2180,7 +1959,7 @@
     // PWA Service Worker com verificação ativa de atualização
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js?v=1.3.0').then(reg => {
+        navigator.serviceWorker.register('service-worker.js?v=1.3.1').then(reg => {
           reg.update();
         }).catch(e => console.warn(e));
       });
