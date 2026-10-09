@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aquaplay-v1.2.0';
+const CACHE_NAME = 'aquaplay-v1.2.1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
