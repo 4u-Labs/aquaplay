@@ -7,7 +7,10 @@
   
   <meta name="description" content="O clássico brinquedo aquático portátil dos anos 80 e 90 com bombas duplas, modos Argolas e Basquete, física realista, giroscópio e áudio sintetizado nativo.">
   <meta name="theme-color" content="#d97706">
-  <link rel="manifest" href="manifest.json">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="manifest" href="manifest.json?v=1.2.0">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
@@ -89,7 +92,7 @@
       width: min(94vw, 360px);
       background: linear-gradient(165deg, #fcd34d 0%, #f59e0b 45%, #d97706 100%);
       border-radius: 36px 36px 48px 48px;
-      padding: 16px 14px 20px 14px;
+      padding: 16px 14px 24px 14px;
       box-shadow: 
         0 25px 60px rgba(0, 0, 0, 0.7),
         0 10px 25px rgba(0, 0, 0, 0.4),
@@ -306,46 +309,14 @@
       <div class="flex items-center gap-2">
         
         <!-- Caixa de Seleção de Modo (Permanentemente Acesa com Chevron Aceso) -->
-        <div class="relative" id="modeSelectWrapper">
-          <button id="btnModeDropdown" type="button" class="neon-glow-select px-3 py-1.5 rounded-xl text-xs flex items-center gap-2 font-black cursor-pointer select-none">
+        <div id="modeSelectWrapper">
+          <button id="btnModeDropdown" type="button" class="neon-glow-select px-3 py-1.5 rounded-xl text-xs flex items-center gap-2 font-black cursor-pointer select-none" title="Escolher Modo de Jogo">
             <i class="fas fa-bullseye neon-glow-icon text-xs"></i>
             <span id="modeDisplay" class="text-cyan-200 tracking-wide font-bold">Argolas Clássicas</span>
             <span class="w-4 h-4 rounded bg-cyan-400/20 flex items-center justify-center border border-cyan-400/40">
               <i id="modeChevron" class="fas fa-chevron-down neon-glow-icon text-[9px] transition-transform duration-200"></i>
             </span>
           </button>
-
-          <!-- Menu Suspenso de Opções (Dropdown com fundo sólido escuro opaco, sempre à frente do brinquedo) -->
-          <div id="modeDropdownMenu" class="hidden absolute left-0 sm:left-auto sm:right-0 top-full mt-2 w-64 max-w-[calc(100vw-24px)] rounded-2xl border-2 border-cyan-400 p-2.5 shadow-2xl" style="background-color: #0b1526 !important; box-shadow: 0 25px 70px rgba(0,0,0,0.98), 0 0 25px rgba(6,182,212,0.45); backdrop-filter: blur(20px); z-index: 99999 !important;">
-            <div class="px-3 py-1.5 text-[10px] uppercase font-black tracking-wider text-cyan-400 flex items-center justify-between border-b border-cyan-500/20 mb-1">
-              <span>Selecione a Modalidade</span>
-              <i class="fas fa-sparkles text-cyan-300"></i>
-            </div>
-
-            <!-- Opção 1: Argolas -->
-            <button type="button" data-mode="rings" class="mode-item w-full flex items-center justify-between p-2.5 rounded-xl transition-all text-left hover:bg-cyan-500/20 border border-transparent hover:border-cyan-400/40 cursor-pointer">
-              <div class="flex items-center gap-2.5">
-                <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-base shadow-sm">🎯</span>
-                <div>
-                  <div class="text-xs font-black text-white">Argolas Clássicas</div>
-                  <div class="text-[10px] text-white/60">Encaixe todas as argolas nas hastes</div>
-                </div>
-              </div>
-              <i class="fas fa-circle-check text-cyan-400 text-sm check-rings"></i>
-            </button>
-
-            <!-- Opção 2: Basquete -->
-            <button type="button" data-mode="basket" class="mode-item w-full flex items-center justify-between p-2.5 rounded-xl transition-all text-left hover:bg-amber-500/20 border border-transparent hover:border-amber-400/40 cursor-pointer mt-1">
-              <div class="flex items-center gap-2.5">
-                <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold text-base shadow-sm">🏀</span>
-                <div>
-                  <div class="text-xs font-black text-white">Basquete Aquático</div>
-                  <div class="text-[10px] text-white/60">Enceste as bolas nos cestos submarinos</div>
-                </div>
-              </div>
-              <i class="fas fa-circle-check text-amber-400 text-sm hidden check-basket"></i>
-            </button>
-          </div>
         </div>
 
         <!-- Mudar Tema da Carcaça -->
@@ -405,7 +376,7 @@
       </div>
 
       <!-- Painel Inferior de Controles Reais (Duas Bombas + Shake + Reset) -->
-      <div class="mt-4 px-2 flex items-center justify-between">
+      <div class="mt-3 px-2 flex items-center justify-between">
         
         <!-- Bomba Esquerda (Pistão) -->
         <div class="flex flex-col items-center">
@@ -413,18 +384,21 @@
             <i class="fas fa-arrow-up text-white/90 text-lg drop-shadow"></i>
             <span class="text-[9px] font-black text-white/80 tracking-wider -mt-0.5">ESQ</span>
           </button>
-          <span class="text-[9px] font-black text-slate-800 mt-1 uppercase tracking-wider drop-shadow-sm">[Z / ←]</span>
+          <div class="mt-1 flex flex-col items-center">
+            <span class="text-[9px] font-black tracking-widest text-slate-900 drop-shadow-sm uppercase">JATO ESQ</span>
+            <span class="text-[8px] font-bold text-slate-800/80 px-2 py-0.5 rounded-full bg-black/10 border border-black/15 shadow-inner mt-0.5 tracking-wider hidden sm:inline-block">[Z / ←]</span>
+          </div>
         </div>
 
         <!-- Botões Centrais (Chacoalhar e Novo Jogo) -->
-        <div class="flex flex-col items-center gap-2">
-          
+        <div class="flex flex-col items-center gap-1.5">
           <button id="btnShake" class="util-button" title="Chacoalhar o Brinquedo" aria-label="Chacoalhar">
             <i class="fas fa-hand-sparkles text-white text-sm"></i>
           </button>
-          <span class="text-[8px] font-bold text-slate-800 uppercase tracking-wide">[Espaço]</span>
+          <span class="text-[8px] font-black tracking-wider text-slate-900 drop-shadow-sm uppercase">AGITAR</span>
+          <span class="text-[7px] font-bold text-slate-800/80 px-1.5 py-0.5 rounded-full bg-black/10 border border-black/15 shadow-inner hidden sm:inline-block">[ESPAÇO]</span>
 
-          <button id="btnReset" class="w-7 h-7 rounded-full bg-slate-800 hover:bg-slate-700 border border-white/20 text-white text-[11px] flex items-center justify-center shadow-md active:scale-95 transition-transform" title="Reiniciar Partida" aria-label="Reiniciar">
+          <button id="btnReset" class="w-6 h-6 rounded-full bg-slate-800 hover:bg-slate-700 border border-white/20 text-white text-[10px] flex items-center justify-center shadow-md active:scale-95 transition-transform mt-1" title="Reiniciar Partida" aria-label="Reiniciar">
             <i class="fas fa-rotate-right"></i>
           </button>
         </div>
@@ -435,16 +409,24 @@
             <i class="fas fa-arrow-up text-white/90 text-lg drop-shadow"></i>
             <span class="text-[9px] font-black text-white/80 tracking-wider -mt-0.5">DIR</span>
           </button>
-          <span class="text-[9px] font-black text-slate-800 mt-1 uppercase tracking-wider drop-shadow-sm">[X / →]</span>
+          <div class="mt-1 flex flex-col items-center">
+            <span class="text-[9px] font-black tracking-widest text-slate-900 drop-shadow-sm uppercase">JATO DIR</span>
+            <span class="text-[8px] font-bold text-slate-800/80 px-2 py-0.5 rounded-full bg-black/10 border border-black/15 shadow-inner mt-0.5 tracking-wider hidden sm:inline-block">[X / →]</span>
+          </div>
         </div>
 
       </div>
 
-      <!-- Sensor de Inclinação (Mobile Tilt / Giroscópio) -->
-      <div id="tiltSupportArea" class="mt-3 text-center">
-        <button id="btnEnableTilt" class="hidden text-[10px] px-3 py-1 rounded-full bg-white/30 hover:bg-white/40 text-slate-900 font-bold border border-black/20 shadow-sm">
-          <i class="fas fa-mobile-screen-button mr-1"></i> Ativar Giroscópio
-        </button>
+      <!-- Indicador do Giroscópio Vintage (Sempre Ativo com Sensor Físico 360°) -->
+      <div id="tiltSupportArea" class="mt-3 text-center flex items-center justify-center">
+        <div id="tiltStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/20 border border-emerald-500/40 text-emerald-950 font-black text-[10px] shadow-sm select-none">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <i class="fas fa-compass text-emerald-800"></i>
+          <span id="tiltBadgeText" class="tracking-wide">Giroscópio Ativo</span>
+        </div>
       </div>
 
     </main>
@@ -489,6 +471,56 @@
       <button id="btnPlayAgain" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 font-black text-sm shadow-lg hover:brightness-110 active:scale-98 transition-all">
         <i class="fas fa-rotate-right mr-1.5"></i> JOGAR NOVAMENTE
       </button>
+    </div>
+  </div>
+
+  <!-- Modal Card de Escolha de Modo (100% Centralizado na Tela, Totalmente Visível, Sem Cortes) -->
+  <div id="modeDropdownMenu" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md transition-all duration-200">
+    <div id="modeModalCard" class="relative w-full max-w-sm rounded-3xl bg-slate-900 border-2 border-cyan-400 p-5 shadow-[0_25px_80px_rgba(0,0,0,0.95),0_0_35px_rgba(6,182,212,0.5)] animate-bounce-in">
+      
+      <!-- Cabeçalho do Card -->
+      <div class="flex items-center justify-between pb-3 mb-4 border-b border-cyan-500/20">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-lg border border-cyan-400/40 shadow-sm">
+            <i class="fas fa-gamepad"></i>
+          </div>
+          <div>
+            <h3 class="font-black text-sm text-white tracking-wide">MODALIDADE DE JOGO</h3>
+            <p class="text-[10px] text-cyan-300/80 font-medium">Escolha seu desafio vintage</p>
+          </div>
+        </div>
+        <button id="btnCloseModeModal" type="button" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-white/80 flex items-center justify-center text-sm transition-all cursor-pointer" title="Fechar">
+          <i class="fas fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Opções de Jogo -->
+      <div class="flex flex-col gap-3">
+        <!-- Opção 1: Argolas -->
+        <button type="button" data-mode="rings" class="mode-item w-full flex items-center justify-between p-3.5 rounded-2xl transition-all text-left bg-cyan-950/40 hover:bg-cyan-900/50 border-2 border-cyan-500/40 hover:border-cyan-400 active:scale-98 cursor-pointer shadow-md">
+          <div class="flex items-center gap-3">
+            <span class="w-11 h-11 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-2xl shadow-inner border border-cyan-400/30">🎯</span>
+            <div>
+              <div class="text-sm font-black text-white">Argolas Clássicas</div>
+              <div class="text-[11px] text-white/60 leading-tight mt-0.5">Encaixe todas as 6 argolas nas hastes submarinas</div>
+            </div>
+          </div>
+          <i class="fas fa-circle-check text-cyan-400 text-xl check-rings shrink-0 ml-2"></i>
+        </button>
+
+        <!-- Opção 2: Basquete -->
+        <button type="button" data-mode="basket" class="mode-item w-full flex items-center justify-between p-3.5 rounded-2xl transition-all text-left bg-amber-950/40 hover:bg-amber-900/50 border-2 border-amber-500/40 hover:border-amber-400 active:scale-98 cursor-pointer shadow-md">
+          <div class="flex items-center gap-3">
+            <span class="w-11 h-11 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold text-2xl shadow-inner border border-amber-400/30">🏀</span>
+            <div>
+              <div class="text-sm font-black text-white">Basquete Aquático</div>
+              <div class="text-[11px] text-white/60 leading-tight mt-0.5">Enceste as bolas nos cestos flutuantes</div>
+            </div>
+          </div>
+          <i class="fas fa-circle-check text-amber-400 text-xl hidden check-basket shrink-0 ml-2"></i>
+        </button>
+      </div>
+
     </div>
   </div>
 
@@ -703,7 +735,12 @@
       elapsedMs: 0,
       timerActive: false,
       timerInterval: null,
-      tiltX: 0, // gravidade horizontal pelo acelerômetro
+      tiltEnabled: true,
+      gravityX: 0,
+      gravityY: 1,
+      targetGravityX: 0,
+      targetGravityY: 1,
+      tiltX: 0,
       tiltY: 0,
       // Bombas
       pumpLeftActive: false,
@@ -757,44 +794,63 @@
 
       update(dt) {
         if (this.onSpike) {
-          const spike = state.spikes[this.spikeIndex];
-          if (!spike) { this.onSpike = false; return; }
-          const targetY = spike.crotchY - this.stackPos * 10;
-          this.x = lerp(this.x, spike.x, 0.25);
-          this.y = lerp(this.y, targetY, 0.25);
-          this.angle = lerp(this.angle, 0, 0.2);
-          this.vx = this.vy = this.angularVel = 0;
-          return;
+          // Virar de ponta cabeça faz a argola escorregar da haste aberta!
+          if (state.gravityY < -0.25) {
+            this.onSpike = false;
+            this.spikeIndex = -1;
+            this.vy = -3.2;
+            this.vx = randomRange(-1.8, 1.8);
+            this.angularVel = randomRange(-0.25, 0.25);
+            state.score = Math.max(0, state.score - 1);
+            updateScoreUI();
+            sound.playPlink();
+            safeVibrate(35);
+          } else {
+            const spike = state.spikes[this.spikeIndex];
+            if (!spike) { this.onSpike = false; return; }
+            const targetY = spike.crotchY - this.stackPos * 10;
+            this.x = lerp(this.x, spike.x, 0.25);
+            this.y = lerp(this.y, targetY, 0.25);
+            this.angle = lerp(this.angle, 0, 0.2);
+            this.vx = this.vy = this.angularVel = 0;
+            return;
+          }
         }
 
         if (this.settling) {
-          const spike = state.spikes[this.spikeIndex];
-          if (!spike) { this.settling = false; return; }
-          const targetY = spike.crotchY - this.stackPos * 10;
-          this.x = lerp(this.x, spike.x, 0.15);
-          this.y = lerp(this.y, targetY, 0.15);
-          this.angle = lerp(this.angle, 0, 0.15);
-          this.vx *= 0.5; this.vy *= 0.5;
-          if (Math.abs(this.x - spike.x) < 0.6 && Math.abs(this.y - targetY) < 0.6) {
-            this.x = spike.x; this.y = targetY;
+          if (state.gravityY < -0.25) {
             this.settling = false;
-            this.onSpike = true;
-            state.score++;
-            updateScoreUI();
-            sound.playScore();
-            safeVibrate([30, 20, 30]);
-            checkVictory();
+          } else {
+            const spike = state.spikes[this.spikeIndex];
+            if (!spike) { this.settling = false; return; }
+            const targetY = spike.crotchY - this.stackPos * 10;
+            this.x = lerp(this.x, spike.x, 0.15);
+            this.y = lerp(this.y, targetY, 0.15);
+            this.angle = lerp(this.angle, 0, 0.15);
+            this.vx *= 0.5; this.vy *= 0.5;
+            if (Math.abs(this.x - spike.x) < 0.6 && Math.abs(this.y - targetY) < 0.6) {
+              this.x = spike.x; this.y = targetY;
+              this.settling = false;
+              this.onSpike = true;
+              state.score++;
+              updateScoreUI();
+              sound.playScore();
+              safeVibrate([30, 20, 30]);
+              checkVictory();
+            }
+            return;
           }
-          return;
         }
 
-        // Gravidade e flutuabilidade
+        // Gravidade e flutuabilidade dinâmicas 360° (Giroscópio real com inclinação e ponta-cabeça)
         const depthFactor = this.y / canvas.height;
-        this.vy += CONFIG.gravity - CONFIG.buoyancy * (1 - depthFactor * 0.4);
+        const gForce = CONFIG.gravity;
+        const bForce = CONFIG.buoyancy * (1 - depthFactor * 0.4);
 
-        // Influência do sensor de inclinação (Tilt)
-        this.vx += state.tiltX * 0.08;
-        this.vy += state.tiltY * 0.05;
+        // A gravidade puxa no vetor real (gravityX, gravityY)
+        // A flutuabilidade age sempre na direção oposta da gravidade aparente
+        this.vx += state.gravityX * (gForce - bForce * 0.35);
+        this.vy += state.gravityY * gForce - (state.gravityY > 0 ? bForce : -bForce * 0.6);
 
         // Oscilação suave na água
         this.floatPhase += 0.035;
@@ -1003,20 +1059,34 @@
 
       update(dt) {
         if (this.scored) {
-          const basket = state.baskets[this.scoredBasketIdx];
-          if (basket) {
-            this.x = lerp(this.x, basket.x, 0.2);
-            this.y = lerp(this.y, basket.netBottomY - 8, 0.2);
-            this.vx = this.vy = 0;
+          // Virar de ponta cabeça faz a bola cair da cesta!
+          if (state.gravityY < -0.25) {
+            this.scored = false;
+            this.scoredBasketIdx = -1;
+            this.vy = -3.5;
+            this.vx = randomRange(-1.8, 1.8);
+            state.score = Math.max(0, state.score - 1);
+            updateScoreUI();
+            sound.playPlink();
+            safeVibrate(35);
+          } else {
+            const basket = state.baskets[this.scoredBasketIdx];
+            if (basket) {
+              this.x = lerp(this.x, basket.x, 0.2);
+              this.y = lerp(this.y, basket.netBottomY - 8, 0.2);
+              this.vx = this.vy = 0;
+            }
+            return;
           }
-          return;
         }
 
+        // Gravidade e flutuabilidade dinâmicas 360° para basquete
         const depthFactor = this.y / canvas.height;
-        this.vy += CONFIG.gravity - CONFIG.buoyancy * (1 - depthFactor * 0.5);
+        const gForce = CONFIG.gravity;
+        const bForce = CONFIG.buoyancy * (1 - depthFactor * 0.45);
 
-        this.vx += state.tiltX * 0.08;
-        this.vy += state.tiltY * 0.05;
+        this.vx += state.gravityX * (gForce - bForce * 0.35);
+        this.vy += state.gravityY * gForce - (state.gravityY > 0 ? bForce : -bForce * 0.6);
 
         this.floatPhase += 0.04;
         this.vx += Math.sin(this.floatPhase) * 0.015;
@@ -1277,10 +1347,16 @@
 
     function drawTopAirBubble() {
       const bubble = state.topAirBubble;
-      // Oscilação suave com jatos e inclinação
-      bubble.x = lerp(bubble.x, canvas.width * 0.5 + state.tiltX * 12 + (state.jetForceLeft - state.jetForceRight) * 8, 0.05);
+      // A bolha de ar viaja na direção OPOSTA à gravidade da água!
+      const targetBubbleX = canvas.width * 0.5 - state.gravityX * 85 + (state.jetForceLeft - state.jetForceRight) * 8;
+      const targetBubbleY = state.gravityY < 0 
+        ? lerp(20, canvas.height - 24, clamp(-state.gravityY, 0, 1))
+        : 20;
 
-      // Bolha de ar flutuante no topo do acrílico
+      bubble.x = lerp(bubble.x, clamp(targetBubbleX, 35, canvas.width - 35), 0.08);
+      bubble.y = lerp(bubble.y, targetBubbleY, 0.08);
+
+      // Bolha de ar flutuante no acrílico
       ctx.save();
       ctx.beginPath();
       ctx.ellipse(bubble.x, bubble.y, bubble.radius * 1.5, bubble.radius * 0.5, 0, 0, Math.PI * 2);
@@ -1543,6 +1619,10 @@
       const dt = Math.min((timestamp - lastTime) / 16.67, 2.0);
       lastTime = timestamp;
 
+      // Suavização hidrodinâmica da gravidade pelo giroscópio (inércia d'água 360°)
+      state.gravityX = lerp(state.gravityX, state.targetGravityX, 0.12);
+      state.gravityY = lerp(state.gravityY, state.targetGravityY, 0.12);
+
       // 1. Atualizar forças dos jatos
       if (state.pumpLeftActive) {
         state.jetForceLeft = lerp(state.jetForceLeft, CONFIG.jetMaxForce, 0.18);
@@ -1654,17 +1734,50 @@
       const btnModeDropdown = document.getElementById('btnModeDropdown');
       const modeDropdownMenu = document.getElementById('modeDropdownMenu');
       const modeChevron = document.getElementById('modeChevron');
+      const btnCloseModeModal = document.getElementById('btnCloseModeModal');
+      const modeModalCard = document.getElementById('modeModalCard');
+
+      function openModeModal() {
+        if (!modeDropdownMenu) return;
+        modeDropdownMenu.classList.remove('hidden');
+        if (modeChevron) modeChevron.style.transform = 'rotate(180deg)';
+      }
+
+      function closeModeModal() {
+        if (!modeDropdownMenu) return;
+        modeDropdownMenu.classList.add('hidden');
+        if (modeChevron) modeChevron.style.transform = 'rotate(0deg)';
+      }
 
       if (btnModeDropdown && modeDropdownMenu) {
         btnModeDropdown.addEventListener('click', (e) => {
           e.stopPropagation();
           const isOpen = !modeDropdownMenu.classList.contains('hidden');
           if (isOpen) {
-            modeDropdownMenu.classList.add('hidden');
-            if (modeChevron) modeChevron.style.transform = 'rotate(0deg)';
+            closeModeModal();
           } else {
-            modeDropdownMenu.classList.remove('hidden');
-            if (modeChevron) modeChevron.style.transform = 'rotate(180deg)';
+            openModeModal();
+          }
+        });
+
+        if (btnCloseModeModal) {
+          btnCloseModeModal.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeModeModal();
+          });
+        }
+
+        // Fechar ao tocar no fundo escuro
+        modeDropdownMenu.addEventListener('click', (e) => {
+          if (e.target === modeDropdownMenu) {
+            closeModeModal();
+          }
+        });
+
+        // Fechar com tecla ESC
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && !modeDropdownMenu.classList.contains('hidden')) {
+            closeModeModal();
           }
         });
 
@@ -1672,19 +1785,9 @@
           btn.addEventListener('click', (e) => {
             e.stopPropagation();
             setGameMode(btn.dataset.mode);
-            modeDropdownMenu.classList.add('hidden');
-            if (modeChevron) modeChevron.style.transform = 'rotate(0deg)';
+            closeModeModal();
           });
         });
-
-        const closeDropdownOutside = (e) => {
-          if (!modeDropdownMenu.contains(e.target) && !btnModeDropdown.contains(e.target)) {
-            modeDropdownMenu.classList.add('hidden');
-            if (modeChevron) modeChevron.style.transform = 'rotate(0deg)';
-          }
-        };
-        document.addEventListener('click', closeDropdownOutside);
-        document.addEventListener('touchend', closeDropdownOutside);
       }
 
       // Alternar Temas da Carcaça
@@ -1789,64 +1892,60 @@
         if (k === 'x' || k === 'arrowright') endPumpRight();
       });
 
-      // Suporte a Giroscópio (Mobile DeviceOrientation - estritamente sob demanda com zona morta)
-      state.tiltEnabled = false;
-      state.tiltX = 0;
-      state.tiltY = 0;
-      const btnEnableTilt = document.getElementById('btnEnableTilt');
-      const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+      // Suporte a Giroscópio 360° (Mobile DeviceOrientation - Sempre Ativo por Padrão)
+      function initGyroscope() {
+        if (!window.DeviceOrientationEvent) return;
 
-      if (window.DeviceOrientationEvent && isTouchDevice) {
-        btnEnableTilt.classList.remove('hidden');
-        btnEnableTilt.addEventListener('click', () => {
-          if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        // Se iOS 13+ requer permissão em gesto do usuário
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+          const enableOnFirstGesture = () => {
             DeviceOrientationEvent.requestPermission().then(res => {
               if (res === 'granted') {
-                state.tiltEnabled = true;
                 window.addEventListener('deviceorientation', handleOrientation);
-                btnEnableTilt.classList.add('hidden');
-                showToast("Giroscópio ativado!");
+                const badge = document.getElementById('tiltBadgeText');
+                if (badge) badge.textContent = "Giroscópio Ativo";
               }
             }).catch(() => {});
-          } else {
-            state.tiltEnabled = !state.tiltEnabled;
-            if (state.tiltEnabled) {
-              window.addEventListener('deviceorientation', handleOrientation);
-              btnEnableTilt.innerHTML = '<i class="fas fa-check mr-1 text-emerald-600"></i> Giroscópio Ativo';
-              showToast("Giroscópio ativado!");
-            } else {
-              window.removeEventListener('deviceorientation', handleOrientation);
-              state.tiltX = 0; state.tiltY = 0;
-              btnEnableTilt.innerHTML = '<i class="fas fa-mobile-screen-button mr-1"></i> Ativar Giroscópio';
-              showToast("Giroscópio desativado.");
-            }
-          }
-        });
+            window.removeEventListener('touchstart', enableOnFirstGesture);
+            window.removeEventListener('click', enableOnFirstGesture);
+          };
+          window.addEventListener('touchstart', enableOnFirstGesture, { once: true });
+          window.addEventListener('click', enableOnFirstGesture, { once: true });
+        } else {
+          // Android, Chrome e navegadores modernos: ativa imediatamente no carregamento!
+          window.addEventListener('deviceorientation', handleOrientation);
+        }
       }
 
       function handleOrientation(e) {
-        if (!state.tiltEnabled) {
-          state.tiltX = 0;
-          state.tiltY = 0;
-          return;
+        if (!state.tiltEnabled) return;
+
+        // beta: rotação frente/trás [-180, 180] (em pé ~ 50° a 80°, ponta cabeça < -10° ou invertido)
+        // gamma: inclinação lateral [-90, 90] (esquerda negativo, direita positivo)
+        const beta = (e.beta !== null && e.beta !== undefined) ? e.beta : 60;
+        const gamma = (e.gamma !== null && e.gamma !== undefined) ? e.gamma : 0;
+
+        const radBeta = beta * Math.PI / 180;
+        const radGamma = gamma * Math.PI / 180;
+
+        // Projeção física do vetor de gravidade 3D na água 2D do brinquedo
+        let gx = Math.sin(radGamma);
+        let gy = Math.sin(radBeta);
+
+        // Se o celular estiver virado de costas
+        if (Math.abs(gamma) > 90) {
+          gy = -gy;
         }
-        if (e.gamma !== null && e.gamma !== undefined) {
-          const g = e.gamma;
-          if (Math.abs(g) < 4) {
-            state.tiltX = 0;
-          } else {
-            state.tiltX = clamp((g - Math.sign(g) * 4) / 20, -1.5, 1.5);
-          }
-        }
-        if (e.beta !== null && e.beta !== undefined) {
-          const b = e.beta - 45;
-          if (Math.abs(b) < 5) {
-            state.tiltY = 0;
-          } else {
-            state.tiltY = clamp((b - Math.sign(b) * 5) / 30, -1.2, 1.2);
-          }
-        }
+
+        // Zona morta suave para estabilidade das mãos
+        if (Math.abs(gx) < 0.04) gx = 0;
+
+        // Atualizar alvos de aceleração da gravidade
+        state.targetGravityX = clamp(gx * 1.35, -1.6, 1.6);
+        state.targetGravityY = clamp(gy * 1.25, -1.6, 1.6);
       }
+
+      initGyroscope();
 
       // Previne zoom indesejado no mobile
       document.addEventListener('gesturestart', e => e.preventDefault());
@@ -1857,10 +1956,15 @@
       requestAnimationFrame(gameLoop);
     });
 
-    // PWA Service Worker
+    // PWA Service Worker com verificação ativa de atualização
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js').catch(e => console.warn(e));
+        navigator.serviceWorker.register('service-worker.js?v=1.2.0').then(reg => {
+          reg.update();
+        }).catch(e => console.warn(e));
+      });
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        window.location.reload();
       });
     }
   </script>

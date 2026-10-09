@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aquaplay-v1.1.1';
+const CACHE_NAME = 'aquaplay-v1.2.0';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -33,6 +33,23 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
+
+  // HTML / Navegação: Network-First (sempre obtém a versão mais recente e usa cache offline se falhar)
+  const isHtml = e.request.mode === 'navigate' || (e.request.headers.get('accept') && e.request.headers.get('accept').includes('text/html'));
+  if (isHtml) {
+    e.respondWith(
+      fetch(e.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const clone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, clone));
+        }
+        return networkResponse;
+      }).catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+
+  // Demais arquivos estáticos: Cache-First
   e.respondWith(
     caches.match(e.request).then((cachedResponse) => {
       if (cachedResponse) return cachedResponse;
@@ -42,7 +59,7 @@ self.addEventListener('fetch', (e) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(e.request, clone));
         }
         return networkResponse;
-      }).catch(() => caches.match('./index.html'));
+      });
     })
   );
 });
