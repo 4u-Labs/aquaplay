@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AquaPlay Vintage Deluxe 4U — Brinquedo Clássico dos Anos 80 &amp; 90</title>
+  
+  <meta name="description" content="O clássico brinquedo aquático portátil dos anos 80 e 90 com bombas duplas, modos Argolas e Basquete, física realista, giroscópio e áudio sintetizado nativo.">
+  <meta name="theme-color" content="#d97706">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Tailwind CSS & Font Awesome & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@600;700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Fredoka', 'Segoe UI', cursive, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 20%, #1e3a5f 0%, #0c1a2e 70%, #050d18 100%);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      touch-action: pan-y;
+      user-select: none;
+    }
+
+    .pixel-font {
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    /* Permanent Neon Glow Mode Selector */
+    .neon-glow-select {
+      border: 2px solid #22d3ee !important;
+      box-shadow: 0 0 16px rgba(6, 182, 212, 0.75), 0 0 4px rgba(34, 211, 238, 0.9), inset 0 0 8px rgba(6, 182, 212, 0.3) !important;
+      animation: neonPulse 2.8s infinite ease-in-out;
+      background: rgba(8, 28, 48, 0.9) !important;
+    }
+    @keyframes neonPulse {
+      0%, 100% {
+        box-shadow: 0 0 14px rgba(6, 182, 212, 0.7), 0 0 4px rgba(34, 211, 238, 0.8), inset 0 0 6px rgba(6, 182, 212, 0.25);
+        border-color: #22d3ee;
+      }
+      50% {
+        box-shadow: 0 0 24px rgba(6, 182, 212, 0.95), 0 0 10px rgba(103, 232, 249, 1), inset 0 0 12px rgba(6, 182, 212, 0.45);
+        border-color: #67e8f9;
+      }
+    }
+    .neon-glow-icon {
+      color: #22d3ee !important;
+      filter: drop-shadow(0 0 6px #22d3ee) drop-shadow(0 0 12px #06b6d4) !important;
+      animation: neonIconPulse 2.8s infinite ease-in-out;
+    }
+    @keyframes neonIconPulse {
+      0%, 100% { filter: drop-shadow(0 0 5px #22d3ee); }
+      50% { filter: drop-shadow(0 0 12px #67e8f9) drop-shadow(0 0 18px #06b6d4); }
+    }
+
+    /* Carcaça do Brinquedo Estilo Anos 80 (Toy Shell) */
+    .toy-shell {
+      position: relative;
+      width: min(94vw, 360px);
+      background: linear-gradient(165deg, #fcd34d 0%, #f59e0b 45%, #d97706 100%);
+      border-radius: 36px 36px 48px 48px;
+      padding: 16px 14px 20px 14px;
+      box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.7),
+        0 10px 25px rgba(0, 0, 0, 0.4),
+        inset 0 4px 6px rgba(255, 255, 255, 0.6),
+        inset 0 -6px 12px rgba(180, 83, 9, 0.8);
+      border: 3px solid #b45309;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Temas do Gabinete */
+    .theme-blue .toy-shell {
+      background: linear-gradient(165deg, #38bdf8 0%, #0284c7 45%, #0369a1 100%);
+      border-color: #075985;
+      box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.7),
+        inset 0 4px 6px rgba(255, 255, 255, 0.6),
+        inset 0 -6px 12px rgba(7, 89, 133, 0.8);
+    }
+    .theme-red .toy-shell {
+      background: linear-gradient(165deg, #f87171 0%, #dc2626 45%, #b91c1c 100%);
+      border-color: #991b1b;
+      box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.7),
+        inset 0 4px 6px rgba(255, 255, 255, 0.6),
+        inset 0 -6px 12px rgba(153, 27, 27, 0.8);
+    }
+
+    /* Tremor da carcaça ao chacoalhar */
+    .toy-shell.shake {
+      animation: toyShake 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+    @keyframes toyShake {
+      10%, 90% { transform: translate3d(-3px, 1px, 0) rotate(-1.5deg); }
+      20%, 80% { transform: translate3d(4px, -1px, 0) rotate(1.5deg); }
+      30%, 50%, 70% { transform: translate3d(-5px, 2px, 0) rotate(-2deg); }
+      40%, 60% { transform: translate3d(5px, -2px, 0) rotate(2deg); }
+    }
+
+    /* Câmara Acrílica de Água */
+    .water-chamber {
+      position: relative;
+      border-radius: 20px 20px 24px 24px;
+      overflow: hidden;
+      border: 5px solid #451a03;
+      background: linear-gradient(180deg, #7dd3fc 0%, #38bdf8 30%, #0284c7 70%, #0369a1 100%);
+      box-shadow: 
+        inset 0 0 25px rgba(0, 0, 0, 0.4),
+        inset 0 10px 30px rgba(255, 255, 255, 0.4),
+        0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    .theme-blue .water-chamber { border-color: #082f49; }
+    .theme-red .water-chamber { border-color: #450a0a; }
+
+    /* Vidro Acrílico com Reflexo 3D */
+    .acrylic-glass-reflection {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        135deg, 
+        rgba(255, 255, 255, 0.4) 0%, 
+        rgba(255, 255, 255, 0.08) 35%, 
+        transparent 50%,
+        rgba(255, 255, 255, 0.05) 80%,
+        rgba(255, 255, 255, 0.2) 100%
+      );
+      z-index: 20;
+    }
+
+    /* Botões Pistão de Borracha (Pumps) */
+    .pump-button {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ef4444, #b91c1c 70%, #7f1d1d 100%);
+      border: 3px solid #7f1d1d;
+      box-shadow: 
+        0 8px 0px #5f1414,
+        0 14px 18px rgba(0, 0, 0, 0.5),
+        inset 0 3px 6px rgba(255, 255, 255, 0.5),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.06s ease;
+      touch-action: none;
+    }
+    .pump-button:active, .pump-button.pumping {
+      transform: translateY(6px);
+      box-shadow: 
+        0 2px 0px #5f1414,
+        0 4px 8px rgba(0, 0, 0, 0.5),
+        inset 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .theme-blue .pump-button {
+      background: radial-gradient(circle at 35% 35%, #fde047, #eab308 70%, #a16207 100%);
+      border-color: #854d0e;
+      box-shadow: 
+        0 8px 0px #713f12,
+        0 14px 18px rgba(0, 0, 0, 0.5),
+        inset 0 3px 6px rgba(255, 255, 255, 0.6),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.4);
+    }
+    .theme-blue .pump-button:active, .theme-blue .pump-button.pumping {
+      box-shadow: 
+        0 2px 0px #713f12,
+        0 4px 8px rgba(0, 0, 0, 0.5),
+        inset 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .theme-red .pump-button {
+      background: radial-gradient(circle at 35% 35%, #ffffff, #e2e8f0 70%, #94a3b8 100%);
+      border-color: #64748b;
+      box-shadow: 
+        0 8px 0px #475569,
+        0 14px 18px rgba(0, 0, 0, 0.5),
+        inset 0 3px 6px rgba(255, 255, 255, 0.9),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .theme-red .pump-button:active, .theme-red .pump-button.pumping {
+      box-shadow: 
+        0 2px 0px #475569,
+        0 4px 8px rgba(0, 0, 0, 0.5),
+        inset 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Botão Secundário (Shake / Reset) */
+    .util-button {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #10b981, #059669 70%, #047857 100%);
+      border: 2px solid #065f46;
+      box-shadow: 0 4px 0 #064e3b, 0 6px 12px rgba(0, 0, 0, 0.35);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.06s ease;
+    }
+    .util-button:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #064e3b, 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Parafusos metálicos vintage */
+    .screw {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #e2e8f0 30%, #94a3b8 80%, #64748b 100%);
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), 0 1px 2px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+    .screw::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 15%; right: 15%; height: 1.5px;
+      background: #475569;
+      transform: translateY(-50%) rotate(35deg);
+    }
+
+    /* Floating Toast no rodapé */
+    .toast-box {
+      position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(14px);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5);
+      z-index: 99999;
+      max-width: min(92vw, 520px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      transition: all 0.25s ease;
+    }
+
+    #confettiCanvas {
+      position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+    }
+  </style>
+</head>
+<body class="p-2 sm:p-4">
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="w-full max-w-xl flex flex-col items-center">
+
+    <!-- Top Toolbar (Modo com Caixa Acesa, Temas, Áudio, Placar) -->
+    <header class="w-full flex flex-wrap items-center justify-between gap-2 px-3 py-2 mb-2 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-white/10 shadow-lg">
+      
+      <!-- Marca & Logo -->
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center font-black text-xs text-slate-950 shadow-md">
+          <i class="fas fa-water"></i>
+        </div>
+        <div>
+          <div class="font-black text-sm tracking-wide flex items-center gap-1.5">
+            AQUAPLAY <span class="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">DELUXE 4U</span>
+          </div>
+          <div class="text-[10px] text-white/50 -mt-0.5">Estrela / Tomy 1982</div>
+        </div>
+      </div>
+
+      <!-- Barra de Ferramentas -->
+      <div class="flex items-center gap-2">
+        
+        <!-- Caixa de Seleção de Modo (Permanentemente Acesa com Chevron Aceso) -->
+        <div class="relative" id="modeSelectWrapper">
+          <button id="btnModeDropdown" type="button" class="neon-glow-select px-3 py-1.5 rounded-xl text-xs flex items-center gap-2 font-black cursor-pointer select-none">
+            <i class="fas fa-bullseye neon-glow-icon text-xs"></i>
+            <span id="modeDisplay" class="text-cyan-200 tracking-wide font-bold">Argolas Clássicas</span>
+            <span class="w-4 h-4 rounded bg-cyan-400/20 flex items-center justify-center border border-cyan-400/40">
+              <i id="modeChevron" class="fas fa-chevron-down neon-glow-icon text-[9px] transition-transform duration-200"></i>
+            </span>
+          </button>
+
+          <!-- Menu Suspenso de Opções (Dropdown) -->
+          <div id="modeDropdownMenu" class="hidden absolute right-0 top-full mt-2 w-64 rounded-2xl bg-slate-900/98 border-2 border-cyan-400 shadow-[0_20px_60px_rgba(0,0,0,0.85)] backdrop-blur-xl p-2 z-[9999]">
+            <div class="px-3 py-1.5 text-[10px] uppercase font-black tracking-wider text-cyan-400 flex items-center justify-between border-b border-cyan-500/20 mb-1">
+              <span>Selecione a Modalidade</span>
+              <i class="fas fa-sparkles text-cyan-300"></i>
+            </div>
+
+            <!-- Opção 1: Argolas -->
+            <button type="button" data-mode="rings" class="mode-item w-full flex items-center justify-between p-2.5 rounded-xl transition-all text-left hover:bg-cyan-500/20 border border-transparent hover:border-cyan-400/40 cursor-pointer">
+              <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-base shadow-sm">🎯</span>
+                <div>
+                  <div class="text-xs font-black text-white">Argolas Clássicas</div>
+                  <div class="text-[10px] text-white/60">Encaixe todas as argolas nas hastes</div>
+                </div>
+              </div>
+              <i class="fas fa-circle-check text-cyan-400 text-sm check-rings"></i>
+            </button>
+
+            <!-- Opção 2: Basquete -->
+            <button type="button" data-mode="basket" class="mode-item w-full flex items-center justify-between p-2.5 rounded-xl transition-all text-left hover:bg-amber-500/20 border border-transparent hover:border-amber-400/40 cursor-pointer mt-1">
+              <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold text-base shadow-sm">🏀</span>
+                <div>
+                  <div class="text-xs font-black text-white">Basquete Aquático</div>
+                  <div class="text-[10px] text-white/60">Enceste as bolas nos cestos submarinos</div>
+                </div>
+              </div>
+              <i class="fas fa-circle-check text-amber-400 text-sm hidden check-basket"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mudar Tema da Carcaça -->
+        <button id="btnThemeToggle" class="px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs flex items-center gap-1" title="Mudar Cor da Carcaça">
+          <i class="fas fa-palette text-amber-400"></i>
+        </button>
+
+        <!-- Som Mudo/Ativo -->
+        <button id="btnAudioToggle" class="px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs flex items-center gap-1" title="Ligar/Desligar Som">
+          <i id="audioIcon" class="fas fa-volume-high text-emerald-400"></i>
+        </button>
+
+      </div>
+    </header>
+
+    <!-- Placar Superior & Tempo -->
+    <div class="w-full max-w-[360px] flex items-center justify-between px-3 py-1.5 mb-1.5 bg-black/40 rounded-xl border border-white/10 text-xs">
+      <div class="flex items-center gap-2">
+        <span class="text-white/60 text-[10px] uppercase font-bold tracking-wider">Pontos:</span>
+        <span id="scoreDisplay" class="pixel-font text-amber-400 font-black text-sm">0 / 6</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1.5">
+          <i class="fas fa-stopwatch text-cyan-400 text-[11px]"></i>
+          <span id="timerDisplay" class="pixel-font text-cyan-300 text-[11px]">00:00</span>
+        </div>
+        <div class="text-[10px] text-white/50">
+          Recorde: <span id="bestRecordDisplay" class="text-white/80 font-bold">--:--</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= O BRINQUEDO AQUAPLAY (Gabinete 3D) ================= -->
+    <main class="toy-shell" id="toyShell">
+      
+      <!-- 4 Parafusos nas Quinas -->
+      <div class="screw absolute top-3 left-3"></div>
+      <div class="screw absolute top-3 right-3"></div>
+      <div class="screw absolute bottom-4 left-3"></div>
+      <div class="screw absolute bottom-4 right-3"></div>
+
+      <!-- Plaqueta Vintage de Metal / Logotipo Estrela -->
+      <div class="flex items-center justify-between px-3 mb-2">
+        <div class="flex items-center gap-1.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-red-600 border border-white/50 shadow-inner"></span>
+          <span class="font-black text-xs tracking-wider text-slate-900 drop-shadow-sm uppercase">AquaPlay</span>
+        </div>
+        <div class="text-[9px] font-black tracking-widest text-slate-800 bg-white/40 px-2 py-0.5 rounded-md border border-black/10">
+          4U LABS
+        </div>
+      </div>
+
+      <!-- Câmara Acrílica com Canvas -->
+      <div class="water-chamber">
+        <div class="acrylic-glass-reflection"></div>
+        <canvas id="gameCanvas" width="320" height="360" class="block w-full h-auto"></canvas>
+      </div>
+
+      <!-- Painel Inferior de Controles Reais (Duas Bombas + Shake + Reset) -->
+      <div class="mt-4 px-2 flex items-center justify-between">
+        
+        <!-- Bomba Esquerda (Pistão) -->
+        <div class="flex flex-col items-center">
+          <button id="btnPumpLeft" class="pump-button" aria-label="Bomba Esquerda">
+            <i class="fas fa-arrow-up text-white/90 text-lg drop-shadow"></i>
+            <span class="text-[9px] font-black text-white/80 tracking-wider -mt-0.5">ESQ</span>
+          </button>
+          <span class="text-[9px] font-black text-slate-800 mt-1 uppercase tracking-wider drop-shadow-sm">[Z / ←]</span>
+        </div>
+
+        <!-- Botões Centrais (Chacoalhar e Novo Jogo) -->
+        <div class="flex flex-col items-center gap-2">
+          
+          <button id="btnShake" class="util-button" title="Chacoalhar o Brinquedo" aria-label="Chacoalhar">
+            <i class="fas fa-hand-sparkles text-white text-sm"></i>
+          </button>
+          <span class="text-[8px] font-bold text-slate-800 uppercase tracking-wide">[Espaço]</span>
+
+          <button id="btnReset" class="w-7 h-7 rounded-full bg-slate-800 hover:bg-slate-700 border border-white/20 text-white text-[11px] flex items-center justify-center shadow-md active:scale-95 transition-transform" title="Reiniciar Partida" aria-label="Reiniciar">
+            <i class="fas fa-rotate-right"></i>
+          </button>
+        </div>
+
+        <!-- Bomba Direita (Pistão) -->
+        <div class="flex flex-col items-center">
+          <button id="btnPumpRight" class="pump-button" aria-label="Bomba Direita">
+            <i class="fas fa-arrow-up text-white/90 text-lg drop-shadow"></i>
+            <span class="text-[9px] font-black text-white/80 tracking-wider -mt-0.5">DIR</span>
+          </button>
+          <span class="text-[9px] font-black text-slate-800 mt-1 uppercase tracking-wider drop-shadow-sm">[X / →]</span>
+        </div>
+
+      </div>
+
+      <!-- Sensor de Inclinação (Mobile Tilt / Giroscópio) -->
+      <div id="tiltSupportArea" class="mt-3 text-center">
+        <button id="btnEnableTilt" class="hidden text-[10px] px-3 py-1 rounded-full bg-white/30 hover:bg-white/40 text-slate-900 font-bold border border-black/20 shadow-sm">
+          <i class="fas fa-mobile-screen-button mr-1"></i> Ativar Giroscópio
+        </button>
+      </div>
+
+    </main>
+
+    <!-- Instruções Rápidas no Rodapé -->
+    <footer class="mt-3 text-center text-white/50 text-xs max-w-sm px-2">
+      <p>💡 <strong>Dica Vintage:</strong> Use as bombas esquerda e direita com toques curtos ou alternados para controlar a turbulência d'água!</p>
+      <div class="mt-2 text-[11px] text-white/40">
+        © 2026 <strong>4U.IA.BR</strong> • AquaPlay Nostalgia Deluxe
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Toast Notifier no Rodapé -->
+  <div id="toast" class="toast-box hidden">
+    <i class="fas fa-water text-cyan-400 text-lg"></i>
+    <span id="toastMsg">Mensagem</span>
+  </div>
+
+  <!-- Modal de Vitória com Confetes -->
+  <div id="winModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-[9999] flex items-center justify-center p-4">
+    <div class="w-full max-w-sm rounded-3xl bg-slate-900 border-2 border-amber-400 p-6 text-center shadow-[0_25px_80px_rgba(0,0,0,0.9)] animate-bounce-in">
+      <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-400 flex items-center justify-center mx-auto text-3xl mb-3">
+        🏆
+      </div>
+      <h2 class="text-xl font-black text-white mb-1">PARABÉNS! VITÓRIA!</h2>
+      <p class="text-xs text-white/70 mb-4" id="winModalDesc">Você completou o desafio aquático com maestria!</p>
+
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-3 mb-5 flex items-center justify-around">
+        <div>
+          <span class="text-[10px] text-white/60 block uppercase font-bold">Tempo</span>
+          <span id="winTimeDisplay" class="pixel-font text-cyan-400 text-sm font-black">00:45</span>
+        </div>
+        <div class="w-px h-8 bg-white/10"></div>
+        <div>
+          <span class="text-[10px] text-white/60 block uppercase font-bold">Recorde</span>
+          <span id="winRecordDisplay" class="pixel-font text-amber-400 text-sm font-black">00:45</span>
+        </div>
+      </div>
+
+      <button id="btnPlayAgain" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 font-black text-sm shadow-lg hover:brightness-110 active:scale-98 transition-all">
+        <i class="fas fa-rotate-right mr-1.5"></i> JOGAR NOVAMENTE
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= SCRIPTS & GAME ENGINE ================= -->
+  <script>
+    // Vibração segura compatível com políticas de ativação do navegador
+    function safeVibrate(pattern) {
+      try {
+        if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+          if (navigator.userActivation && !navigator.userActivation.hasBeenActive) {
+            return;
+          }
+          navigator.vibrate(pattern);
+        }
+      } catch (e) {}
+    }
+
+    // ===== SINTETIZADOR DE ÁUDIO NATIVO (WEB AUDIO API) =====
+    class AquaAudioSynth {
+      constructor() {
+        this.ctx = null;
+        this.muted = localStorage.getItem('aquaplay_muted') === 'true';
+        this.bubbleNoiseNode = null;
+        this.bubbleGainNode = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+      }
+
+      toggle() {
+        this.muted = !this.muted;
+        localStorage.setItem('aquaplay_muted', this.muted);
+        return !this.muted;
+      }
+
+      // Som mecânico de compressão da borracha do pistão
+      playPump(side = 'left') {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const freq = side === 'left' ? 140 : 165;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(freq * 0.4, this.ctx.currentTime + 0.12);
+
+          gain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.12);
+        } catch (e) {}
+      }
+
+      // Som borbulhante de água ascendente
+      playBubbleSound() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const startF = 350 + Math.random() * 400;
+          const endF = startF + 150 + Math.random() * 200;
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(startF, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(endF, this.ctx.currentTime + 0.08);
+
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.08);
+        } catch (e) {}
+      }
+
+      // Clique suave de plástico submarino (argola bate na haste/parede)
+      playPlink() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const f = 750 + Math.random() * 200;
+
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(f, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(f * 1.5, this.ctx.currentTime + 0.05);
+
+          gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.06);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.06);
+        } catch (e) {}
+      }
+
+      // Ponto/Encaixe com sucesso
+      playScore() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const notes = [523, 659, 784];
+          notes.forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.07);
+
+            gain.gain.setValueAtTime(0.25, this.ctx.currentTime + idx * 0.07);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.07 + 0.14);
+
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(this.ctx.currentTime + idx * 0.07);
+            osc.stop(this.ctx.currentTime + idx * 0.07 + 0.15);
+          });
+        } catch (e) {}
+      }
+
+      // Agitação / Chacoalhar
+      playSplash() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(120, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.2);
+
+          gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.2);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.2);
+        } catch (e) {}
+      }
+
+      // Fanfarra vintage de vitória
+      playVictory() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const arpeggio = [440, 554, 659, 880, 1108];
+          arpeggio.forEach((n, i) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(n, this.ctx.currentTime + i * 0.09);
+
+            gain.gain.setValueAtTime(0.3, this.ctx.currentTime + i * 0.09);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + i * 0.09 + 0.35);
+
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(this.ctx.currentTime + i * 0.09);
+            osc.stop(this.ctx.currentTime + i * 0.09 + 0.4);
+          });
+        } catch (e) {}
+      }
+    }
+
+    const sound = new AquaAudioSynth();
+
+    // ===== FÍSICA E ENGINE DO JOGO =====
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const CONFIG = {
+      gravity: 0.16,
+      buoyancy: 0.024,
+      waterDrag: 0.975,
+      angularDrag: 0.95,
+      jetMaxForce: 2.8,
+      jetRadius: 110,
+      ringRadius: 13,
+      ringInnerRadius: 6.5,
+      basketBallRadius: 10,
+      numRings: 6,
+      numBalls: 6
+    };
+
+    let state = {
+      mode: localStorage.getItem('aquaplay_mode') || 'rings', // 'rings' | 'basket'
+      theme: localStorage.getItem('aquaplay_theme') || 'yellow', // 'yellow' | 'blue' | 'red'
+      score: 0,
+      targetScore: 6,
+      gameWon: false,
+      startTime: 0,
+      elapsedMs: 0,
+      timerActive: false,
+      timerInterval: null,
+      tiltX: 0, // gravidade horizontal pelo acelerômetro
+      tiltY: 0,
+      // Bombas
+      pumpLeftActive: false,
+      pumpRightActive: false,
+      jetForceLeft: 0,
+      jetForceRight: 0,
+      // Objetos físicos
+      rings: [],
+      balls: [],
+      spikes: [],
+      baskets: [],
+      bubbles: [],
+      jetParticles: [],
+      dustParticles: [],
+      topAirBubble: { x: 160, y: 16, radius: 24, vx: 0 }
+    };
+
+    // Utilidades matemáticas
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+    const randomRange = (min, max) => Math.random() * (max - min) + min;
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    // Toast Notifier
+    let toastTimer = null;
+    function showToast(msg, duration = 2200) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      toast.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.add('hidden'), duration);
+    }
+
+    // ===== CLASSE ARGOLA 3D (RINGS MODE) =====
+    class Ring {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.vx = randomRange(-1.5, 1.5);
+        this.vy = randomRange(-2, 0);
+        this.radius = CONFIG.ringRadius;
+        this.innerRadius = CONFIG.ringInnerRadius;
+        this.angle = randomRange(0, Math.PI * 2);
+        this.angularVel = randomRange(-0.1, 0.1);
+        this.color = color;
+        this.onSpike = false;
+        this.settling = false;
+        this.spikeIndex = -1;
+        this.stackPos = 0;
+        this.floatPhase = randomRange(0, Math.PI * 2);
+      }
+
+      update(dt) {
+        if (this.onSpike) {
+          const spike = state.spikes[this.spikeIndex];
+          if (!spike) { this.onSpike = false; return; }
+          const targetY = spike.crotchY - this.stackPos * 10;
+          this.x = lerp(this.x, spike.x, 0.25);
+          this.y = lerp(this.y, targetY, 0.25);
+          this.angle = lerp(this.angle, 0, 0.2);
+          this.vx = this.vy = this.angularVel = 0;
+          return;
+        }
+
+        if (this.settling) {
+          const spike = state.spikes[this.spikeIndex];
+          if (!spike) { this.settling = false; return; }
+          const targetY = spike.crotchY - this.stackPos * 10;
+          this.x = lerp(this.x, spike.x, 0.15);
+          this.y = lerp(this.y, targetY, 0.15);
+          this.angle = lerp(this.angle, 0, 0.15);
+          this.vx *= 0.5; this.vy *= 0.5;
+          if (Math.abs(this.x - spike.x) < 0.6 && Math.abs(this.y - targetY) < 0.6) {
+            this.x = spike.x; this.y = targetY;
+            this.settling = false;
+            this.onSpike = true;
+            state.score++;
+            updateScoreUI();
+            sound.playScore();
+            safeVibrate([30, 20, 30]);
+            checkVictory();
+          }
+          return;
+        }
+
+        // Gravidade e flutuabilidade
+        const depthFactor = this.y / canvas.height;
+        this.vy += CONFIG.gravity - CONFIG.buoyancy * (1 - depthFactor * 0.4);
+
+        // Influência do sensor de inclinação (Tilt)
+        this.vx += state.tiltX * 0.08;
+        this.vy += state.tiltY * 0.05;
+
+        // Oscilação suave na água
+        this.floatPhase += 0.035;
+        this.vx += Math.sin(this.floatPhase) * 0.015;
+
+        // Jato Esquerdo
+        if (state.jetForceLeft > 0.05) {
+          this.applyJet(canvas.width * 0.22, state.jetForceLeft, 1);
+        }
+        // Jato Direito
+        if (state.jetForceRight > 0.05) {
+          this.applyJet(canvas.width * 0.78, state.jetForceRight, -1);
+        }
+
+        // Resistência da água
+        this.vx *= CONFIG.waterDrag;
+        this.vy *= CONFIG.waterDrag;
+        this.angularVel *= CONFIG.angularDrag;
+
+        // Movimento
+        this.x += this.vx * dt;
+        this.y += this.vy * dt;
+        this.angle += this.angularVel * dt;
+
+        this.vx = clamp(this.vx, -14, 14);
+        this.vy = clamp(this.vy, -16, 16);
+
+        this.handleWalls();
+      }
+
+      applyJet(jetX, force, defaultSide) {
+        const dx = this.x - jetX;
+        const distX = Math.abs(dx);
+        if (distX < CONFIG.jetRadius) {
+          const horizFactor = Math.pow(1 - distX / CONFIG.jetRadius, 0.55);
+          const vertFactor = Math.pow(this.y / canvas.height, 0.7);
+          const effectiveForce = force * horizFactor * vertFactor;
+
+          this.vy -= effectiveForce * 1.35;
+          // Curvatura do jato: empurra em direção ao centro e para o topo
+          this.vx += defaultSide * effectiveForce * 0.35 + randomRange(-0.15, 0.15) * effectiveForce;
+          this.angularVel -= dx * 0.003 * effectiveForce;
+        }
+      }
+
+      handleWalls() {
+        const bounce = 0.35;
+        // Chão
+        if (this.y + this.radius > canvas.height) {
+          this.y = canvas.height - this.radius;
+          if (Math.abs(this.vy) > 1.2) sound.playPlink();
+          this.vy *= -bounce;
+          this.vx *= 0.7;
+        }
+        // Teto (abaixo da bolha de ar)
+        if (this.y - this.radius < 26) {
+          this.y = 26 + this.radius;
+          this.vy *= -bounce * 0.5;
+        }
+        // Paredes
+        if (this.x + this.radius > canvas.width) {
+          this.x = canvas.width - this.radius;
+          if (Math.abs(this.vx) > 1.2) sound.playPlink();
+          this.vx *= -bounce;
+        }
+        if (this.x - this.radius < 0) {
+          this.x = this.radius;
+          if (Math.abs(this.vx) > 1.2) sound.playPlink();
+          this.vx *= -bounce;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+
+        // Sombra suave na água
+        ctx.beginPath();
+        ctx.arc(2, 3, this.radius, 0, Math.PI * 2);
+        ctx.arc(2, 3, this.innerRadius, 0, Math.PI * 2, true);
+        ctx.fillStyle = 'rgba(0, 20, 50, 0.25)';
+        ctx.fill();
+
+        // Corpo toróide 3D
+        const grad = ctx.createRadialGradient(
+          -this.radius * 0.3, -this.radius * 0.3, 0,
+          0, 0, this.radius * 1.2
+        );
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(0.3, this.color);
+        grad.addColorStop(1, '#0f172a');
+
+        ctx.beginPath();
+        ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+        ctx.arc(0, 0, this.innerRadius, 0, Math.PI * 2, true);
+        ctx.fillStyle = grad;
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Furo da argola (revela fundo d'água com profundidade)
+        ctx.beginPath();
+        ctx.arc(0, 0, this.innerRadius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(14, 116, 144, 0.3)';
+        ctx.fill();
+
+        ctx.restore();
+      }
+    }
+
+    // ===== CLASSE HASTE (SPIKE) =====
+    class Spike {
+      constructor(x, y, color = '#e2e8f0') {
+        this.x = x;
+        this.yBase = y;
+        this.height = 38;
+        this.crotchY = y - this.height * 0.55;
+        this.armLength = 15;
+        this.armAngle = Math.PI / 4.2;
+        this.color = color;
+        this.rings = [];
+      }
+
+      checkLanding(ring) {
+        if (ring.onSpike || ring.settling || this.rings.length >= 1) return false;
+        const dx = Math.abs(ring.x - this.x);
+        const openingWidth = this.armLength * Math.sin(this.armAngle) * 0.9;
+        if (dx > openingWidth - ring.innerRadius * 0.2) return false;
+
+        const ringBottom = ring.y + ring.radius;
+        const inRange = ringBottom > this.crotchY - ring.radius * 0.5 && ringBottom < this.crotchY + ring.radius * 0.7;
+        if (!inRange) return false;
+        if (ring.vy < 0.05) return false; // deve estar caindo
+
+        let angle = ring.angle % (Math.PI * 2);
+        if (angle > Math.PI) angle -= Math.PI * 2;
+        if (Math.abs(angle) > Math.PI / 1.6) return false;
+
+        const speed = Math.hypot(ring.vx, ring.vy);
+        if (speed > 8) return false;
+        return true;
+      }
+
+      addRing(ring) {
+        if (!this.rings.includes(ring)) {
+          this.rings.push(ring);
+          ring.stackPos = this.rings.length - 1;
+          ring.spikeIndex = state.spikes.indexOf(this);
+          ring.settling = true;
+        }
+      }
+
+      draw() {
+        const armEndY = this.crotchY - this.armLength * Math.cos(this.armAngle);
+        const leftArmX = this.x - this.armLength * Math.sin(this.armAngle);
+        const rightArmX = this.x + this.armLength * Math.sin(this.armAngle);
+
+        // Tronco da haste
+        ctx.beginPath();
+        ctx.moveTo(this.x - 3, this.yBase);
+        ctx.lineTo(this.x + 3, this.yBase);
+        ctx.lineTo(this.x + 1.5, this.crotchY);
+        ctx.lineTo(this.x - 1.5, this.crotchY);
+        ctx.closePath();
+        ctx.fillStyle = this.color;
+        ctx.fill();
+
+        // Braços
+        ctx.lineCap = 'round';
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.crotchY); ctx.lineTo(leftArmX, armEndY);
+        ctx.moveTo(this.x, this.crotchY); ctx.lineTo(rightArmX, armEndY);
+        ctx.stroke();
+
+        // Brilho superior
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.crotchY - 1); ctx.lineTo(leftArmX * 0.8 + this.x * 0.2, armEndY * 0.8 + this.crotchY * 0.2);
+        ctx.moveTo(this.x, this.crotchY - 1); ctx.lineTo(rightArmX * 0.8 + this.x * 0.2, armEndY * 0.8 + this.crotchY * 0.2);
+        ctx.stroke();
+      }
+    }
+
+    // ===== CLASSE BOLA DE BASQUETE (BASKET MODE) =====
+    class BasketBall {
+      constructor(x, y, color = '#f97316') {
+        this.x = x;
+        this.y = y;
+        this.vx = randomRange(-1.5, 1.5);
+        this.vy = randomRange(-2, 0);
+        this.radius = CONFIG.basketBallRadius;
+        this.color = color;
+        this.scored = false;
+        this.scoredBasketIdx = -1;
+        this.floatPhase = randomRange(0, Math.PI * 2);
+      }
+
+      update(dt) {
+        if (this.scored) {
+          const basket = state.baskets[this.scoredBasketIdx];
+          if (basket) {
+            this.x = lerp(this.x, basket.x, 0.2);
+            this.y = lerp(this.y, basket.netBottomY - 8, 0.2);
+            this.vx = this.vy = 0;
+          }
+          return;
+        }
+
+        const depthFactor = this.y / canvas.height;
+        this.vy += CONFIG.gravity - CONFIG.buoyancy * (1 - depthFactor * 0.5);
+
+        this.vx += state.tiltX * 0.08;
+        this.vy += state.tiltY * 0.05;
+
+        this.floatPhase += 0.04;
+        this.vx += Math.sin(this.floatPhase) * 0.015;
+
+        if (state.jetForceLeft > 0.05) this.applyJet(canvas.width * 0.22, state.jetForceLeft, 1);
+        if (state.jetForceRight > 0.05) this.applyJet(canvas.width * 0.78, state.jetForceRight, -1);
+
+        this.vx *= CONFIG.waterDrag;
+        this.vy *= CONFIG.waterDrag;
+
+        this.x += this.vx * dt;
+        this.y += this.vy * dt;
+
+        this.vx = clamp(this.vx, -15, 15);
+        this.vy = clamp(this.vy, -17, 17);
+
+        this.handleWalls();
+      }
+
+      applyJet(jetX, force, defaultSide) {
+        const dx = this.x - jetX;
+        const distX = Math.abs(dx);
+        if (distX < CONFIG.jetRadius) {
+          const horizFactor = Math.pow(1 - distX / CONFIG.jetRadius, 0.55);
+          const vertFactor = Math.pow(this.y / canvas.height, 0.7);
+          const effectiveForce = force * horizFactor * vertFactor;
+
+          this.vy -= effectiveForce * 1.4;
+          this.vx += defaultSide * effectiveForce * 0.35 + randomRange(-0.15, 0.15) * effectiveForce;
+        }
+      }
+
+      handleWalls() {
+        const bounce = 0.5;
+        if (this.y + this.radius > canvas.height) {
+          this.y = canvas.height - this.radius;
+          if (Math.abs(this.vy) > 1.2) sound.playPlink();
+          this.vy *= -bounce;
+          this.vx *= 0.7;
+        }
+        if (this.y - this.radius < 26) {
+          this.y = 26 + this.radius;
+          this.vy *= -bounce * 0.5;
+        }
+        if (this.x + this.radius > canvas.width) {
+          this.x = canvas.width - this.radius;
+          if (Math.abs(this.vx) > 1.2) sound.playPlink();
+          this.vx *= -bounce;
+        }
+        if (this.x - this.radius < 0) {
+          this.x = this.radius;
+          if (Math.abs(this.vx) > 1.2) sound.playPlink();
+          this.vx *= -bounce;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+
+        // Sombra
+        ctx.beginPath();
+        ctx.arc(2, 2, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 20, 50, 0.25)';
+        ctx.fill();
+
+        // Bola com textura 3D
+        const grad = ctx.createRadialGradient(
+          -this.radius * 0.35, -this.radius * 0.35, 0,
+          0, 0, this.radius * 1.2
+        );
+        grad.addColorStop(0, '#ffedd5');
+        grad.addColorStop(0.3, this.color);
+        grad.addColorStop(1, '#7c2d12');
+
+        ctx.beginPath();
+        ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
+        ctx.strokeStyle = '#7c2d12';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        // Listras de basquete
+        ctx.beginPath();
+        ctx.arc(0, 0, this.radius * 0.65, 0, Math.PI);
+        ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.restore();
+      }
+    }
+
+    // ===== CLASSE CESTA DE BASQUETE (HOOP) =====
+    class BasketHoop {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.rimRadius = 18;
+        this.netBottomY = y + 26;
+        this.scoredCount = 0;
+      }
+
+      checkBasket(ball) {
+        if (ball.scored) return false;
+        const dx = Math.abs(ball.x - this.x);
+        if (dx < this.rimRadius * 0.75) {
+          // Passando pelo aro de cima para baixo
+          if (ball.y >= this.y - 2 && ball.y <= this.y + 12 && ball.vy > 0.1) {
+            ball.scored = true;
+            ball.scoredBasketIdx = state.baskets.indexOf(this);
+            this.scoredCount++;
+            state.score++;
+            updateScoreUI();
+            sound.playScore();
+            safeVibrate([40, 30, 40]);
+            checkVictory();
+            return true;
+          }
+        }
+        return false;
+      }
+
+      draw() {
+        // Tabela de acrílico atrás
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.lineWidth = 2;
+        ctx.fillRect(this.x - 22, this.y - 24, 44, 24);
+        ctx.strokeRect(this.x - 22, this.y - 24, 44, 24);
+
+        // Quadrado guia vermelho na tabela
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(this.x - 10, this.y - 18, 20, 14);
+
+        // Rede submarina
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(this.x - this.rimRadius, this.y); ctx.lineTo(this.x - 8, this.netBottomY);
+        ctx.moveTo(this.x + this.rimRadius, this.y); ctx.lineTo(this.x + 8, this.netBottomY);
+        ctx.moveTo(this.x - 8, this.y); ctx.lineTo(this.x, this.netBottomY);
+        ctx.moveTo(this.x + 8, this.y); ctx.lineTo(this.x, this.netBottomY);
+        ctx.stroke();
+
+        // Aro vermelho
+        ctx.beginPath();
+        ctx.ellipse(this.x, this.y, this.rimRadius, 5, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = '#dc2626';
+        ctx.lineWidth = 3.5;
+        ctx.stroke();
+      }
+    }
+
+    // ===== PARTÍCULAS: BOLHAS & POEIRA =====
+    class Bubble {
+      constructor(x, y, radius = randomRange(1.8, 4.5)) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.vx = randomRange(-0.6, 0.6);
+        this.vy = randomRange(-2.2, -0.8);
+        this.life = 1;
+        this.decay = randomRange(0.008, 0.02);
+        this.wobble = randomRange(0, Math.PI * 2);
+      }
+
+      update() {
+        this.wobble += 0.09;
+        this.x += this.vx + Math.sin(this.wobble) * 0.4;
+        this.y += this.vy;
+        this.life -= this.decay;
+        return this.life > 0 && this.y > 20;
+      }
+
+      draw() {
+        const r = this.radius * this.life;
+        const grad = ctx.createRadialGradient(
+          this.x - r * 0.3, this.y - r * 0.3, 0,
+          this.x, this.y, r
+        );
+        grad.addColorStop(0, `rgba(255,255,255,${this.life * 0.75})`);
+        grad.addColorStop(0.6, `rgba(186,230,253,${this.life * 0.4})`);
+        grad.addColorStop(1, `rgba(56,189,248,${this.life * 0.1})`);
+
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
+        ctx.strokeStyle = `rgba(255,255,255,${this.life * 0.6})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+
+    class DustParticle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = randomRange(0, canvas.width);
+        this.y = randomRange(30, canvas.height);
+        this.radius = randomRange(0.6, 1.4);
+        this.vx = randomRange(-0.06, 0.06);
+        this.vy = randomRange(-0.06, 0.06);
+        this.opacity = randomRange(0.12, 0.3);
+        this.phase = randomRange(0, Math.PI * 2);
+      }
+      update() {
+        this.phase += 0.02;
+        this.x += this.vx + Math.sin(this.phase) * 0.03;
+        this.y += this.vy + Math.cos(this.phase * 0.7) * 0.02;
+        if (this.x < 0 || this.x > canvas.width || this.y < 25 || this.y > canvas.height) {
+          this.reset();
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(224, 242, 254, ${this.opacity})`;
+        ctx.fill();
+      }
+    }
+
+    // ===== RENDERIZAÇÃO DE FUNDO E CÂMARA D'ÁGUA =====
+    function drawWaterBackground() {
+      // Degradê de profundidade submarina
+      const bgGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      bgGrad.addColorStop(0, '#38bdf8');
+      bgGrad.addColorStop(0.35, '#0284c7');
+      bgGrad.addColorStop(0.75, '#0369a1');
+      bgGrad.addColorStop(1, '#075985');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Cáusticas de luz em movimento
+      const time = Date.now() * 0.0012;
+      ctx.globalAlpha = 0.08;
+      for (let i = 0; i < 4; i++) {
+        const cx = canvas.width * 0.5 + Math.sin(time + i * 1.5) * 60;
+        const cy = canvas.height * 0.5 + Math.cos(time * 0.8 + i) * 70;
+        const r = 45 + Math.sin(time * 0.6 + i) * 16;
+        const cGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+        cGrad.addColorStop(0, '#ffffff');
+        cGrad.addColorStop(1, 'transparent');
+        ctx.fillStyle = cGrad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+      ctx.globalAlpha = 1;
+
+      // Superfície da água & Bolha de ar no topo
+      drawTopAirBubble();
+    }
+
+    function drawTopAirBubble() {
+      const bubble = state.topAirBubble;
+      // Oscilação suave com jatos e inclinação
+      bubble.x = lerp(bubble.x, canvas.width * 0.5 + state.tiltX * 12 + (state.jetForceLeft - state.jetForceRight) * 8, 0.05);
+
+      // Bolha de ar flutuante no topo do acrílico
+      ctx.save();
+      ctx.beginPath();
+      ctx.ellipse(bubble.x, bubble.y, bubble.radius * 1.5, bubble.radius * 0.5, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Reflexo brilhante na bolha
+      ctx.beginPath();
+      ctx.ellipse(bubble.x - bubble.radius * 0.4, bubble.y - 2, bubble.radius * 0.5, bubble.radius * 0.15, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // Desenhar fluxo visual das correntes d'água das bombas
+    function drawJetFlow(jetX, force, side) {
+      if (force < 0.08) return;
+      ctx.save();
+      const intensity = force / CONFIG.jetMaxForce;
+      const height = canvas.height * (0.35 + intensity * 0.45);
+      const width = 28 + intensity * 24;
+
+      const grad = ctx.createLinearGradient(jetX, canvas.height, jetX, canvas.height - height);
+      grad.addColorStop(0, `rgba(224, 242, 254, ${0.4 * intensity})`);
+      grad.addColorStop(0.4, `rgba(186, 230, 253, ${0.25 * intensity})`);
+      grad.addColorStop(1, 'transparent');
+
+      ctx.beginPath();
+      ctx.moveTo(jetX - width * 0.5, canvas.height);
+      ctx.quadraticCurveTo(
+        jetX + side * 15 * intensity, canvas.height - height * 0.6,
+        jetX + side * 25 * intensity, canvas.height - height
+      );
+      ctx.quadraticCurveTo(
+        jetX + width * 0.5 + side * 10 * intensity, canvas.height - height * 0.5,
+        jetX + width * 0.5, canvas.height
+      );
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // ===== GERENCIAMENTO DE ESTADO & MODOS =====
+    function initGame() {
+      state.score = 0;
+      state.gameWon = false;
+      state.rings = [];
+      state.balls = [];
+      state.spikes = [];
+      state.baskets = [];
+      state.bubbles = [];
+      state.dustParticles = [];
+      state.jetForceLeft = 0;
+      state.jetForceRight = 0;
+
+      // Partículas de poeira submarina
+      for (let i = 0; i < 20; i++) {
+        state.dustParticles.push(new DustParticle());
+      }
+
+      if (state.mode === 'rings') {
+        initRingsMode();
+      } else {
+        initBasketMode();
+      }
+
+      updateScoreUI();
+      startTimer();
+      document.getElementById('winModal').classList.add('hidden');
+    }
+
+    function initRingsMode() {
+      state.targetScore = CONFIG.numRings;
+
+      // 6 Hastes em 3 níveis (inferior, intermediário e topo)
+      const bottomY = canvas.height - 48;
+      const spacing = canvas.width / 4;
+      const spikeColor = '#f1f5f9';
+
+      // Nível Inferior (3 hastes)
+      for (let i = 0; i < 3; i++) {
+        state.spikes.push(new Spike(spacing * (i + 1), bottomY, spikeColor));
+      }
+      // Nível Médio (2 hastes)
+      state.spikes.push(new Spike(canvas.width * 0.28, canvas.height * 0.53, spikeColor));
+      state.spikes.push(new Spike(canvas.width * 0.72, canvas.height * 0.53, spikeColor));
+      // Nível Superior (1 haste mestre no centro)
+      state.spikes.push(new Spike(canvas.width * 0.5, canvas.height * 0.28, '#fbbf24'));
+
+      // 6 Argolas coloridas nostálgicas
+      const colors = ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
+      for (let i = 0; i < CONFIG.numRings; i++) {
+        const x = 30 + Math.random() * (canvas.width - 60);
+        const y = canvas.height - 25 - i * 6;
+        state.rings.push(new Ring(x, y, colors[i]));
+      }
+    }
+
+    function initBasketMode() {
+      state.targetScore = CONFIG.numBalls;
+
+      // 3 Cestas submarinas em posições estratégicas
+      state.baskets.push(new BasketHoop(canvas.width * 0.28, canvas.height * 0.42));
+      state.baskets.push(new BasketHoop(canvas.width * 0.72, canvas.height * 0.42));
+      state.baskets.push(new BasketHoop(canvas.width * 0.5, canvas.height * 0.26));
+
+      // 6 Bolinhas flutuantes com cores vivas
+      const ballColors = ['#f97316', '#ef4444', '#eab308', '#22c55e', '#06b6d4', '#a855f7'];
+      for (let i = 0; i < CONFIG.numBalls; i++) {
+        const x = 30 + Math.random() * (canvas.width - 60);
+        const y = canvas.height - 25 - i * 8;
+        state.balls.push(new BasketBall(x, y, ballColors[i]));
+      }
+    }
+
+    // Cronômetro
+    function startTimer() {
+      clearInterval(state.timerInterval);
+      state.startTime = Date.now();
+      state.elapsedMs = 0;
+      state.timerActive = true;
+      state.timerInterval = setInterval(() => {
+        if (!state.timerActive) return;
+        state.elapsedMs = Date.now() - state.startTime;
+        document.getElementById('timerDisplay').textContent = formatTime(state.elapsedMs);
+      }, 200);
+    }
+
+    function stopTimer() {
+      state.timerActive = false;
+      clearInterval(state.timerInterval);
+    }
+
+    function formatTime(ms) {
+      const totalSec = Math.floor(ms / 1000);
+      const m = Math.floor(totalSec / 60);
+      const s = totalSec % 60;
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function updateScoreUI() {
+      document.getElementById('scoreDisplay').textContent = `${state.score} / ${state.targetScore}`;
+      const best = localStorage.getItem(`aquaplay_best_${state.mode}`);
+      document.getElementById('bestRecordDisplay').textContent = best ? formatTime(parseInt(best)) : '--:--';
+    }
+
+    function checkVictory() {
+      if (state.score >= state.targetScore && !state.gameWon) {
+        state.gameWon = true;
+        stopTimer();
+        sound.playVictory();
+        triggerConfetti();
+        safeVibrate([60, 40, 80, 40, 100]);
+
+        const bestKey = `aquaplay_best_${state.mode}`;
+        const previousBest = localStorage.getItem(bestKey);
+        let isNewRecord = false;
+        if (!previousBest || state.elapsedMs < parseInt(previousBest)) {
+          localStorage.setItem(bestKey, state.elapsedMs);
+          isNewRecord = true;
+        }
+
+        const winModal = document.getElementById('winModal');
+        document.getElementById('winTimeDisplay').textContent = formatTime(state.elapsedMs);
+        document.getElementById('winRecordDisplay').textContent = formatTime(parseInt(localStorage.getItem(bestKey)));
+        document.getElementById('winModalDesc').textContent = isNewRecord 
+          ? "🎉 NOVO RECORDE PESSOAL! Você foi incrivelmente rápido!"
+          : "Você completou o desafio aquático com maestria!";
+        winModal.classList.remove('hidden');
+      }
+    }
+
+    // Chacoalhar o brinquedo
+    function triggerShake() {
+      if (state.gameWon) return;
+      const shell = document.getElementById('toyShell');
+      shell.classList.remove('shake');
+      void shell.offsetWidth; // reflow
+      shell.classList.add('shake');
+      sound.playSplash();
+      safeVibrate([40, 50, 40]);
+
+      // Impulsos aleatórios nas peças livres
+      if (state.mode === 'rings') {
+        state.rings.forEach(r => {
+          if (!r.onSpike) {
+            r.vx += randomRange(-4.5, 4.5);
+            r.vy += randomRange(-3.5, 3.5);
+            r.angularVel += randomRange(-0.25, 0.25);
+          }
+        });
+      } else {
+        state.balls.forEach(b => {
+          if (!b.scored) {
+            b.vx += randomRange(-4.5, 4.5);
+            b.vy += randomRange(-3.5, 3.5);
+          }
+        });
+      }
+
+      // Nuvem de bolhas
+      for (let i = 0; i < 14; i++) {
+        state.bubbles.push(new Bubble(randomRange(20, canvas.width - 20), canvas.height - randomRange(10, 60)));
+      }
+    }
+
+    // Confetes Canvas
+    function triggerConfetti() {
+      const c = document.getElementById('confettiCanvas');
+      c.width = window.innerWidth;
+      c.height = window.innerHeight;
+      const cc = c.getContext('2d');
+      const particles = [];
+      const colors = ['#f59e0b', '#ef4444', '#10b981', '#3b82f6', '#ec4899', '#8b5cf6'];
+
+      for (let i = 0; i < 90; i++) {
+        particles.push({
+          x: c.width * 0.5,
+          y: c.height * 0.45,
+          vx: (Math.random() - 0.5) * 14,
+          vy: (Math.random() - 0.7) * 16,
+          color: colors[i % colors.length],
+          size: Math.random() * 8 + 4,
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 10
+        });
+      }
+
+      let frame = 0;
+      function anim() {
+        cc.clearRect(0, 0, c.width, c.height);
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.35;
+          p.rotation += p.rotSpeed;
+          cc.save();
+          cc.translate(p.x, p.y);
+          cc.rotate(p.rotation * Math.PI / 180);
+          cc.fillStyle = p.color;
+          cc.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+          cc.restore();
+        });
+        frame++;
+        if (frame < 170) requestAnimationFrame(anim);
+        else cc.clearRect(0, 0, c.width, c.height);
+      }
+      anim();
+    }
+
+    // ===== GAME LOOP PRINCIPAL =====
+    let lastTime = 0;
+    function gameLoop(timestamp) {
+      const dt = Math.min((timestamp - lastTime) / 16.67, 2.0);
+      lastTime = timestamp;
+
+      // 1. Atualizar forças dos jatos
+      if (state.pumpLeftActive) {
+        state.jetForceLeft = lerp(state.jetForceLeft, CONFIG.jetMaxForce, 0.18);
+        if (Math.random() < 0.4) sound.playBubbleSound();
+        if (state.bubbles.length < 50) {
+          state.bubbles.push(new Bubble(canvas.width * 0.22 + randomRange(-25, 25), canvas.height - randomRange(5, 30)));
+        }
+      } else {
+        state.jetForceLeft = lerp(state.jetForceLeft, 0, 0.12);
+      }
+
+      if (state.pumpRightActive) {
+        state.jetForceRight = lerp(state.jetForceRight, CONFIG.jetMaxForce, 0.18);
+        if (Math.random() < 0.4) sound.playBubbleSound();
+        if (state.bubbles.length < 50) {
+          state.bubbles.push(new Bubble(canvas.width * 0.78 + randomRange(-25, 25), canvas.height - randomRange(5, 30)));
+        }
+      } else {
+        state.jetForceRight = lerp(state.jetForceRight, 0, 0.12);
+      }
+
+      // 2. Renderizar fundo aquático
+      drawWaterBackground();
+
+      // 3. Partículas de poeira submarina
+      state.dustParticles.forEach(d => { d.update(); d.draw(); });
+
+      // 4. Fluxo visual das correntes
+      drawJetFlow(canvas.width * 0.22, state.jetForceLeft, 1);
+      drawJetFlow(canvas.width * 0.78, state.jetForceRight, -1);
+
+      // 5. Bolhas d'água
+      state.bubbles = state.bubbles.filter(b => b.update());
+      state.bubbles.forEach(b => b.draw());
+
+      // 6. Atualizar elementos do modo atual
+      if (state.mode === 'rings') {
+        state.spikes.forEach(s => s.draw());
+        state.rings.forEach(r => r.update(dt));
+
+        // Colisões entre argolas
+        for (let i = 0; i < state.rings.length; i++) {
+          for (let j = i + 1; j < state.rings.length; j++) {
+            const r1 = state.rings[i], r2 = state.rings[j];
+            if (r1.onSpike && r2.onSpike) continue;
+            const dist = Math.hypot(r2.x - r1.x, r2.y - r1.y);
+            const minDist = r1.radius + r2.radius;
+            if (dist < minDist && dist > 0) {
+              const nx = (r2.x - r1.x) / dist, ny = (r2.y - r1.y) / dist;
+              const overlap = minDist - dist;
+              if (!r1.onSpike && !r1.settling) { r1.x -= overlap * 0.5 * nx; r1.y -= overlap * 0.5 * ny; }
+              if (!r2.onSpike && !r2.settling) { r2.x += overlap * 0.5 * nx; r2.y += overlap * 0.5 * ny; }
+            }
+          }
+        }
+
+        // Encaixe nas hastes
+        if (!state.gameWon) {
+          state.rings.forEach(ring => {
+            if (ring.onSpike || ring.settling) return;
+            for (const spike of state.spikes) {
+              if (spike.checkLanding(ring)) {
+                spike.addRing(ring);
+                break;
+              }
+            }
+          });
+        }
+
+        state.rings.forEach(r => r.draw());
+      } else {
+        // Modo Basquete
+        state.baskets.forEach(b => b.draw());
+        state.balls.forEach(ball => {
+          ball.update(dt);
+          if (!state.gameWon) {
+            for (const basket of state.baskets) {
+              if (basket.checkBasket(ball)) break;
+            }
+          }
+          ball.draw();
+        });
+      }
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    // ===== EVENT LISTENERS & INICIALIZAÇÃO =====
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // Alternar Modo de Jogo (Dropdown)
+      function setGameMode(newMode) {
+        state.mode = newMode;
+        localStorage.setItem('aquaplay_mode', state.mode);
+        updateModeDropdownUI();
+        showToast(state.mode === 'rings' ? "Modo ativado: Argolas Clássicas" : "Modo ativado: Basquete Aquático");
+        initGame();
+      }
+
+      function updateModeDropdownUI() {
+        const isRings = state.mode === 'rings';
+        document.getElementById('modeDisplay').textContent = isRings ? "Argolas Clássicas" : "Basquete Aquático";
+        const checkR = document.querySelector('.check-rings');
+        const checkB = document.querySelector('.check-basket');
+        if (checkR) checkR.classList.toggle('hidden', !isRings);
+        if (checkB) checkB.classList.toggle('hidden', isRings);
+      }
+
+      const btnModeDropdown = document.getElementById('btnModeDropdown');
+      const modeDropdownMenu = document.getElementById('modeDropdownMenu');
+      const modeChevron = document.getElementById('modeChevron');
+
+      if (btnModeDropdown && modeDropdownMenu) {
+        btnModeDropdown.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = !modeDropdownMenu.classList.contains('hidden');
+          if (isOpen) {
+            modeDropdownMenu.classList.add('hidden');
+            if (modeChevron) modeChevron.style.transform = 'rotate(0deg)';
+          } else {
+            modeDropdownMenu.classList.remove('hidden');
+            if (modeChevron) modeChevron.style.transform = 'rotate(180deg)';
+          }
+        });
+
+        document.querySelectorAll('.mode-item').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            setGameMode(btn.dataset.mode);
+            modeDropdownMenu.classList.add('hidden');
+            if (modeChevron) modeChevron.style.transform = 'rotate(0deg)';
+          });
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!modeDropdownMenu.contains(e.target) && !btnModeDropdown.contains(e.target)) {
+            modeDropdownMenu.classList.add('hidden');
+            if (modeChevron) modeChevron.style.transform = 'rotate(0deg)';
+          }
+        });
+      }
+
+      // Alternar Temas da Carcaça
+      const themes = ['yellow', 'blue', 'red'];
+      function setTheme(thm) {
+        state.theme = thm;
+        localStorage.setItem('aquaplay_theme', state.theme);
+        document.body.className = `p-2 sm:p-4 theme-${state.theme}`;
+      }
+      document.getElementById('btnThemeToggle').addEventListener('click', () => {
+        const nextIdx = (themes.indexOf(state.theme) + 1) % themes.length;
+        setTheme(themes[nextIdx]);
+        showToast(`Tema alterado: ${state.theme === 'yellow' ? 'Amarelo Estrela' : (state.theme === 'blue' ? 'Azul Oceano' : 'Vermelho Arcade')}`);
+      });
+      setTheme(state.theme);
+
+      // Controle de Áudio
+      const btnAudioToggle = document.getElementById('btnAudioToggle');
+      const audioIcon = document.getElementById('audioIcon');
+      function updateAudioIcon() {
+        audioIcon.className = sound.muted ? "fas fa-volume-xmark text-rose-400" : "fas fa-volume-high text-emerald-400";
+      }
+      btnAudioToggle.addEventListener('click', () => {
+        const active = sound.toggle();
+        updateAudioIcon();
+        showToast(active ? "Efeitos sonoros ativados." : "Efeitos sonoros desativados.");
+      });
+      updateAudioIcon();
+
+      // Botões Pistão (Bomba Esquerda / Bomba Direita)
+      const btnPumpLeft = document.getElementById('btnPumpLeft');
+      const btnPumpRight = document.getElementById('btnPumpRight');
+
+      function startPumpLeft(e) {
+        if (e) e.preventDefault();
+        state.pumpLeftActive = true;
+        btnPumpLeft.classList.add('pumping');
+        sound.playPump('left');
+        safeVibrate(25);
+      }
+      function endPumpLeft(e) {
+        if (e) e.preventDefault();
+        state.pumpLeftActive = false;
+        btnPumpLeft.classList.remove('pumping');
+      }
+
+      function startPumpRight(e) {
+        if (e) e.preventDefault();
+        state.pumpRightActive = true;
+        btnPumpRight.classList.add('pumping');
+        sound.playPump('right');
+        safeVibrate(25);
+      }
+      function endPumpRight(e) {
+        if (e) e.preventDefault();
+        state.pumpRightActive = false;
+        btnPumpRight.classList.remove('pumping');
+      }
+
+      // Eventos de Mouse e Touch para Bomba Esquerda
+      btnPumpLeft.addEventListener('mousedown', startPumpLeft);
+      window.addEventListener('mouseup', endPumpLeft);
+      btnPumpLeft.addEventListener('touchstart', startPumpLeft, { passive: false });
+      btnPumpLeft.addEventListener('touchend', endPumpLeft, { passive: false });
+      btnPumpLeft.addEventListener('touchcancel', endPumpLeft, { passive: false });
+
+      // Eventos de Mouse e Touch para Bomba Direita
+      btnPumpRight.addEventListener('mousedown', startPumpRight);
+      btnPumpRight.addEventListener('touchstart', startPumpRight, { passive: false });
+      btnPumpRight.addEventListener('touchend', endPumpRight, { passive: false });
+      btnPumpRight.addEventListener('touchcancel', endPumpRight, { passive: false });
+
+      // Chacoalhar e Reiniciar
+      document.getElementById('btnShake').addEventListener('click', triggerShake);
+      document.getElementById('btnReset').addEventListener('click', initGame);
+      document.getElementById('btnPlayAgain').addEventListener('click', initGame);
+
+      // Atalhos de Teclado
+      window.addEventListener('keydown', (e) => {
+        if (e.repeat) return;
+        const k = e.key.toLowerCase();
+        if (k === 'z' || k === 'arrowleft') startPumpLeft();
+        if (k === 'x' || k === 'arrowright') startPumpRight();
+        if (k === ' ' || k === 'spacebar') { e.preventDefault(); triggerShake(); }
+        if (k === 'r') initGame();
+        if (k === 'm') { sound.toggle(); updateAudioIcon(); }
+      });
+      window.addEventListener('keyup', (e) => {
+        const k = e.key.toLowerCase();
+        if (k === 'z' || k === 'arrowleft') endPumpLeft();
+        if (k === 'x' || k === 'arrowright') endPumpRight();
+      });
+
+      // Suporte a Giroscópio (Mobile DeviceOrientation)
+      const btnEnableTilt = document.getElementById('btnEnableTilt');
+      if (window.DeviceOrientationEvent) {
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+          btnEnableTilt.classList.remove('hidden');
+          btnEnableTilt.addEventListener('click', () => {
+            DeviceOrientationEvent.requestPermission().then(res => {
+              if (res === 'granted') {
+                window.addEventListener('deviceorientation', handleOrientation);
+                btnEnableTilt.classList.add('hidden');
+                showToast("Giroscópio ativado!");
+              }
+            }).catch(() => {});
+          });
+        } else {
+          window.addEventListener('deviceorientation', handleOrientation);
+        }
+      }
+
+      function handleOrientation(e) {
+        if (e.gamma !== null) {
+          // Inclinação lateral em graus (-90 a 90)
+          state.tiltX = clamp(e.gamma / 25, -1.8, 1.8);
+        }
+        if (e.beta !== null) {
+          // Inclinação frontal
+          state.tiltY = clamp((e.beta - 45) / 35, -1.2, 1.2);
+        }
+      }
+
+      // Previne zoom indesejado no mobile
+      document.addEventListener('gesturestart', e => e.preventDefault());
+
+      // Iniciar
+      updateModeDropdownUI();
+      initGame();
+      requestAnimationFrame(gameLoop);
+    });
+
+    // PWA Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js').catch(e => console.warn(e));
+      });
+    }
+  </script>
+</body>
+</html>

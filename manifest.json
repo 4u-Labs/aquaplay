@@ -1,0 +1,50 @@
+{
+  "name": "AquaPlay Vintage Deluxe 4U",
+  "short_name": "AquaPlay",
+  "description": "O clássico brinquedo aquático portátil dos anos 80 e 90 com física realista, bombas duplas, modos Argolas e Basquete e áudio Web Audio.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a192f",
+  "theme_color": "#f59e0b",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["games", "entertainment", "nostalgia"],
+  "shortcuts": [
+    {
+      "name": "Argolas Clássicas",
+      "short_name": "Argolas",
+      "url": "./#rings",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Basquete Aquático",
+      "short_name": "Basquete",
+      "url": "./#basket",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
