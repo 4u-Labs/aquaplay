@@ -275,7 +275,7 @@
   <div class="w-full max-w-xl flex flex-col items-center">
 
     <!-- Top Toolbar (Modo com Caixa Acesa, Temas, Áudio, Placar) -->
-    <header class="w-full flex flex-wrap items-center justify-between gap-2 px-3 py-2 mb-2 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-white/10 shadow-lg">
+    <header class="relative z-[1000] w-full flex flex-wrap items-center justify-between gap-2 px-3 py-2 mb-2 bg-slate-900/95 backdrop-blur-md rounded-2xl border border-white/10 shadow-lg">
       
       <!-- Marca & Logo -->
       <div class="flex items-center gap-2">
@@ -303,8 +303,8 @@
             </span>
           </button>
 
-          <!-- Menu Suspenso de Opções (Dropdown) -->
-          <div id="modeDropdownMenu" class="hidden absolute right-0 top-full mt-2 w-64 rounded-2xl bg-slate-900/98 border-2 border-cyan-400 shadow-[0_20px_60px_rgba(0,0,0,0.85)] backdrop-blur-xl p-2 z-[9999]">
+          <!-- Menu Suspenso de Opções (Dropdown com fundo sólido escuro opaco) -->
+          <div id="modeDropdownMenu" class="hidden absolute right-0 top-full mt-2 w-64 rounded-2xl border-2 border-cyan-400 p-2.5 z-[99999]" style="background-color: #0b1526 !important; box-shadow: 0 25px 70px rgba(0,0,0,0.98), 0 0 25px rgba(6,182,212,0.45); backdrop-filter: blur(20px);">
             <div class="px-3 py-1.5 text-[10px] uppercase font-black tracking-wider text-cyan-400 flex items-center justify-between border-b border-cyan-500/20 mb-1">
               <span>Selecione a Modalidade</span>
               <i class="fas fa-sparkles text-cyan-300"></i>
@@ -790,11 +790,11 @@
 
         // Jato Esquerdo
         if (state.jetForceLeft > 0.05) {
-          this.applyJet(canvas.width * 0.22, state.jetForceLeft, 1);
+          this.applyJet(canvas.width * 0.25, state.jetForceLeft, 1);
         }
         // Jato Direito
         if (state.jetForceRight > 0.05) {
-          this.applyJet(canvas.width * 0.78, state.jetForceRight, -1);
+          this.applyJet(canvas.width * 0.75, state.jetForceRight, -1);
         }
 
         // Resistência da água
@@ -813,18 +813,22 @@
         this.handleWalls();
       }
 
-      applyJet(jetX, force, defaultSide) {
+      applyJet(jetX, force, swirlDirection) {
         const dx = this.x - jetX;
         const distX = Math.abs(dx);
-        if (distX < CONFIG.jetRadius) {
-          const horizFactor = Math.pow(1 - distX / CONFIG.jetRadius, 0.55);
-          const vertFactor = Math.pow(this.y / canvas.height, 0.7);
+        if (distX < CONFIG.jetRadius && this.y > 26) {
+          const horizFactor = Math.pow(1 - distX / CONFIG.jetRadius, 0.6);
+          const vertFactor = 0.3 + 0.7 * Math.pow(this.y / canvas.height, 0.65);
           const effectiveForce = force * horizFactor * vertFactor;
 
-          this.vy -= effectiveForce * 1.35;
-          // Curvatura do jato: empurra em direção ao centro e para o topo
-          this.vx += defaultSide * effectiveForce * 0.35 + randomRange(-0.15, 0.15) * effectiveForce;
-          this.angularVel -= dx * 0.003 * effectiveForce;
+          // Impulso vertical potente e direto para cima
+          this.vy -= effectiveForce * 1.55;
+
+          // Dispersão cônica e redemoinho suave para o centro
+          const coneDispersion = (dx / CONFIG.jetRadius) * effectiveForce * 0.35;
+          const swirlPush = swirlDirection * effectiveForce * 0.35;
+          this.vx += coneDispersion + swirlPush + randomRange(-0.08, 0.08) * effectiveForce;
+          this.angularVel += (swirlDirection * 0.003 - dx * 0.0015) * effectiveForce;
         }
       }
 
@@ -1005,8 +1009,8 @@
         this.floatPhase += 0.04;
         this.vx += Math.sin(this.floatPhase) * 0.015;
 
-        if (state.jetForceLeft > 0.05) this.applyJet(canvas.width * 0.22, state.jetForceLeft, 1);
-        if (state.jetForceRight > 0.05) this.applyJet(canvas.width * 0.78, state.jetForceRight, -1);
+        if (state.jetForceLeft > 0.05) this.applyJet(canvas.width * 0.25, state.jetForceLeft, 1);
+        if (state.jetForceRight > 0.05) this.applyJet(canvas.width * 0.75, state.jetForceRight, -1);
 
         this.vx *= CONFIG.waterDrag;
         this.vy *= CONFIG.waterDrag;
@@ -1020,16 +1024,18 @@
         this.handleWalls();
       }
 
-      applyJet(jetX, force, defaultSide) {
+      applyJet(jetX, force, swirlDirection) {
         const dx = this.x - jetX;
         const distX = Math.abs(dx);
-        if (distX < CONFIG.jetRadius) {
-          const horizFactor = Math.pow(1 - distX / CONFIG.jetRadius, 0.55);
-          const vertFactor = Math.pow(this.y / canvas.height, 0.7);
+        if (distX < CONFIG.jetRadius && this.y > 26) {
+          const horizFactor = Math.pow(1 - distX / CONFIG.jetRadius, 0.6);
+          const vertFactor = 0.3 + 0.7 * Math.pow(this.y / canvas.height, 0.65);
           const effectiveForce = force * horizFactor * vertFactor;
 
-          this.vy -= effectiveForce * 1.4;
-          this.vx += defaultSide * effectiveForce * 0.35 + randomRange(-0.15, 0.15) * effectiveForce;
+          this.vy -= effectiveForce * 1.55;
+          const coneDispersion = (dx / CONFIG.jetRadius) * effectiveForce * 0.35;
+          const swirlPush = swirlDirection * effectiveForce * 0.35;
+          this.vx += coneDispersion + swirlPush + randomRange(-0.08, 0.08) * effectiveForce;
         }
       }
 
@@ -1356,11 +1362,12 @@
       // Nível Superior (1 haste mestre no centro)
       state.spikes.push(new Spike(canvas.width * 0.5, canvas.height * 0.28, '#fbbf24'));
 
-      // 6 Argolas coloridas nostálgicas
+      // 6 Argolas coloridas nostálgicas distribuídas equilibradamente
       const colors = ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
+      const ringSpacing = (canvas.width - 64) / (CONFIG.numRings - 1);
       for (let i = 0; i < CONFIG.numRings; i++) {
-        const x = 30 + Math.random() * (canvas.width - 60);
-        const y = canvas.height - 25 - i * 6;
+        const x = 32 + i * ringSpacing;
+        const y = canvas.height - CONFIG.ringRadius - 8;
         state.rings.push(new Ring(x, y, colors[i]));
       }
     }
@@ -1373,11 +1380,12 @@
       state.baskets.push(new BasketHoop(canvas.width * 0.72, canvas.height * 0.42));
       state.baskets.push(new BasketHoop(canvas.width * 0.5, canvas.height * 0.26));
 
-      // 6 Bolinhas flutuantes com cores vivas
+      // 6 Bolinhas flutuantes com cores vivas distribuídas equilibradamente
       const ballColors = ['#f97316', '#ef4444', '#eab308', '#22c55e', '#06b6d4', '#a855f7'];
+      const ballSpacing = (canvas.width - 64) / (CONFIG.numBalls - 1);
       for (let i = 0; i < CONFIG.numBalls; i++) {
-        const x = 30 + Math.random() * (canvas.width - 60);
-        const y = canvas.height - 25 - i * 8;
+        const x = 32 + i * ballSpacing;
+        const y = canvas.height - CONFIG.basketBallRadius - 8;
         state.balls.push(new BasketBall(x, y, ballColors[i]));
       }
     }
@@ -1722,15 +1730,26 @@
         btnPumpRight.classList.remove('pumping');
       }
 
+      // Função unificada para soltar as bombas
+      function endAllPumps() {
+        endPumpLeft();
+        endPumpRight();
+      }
+
+      window.addEventListener('mouseup', endAllPumps);
+      window.addEventListener('touchend', endAllPumps);
+      window.addEventListener('touchcancel', endAllPumps);
+
       // Eventos de Mouse e Touch para Bomba Esquerda
       btnPumpLeft.addEventListener('mousedown', startPumpLeft);
-      window.addEventListener('mouseup', endPumpLeft);
+      btnPumpLeft.addEventListener('mouseleave', endPumpLeft);
       btnPumpLeft.addEventListener('touchstart', startPumpLeft, { passive: false });
       btnPumpLeft.addEventListener('touchend', endPumpLeft, { passive: false });
       btnPumpLeft.addEventListener('touchcancel', endPumpLeft, { passive: false });
 
       // Eventos de Mouse e Touch para Bomba Direita
       btnPumpRight.addEventListener('mousedown', startPumpRight);
+      btnPumpRight.addEventListener('mouseleave', endPumpRight);
       btnPumpRight.addEventListener('touchstart', startPumpRight, { passive: false });
       btnPumpRight.addEventListener('touchend', endPumpRight, { passive: false });
       btnPumpRight.addEventListener('touchcancel', endPumpRight, { passive: false });
@@ -1756,33 +1775,62 @@
         if (k === 'x' || k === 'arrowright') endPumpRight();
       });
 
-      // Suporte a Giroscópio (Mobile DeviceOrientation)
+      // Suporte a Giroscópio (Mobile DeviceOrientation - estritamente sob demanda com zona morta)
+      state.tiltEnabled = false;
+      state.tiltX = 0;
+      state.tiltY = 0;
       const btnEnableTilt = document.getElementById('btnEnableTilt');
-      if (window.DeviceOrientationEvent) {
-        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-          btnEnableTilt.classList.remove('hidden');
-          btnEnableTilt.addEventListener('click', () => {
+      const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+      if (window.DeviceOrientationEvent && isTouchDevice) {
+        btnEnableTilt.classList.remove('hidden');
+        btnEnableTilt.addEventListener('click', () => {
+          if (typeof DeviceOrientationEvent.requestPermission === 'function') {
             DeviceOrientationEvent.requestPermission().then(res => {
               if (res === 'granted') {
+                state.tiltEnabled = true;
                 window.addEventListener('deviceorientation', handleOrientation);
                 btnEnableTilt.classList.add('hidden');
                 showToast("Giroscópio ativado!");
               }
             }).catch(() => {});
-          });
-        } else {
-          window.addEventListener('deviceorientation', handleOrientation);
-        }
+          } else {
+            state.tiltEnabled = !state.tiltEnabled;
+            if (state.tiltEnabled) {
+              window.addEventListener('deviceorientation', handleOrientation);
+              btnEnableTilt.innerHTML = '<i class="fas fa-check mr-1 text-emerald-600"></i> Giroscópio Ativo';
+              showToast("Giroscópio ativado!");
+            } else {
+              window.removeEventListener('deviceorientation', handleOrientation);
+              state.tiltX = 0; state.tiltY = 0;
+              btnEnableTilt.innerHTML = '<i class="fas fa-mobile-screen-button mr-1"></i> Ativar Giroscópio';
+              showToast("Giroscópio desativado.");
+            }
+          }
+        });
       }
 
       function handleOrientation(e) {
-        if (e.gamma !== null) {
-          // Inclinação lateral em graus (-90 a 90)
-          state.tiltX = clamp(e.gamma / 25, -1.8, 1.8);
+        if (!state.tiltEnabled) {
+          state.tiltX = 0;
+          state.tiltY = 0;
+          return;
         }
-        if (e.beta !== null) {
-          // Inclinação frontal
-          state.tiltY = clamp((e.beta - 45) / 35, -1.2, 1.2);
+        if (e.gamma !== null && e.gamma !== undefined) {
+          const g = e.gamma;
+          if (Math.abs(g) < 4) {
+            state.tiltX = 0;
+          } else {
+            state.tiltX = clamp((g - Math.sign(g) * 4) / 20, -1.5, 1.5);
+          }
+        }
+        if (e.beta !== null && e.beta !== undefined) {
+          const b = e.beta - 45;
+          if (Math.abs(b) < 5) {
+            state.tiltY = 0;
+          } else {
+            state.tiltY = clamp((b - Math.sign(b) * 5) / 30, -1.2, 1.2);
+          }
         }
       }
 
