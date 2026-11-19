@@ -21,6 +21,10 @@
       --shell-bot: #c2410c;
       --shell-border: #9a3412;
       --shell-ink: #3b1905;
+      --shell-ink-bottom: #3b1905;
+      --shell-ink-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+      --shell-chip-bg: rgba(0, 0, 0, 0.11);
+      --shell-chip-border: rgba(0, 0, 0, 0.14);
       --bezel-outer: #78350f;
       --bezel-inner: #291003;
       --pump-light: #f87171;
@@ -36,6 +40,10 @@
       --shell-bot: #075985;
       --shell-border: #0c4a6e;
       --shell-ink: #082f49;
+      --shell-ink-bottom: rgba(248, 250, 252, 0.94);
+      --shell-ink-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+      --shell-chip-bg: rgba(0, 0, 0, 0.28);
+      --shell-chip-border: rgba(255, 255, 255, 0.16);
       --bezel-outer: #0c4a6e;
       --bezel-inner: #041d2e;
       --pump-light: #fef08a;
@@ -51,6 +59,10 @@
       --shell-bot: #991b1b;
       --shell-border: #7f1d1d;
       --shell-ink: #3b0808;
+      --shell-ink-bottom: rgba(255, 255, 255, 0.94);
+      --shell-ink-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+      --shell-chip-bg: rgba(0, 0, 0, 0.28);
+      --shell-chip-border: rgba(255, 255, 255, 0.16);
       --bezel-outer: #7f1d1d;
       --bezel-inner: #2b0606;
       --pump-light: #ffffff;
@@ -66,6 +78,10 @@
       --shell-bot: #115e59;
       --shell-border: #134e4a;
       --shell-ink: #042f2e;
+      --shell-ink-bottom: rgba(248, 250, 252, 0.94);
+      --shell-ink-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+      --shell-chip-bg: rgba(0, 0, 0, 0.28);
+      --shell-chip-border: rgba(255, 255, 255, 0.16);
       --bezel-outer: #115e59;
       --bezel-inner: #042321;
       --pump-light: #fdba74;
@@ -115,7 +131,7 @@
 
     /* Top Retro Hardware Bar */
     .topbar {
-      width: 100%;
+      width: min(95vw, 376px);
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -515,8 +531,8 @@
       font-size: 0.62rem;
       font-weight: 800;
       letter-spacing: 0.1em;
-      color: var(--shell-ink);
-      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+      color: var(--shell-ink-bottom);
+      text-shadow: var(--shell-ink-shadow);
       text-transform: uppercase;
     }
 
@@ -525,9 +541,9 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.54rem;
       font-weight: 700;
-      color: var(--shell-ink);
-      background: rgba(0, 0, 0, 0.11);
-      border: 1px solid rgba(0, 0, 0, 0.14);
+      color: var(--shell-ink-bottom);
+      background: var(--shell-chip-bg);
+      border: 1px solid var(--shell-chip-border);
       padding: 1px 6px;
       border-radius: 999px;
     }
@@ -600,9 +616,10 @@
       gap: 6px;
       padding: 4px 11px;
       border-radius: 999px;
-      background: rgba(0, 0, 0, 0.16);
-      border: 1px solid rgba(0, 0, 0, 0.16);
-      color: var(--shell-ink);
+      background: var(--shell-chip-bg);
+      border: 1px solid var(--shell-chip-border);
+      color: var(--shell-ink-bottom);
+      text-shadow: var(--shell-ink-shadow);
       font-family: 'Inter', sans-serif;
       font-size: 0.65rem;
       font-weight: 800;
@@ -1710,14 +1727,24 @@
         ctx.lineWidth = 1;
         ctx.stroke();
 
-        // Support strut to tank floor if anchoredBottom
+        // Translucent molded acrylic plinth down to tank floor if anchoredBottom
         if (this.anchoredBottom && this.baseY < H - 4) {
-          const stGrad = ctx.createLinearGradient(this.x - 4, 0, this.x + 4, 0);
-          stGrad.addColorStop(0, 'rgba(255,255,255,0.6)');
-          stGrad.addColorStop(0.5, this.color);
-          stGrad.addColorStop(1, 'rgba(30,41,59,0.55)');
+          const riserH = H - this.baseY;
+          const stGrad = ctx.createLinearGradient(this.x - 10, 0, this.x + 10, 0);
+          stGrad.addColorStop(0, 'rgba(255,255,255,0.42)');
+          stGrad.addColorStop(0.5, 'rgba(224,242,254,0.22)');
+          stGrad.addColorStop(1, 'rgba(15,23,42,0.34)');
           ctx.fillStyle = stGrad;
-          ctx.fillRect(this.x - 4, this.baseY + 2, 8, H - this.baseY);
+          ctx.beginPath();
+          ctx.moveTo(this.x - 8, this.baseY + 2);
+          ctx.lineTo(this.x + 8, this.baseY + 2);
+          ctx.lineTo(this.x + 12, this.baseY + riserH);
+          ctx.lineTo(this.x - 12, this.baseY + riserH);
+          ctx.closePath();
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+          ctx.lineWidth = 0.9;
+          ctx.stroke();
         }
         ctx.restore();
       }
@@ -1808,6 +1835,16 @@
             if (this.vy > 1.2) sound.playPlasticTap(this.vy * 0.2, (this.x / W) * 2 - 1);
             this.y = restY;
             this.vy = 0;
+          }
+
+          // Physically push stacked ring directly above instead of passing through it
+          if (idx < peg.rings.length - 1) {
+            const above = peg.rings[idx + 1];
+            const minGap = 7.6;
+            if (this.y < above.y + minGap) {
+              above.vy = Math.min(above.vy, this.vy);
+              this.y = above.y + minGap;
+            }
           }
 
           // Pop off tip if pushed above peg.tipY - 4 (by direct jet or turning upside down!)
@@ -2574,8 +2611,8 @@
       if (state.mode === 'classic2') {
         // Authentic 1982 Estrela 2-peg stacking AquaPlay!
         state.targetScore = 8;
-        state.pegs.push(new Peg(W * 0.35, H - 110, 82, '#f8fafc', null, 5, true));
-        state.pegs.push(new Peg(W * 0.65, H - 110, 82, '#f8fafc', null, 5, true));
+        state.pegs.push(new Peg(W * 0.35, H - 36, 114, '#f8fafc', null, 5, true));
+        state.pegs.push(new Peg(W * 0.65, H - 36, 114, '#f8fafc', null, 5, true));
         const palette = [
           ['#ef4444', 'red'], ['#f97316', 'orange'], ['#facc15', 'yellow'], ['#22c55e', 'green'],
           ['#06b6d4', 'cyan'], ['#3b82f6', 'blue'], ['#a855f7', 'purple'], ['#ec4899', 'pink']
@@ -2587,12 +2624,12 @@
       } else if (state.mode === 'rings6') {
         // Classic 6-peg 3-tier pyramid
         state.targetScore = 6;
-        state.pegs.push(new Peg(W * 0.25, H - 64, 46, '#f8fafc', null, 2, true));
-        state.pegs.push(new Peg(W * 0.50, H - 64, 46, '#f8fafc', null, 2, true));
-        state.pegs.push(new Peg(W * 0.75, H - 64, 46, '#f8fafc', null, 2, true));
-        state.pegs.push(new Peg(W * 0.32, H * 0.54, 46, '#f1f5f9', null, 2, false));
-        state.pegs.push(new Peg(W * 0.68, H * 0.54, 46, '#f1f5f9', null, 2, false));
-        state.pegs.push(new Peg(W * 0.50, H * 0.31, 46, '#fde047', null, 2, false));
+        state.pegs.push(new Peg(W * 0.25, H - 32, 54, '#f8fafc', null, 2, true));
+        state.pegs.push(new Peg(W * 0.50, H - 32, 54, '#f8fafc', null, 2, true));
+        state.pegs.push(new Peg(W * 0.75, H - 32, 54, '#f8fafc', null, 2, true));
+        state.pegs.push(new Peg(W * 0.32, H * 0.56, 48, '#f1f5f9', null, 2, false));
+        state.pegs.push(new Peg(W * 0.68, H * 0.56, 48, '#f1f5f9', null, 2, false));
+        state.pegs.push(new Peg(W * 0.50, H * 0.32, 48, '#fde047', null, 2, false));
 
         const palette = [
           ['#ef4444', 'red'], ['#f59e0b', 'amber'], ['#10b981', 'green'],
@@ -2605,9 +2642,9 @@
       } else if (state.mode === 'color') {
         // 3 Color-Coded Pegs (Red, Green, Blue) + 6 Matching Rings
         state.targetScore = 6;
-        state.pegs.push(new Peg(W * 0.25, H - 96, 68, '#f87171', 'red', 3, true));
-        state.pegs.push(new Peg(W * 0.50, H - 130, 72, '#4ade80', 'green', 3, true));
-        state.pegs.push(new Peg(W * 0.75, H - 96, 68, '#60a5fa', 'blue', 3, true));
+        state.pegs.push(new Peg(W * 0.25, H - 34, 88, '#f87171', 'red', 3, true));
+        state.pegs.push(new Peg(W * 0.50, H - 54, 96, '#4ade80', 'green', 3, true));
+        state.pegs.push(new Peg(W * 0.75, H - 34, 88, '#60a5fa', 'blue', 3, true));
         const pairs = [
           ['#ef4444', 'red'], ['#22c55e', 'green'], ['#3b82f6', 'blue'],
           ['#ef4444', 'red'], ['#22c55e', 'green'], ['#3b82f6', 'blue']
@@ -3073,7 +3110,12 @@
       }
     }
 
-    // Boot
+    // Boot (supports PWA manifest shortcuts #basket / #rings)
+    const bootHash = (window.location.hash || '').replace('#', '').toLowerCase();
+    if (bootHash === 'basket') { state.mode = 'basket'; state.backdrop = 'court'; }
+    else if (bootHash === 'rings' || bootHash === 'classic2') { state.mode = 'classic2'; }
+    else if (bootHash === 'rings6' || bootHash === 'color') { state.mode = bootHash; }
+
     applyTheme();
     updateAudioUI();
     updateModeChecks();
@@ -3086,7 +3128,7 @@
     if ('serviceWorker' in navigator) {
       const hadController = !!navigator.serviceWorker.controller;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js?v=2.0.0').then(r => r.update()).catch(() => {});
+        navigator.serviceWorker.register('service-worker.js?v=2.0.1').then(r => r.update()).catch(() => {});
       });
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (hadController) window.location.reload();
