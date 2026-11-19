@@ -1961,25 +1961,24 @@
           const hasSpace = peg.rings.length < peg.maxRings;
           const colorMatch = !peg.colorKey || peg.colorKey === this.colorKey;
 
-          // 1. Subtle conical tip funneling: only kicks in right over the tapered needle tip
-          // so rings still require real aim & timing, while gliding smoothly when aligned!
-          if (hasSpace && state.gravityY > 0.1 && this.vy > -0.25 && dyTip >= -28 && dyTip <= 16 && Math.abs(dxTip) < 23) {
+          // 1. Conical tip funneling: guides aligned descending rings cleanly onto the tapered needle tip
+          if (hasSpace && state.gravityY > 0.1 && this.vy > -0.3 && dyTip >= -34 && dyTip <= 18 && Math.abs(dxTip) < 28) {
             if (colorMatch) {
-              this.vx += (-dxTip) * 0.018 * dt60;
-              this.vx *= Math.pow(0.93, dt60);
-              this.tilt = lerp(this.tilt, 1.12, 0.1 * dt60);
+              this.vx += (-dxTip) * 0.026 * dt60;
+              this.vx *= Math.pow(0.91, dt60);
+              this.tilt = lerp(this.tilt, 1.12, 0.11 * dt60);
             } else if (Math.abs(dxTip) > 8) {
-              this.vx += (dxTip >= 0 ? 1 : -1) * 0.025 * dt60;
+              this.vx += (dxTip >= 0 ? 1 : -1) * 0.028 * dt60;
             }
           }
 
-          // 2. Fair, crisp threading over the tapered peg tip from above (matches visual inner ring opening!)
-          const catchR = colorMatch ? 14.5 : 10.5;
+          // 2. Crisp, satisfying threading over the tapered peg tip from above!
+          const catchR = colorMatch ? 16.5 : 10.5;
           if (
             hasSpace &&
             Math.abs(dxTip) < catchR &&
-            dyTip >= -10 && dyTip <= 18 &&
-            this.vy > -0.35 &&
+            dyTip >= -11 && dyTip <= 20 &&
+            this.vy > -0.4 &&
             state.gravityY > 0.1
           ) {
             this.peg = peg;
@@ -2454,7 +2453,7 @@
     }
 
     // ==================== COLLISION SOLVER (ELASTIC DAMPED) ====================
-    function resolveBodyCollisions(list, restitution, skipFn) {
+    function resolveBodyCollisions(list, restitution, skipFn, spacingFactor = 0.95) {
       for (let i = 0; i < list.length; i++) {
         for (let j = i + 1; j < list.length; j++) {
           const a = list[i], b = list[j];
@@ -2462,7 +2461,7 @@
           const dx = b.x - a.x;
           const dy = b.y - a.y;
           const dist = Math.hypot(dx, dy);
-          const minD = a.radius + b.radius - 1.5;
+          const minD = (a.radius + b.radius) * spacingFactor;
           if (dist < minD && dist > 0.001) {
             const nx = dx / dist, ny = dy / dist;
             const overlap = minD - dist;
@@ -2902,10 +2901,11 @@
         if (state.mode === 'basket') {
           state.hoops.forEach(h => h.update(stepDt));
           state.balls.forEach(b => b.update(stepDt));
-          resolveBodyCollisions(state.balls, 0.62, b => b.hoop !== null);
+          resolveBodyCollisions(state.balls, 0.62, b => b.hoop !== null, 0.96);
         } else {
           state.rings.forEach(r => r.update(stepDt));
-          resolveBodyCollisions(state.rings, 0.44, r => r.peg !== null);
+          // Rings exist in a 3D water chamber with depth, so allow soft 0.68 Z-overlap (no rigid 2D jamming over peg tips!)
+          resolveBodyCollisions(state.rings, 0.36, r => r.peg !== null, 0.68);
         }
       }
 
@@ -3177,7 +3177,7 @@
     if ('serviceWorker' in navigator) {
       const hadController = !!navigator.serviceWorker.controller;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js?v=2.0.2').then(r => r.update()).catch(() => {});
+        navigator.serviceWorker.register('service-worker.js?v=2.0.3').then(r => r.update()).catch(() => {});
       });
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (hadController) window.location.reload();
