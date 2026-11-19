@@ -3,1428 +3,2630 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>AquaPlay Vintage Deluxe 4U — Brinquedo Clássico dos Anos 80 &amp; 90</title>
-  
-  <meta name="description" content="O clássico brinquedo aquático portátil dos anos 80 e 90 com bombas duplas, modos Argolas e Basquete, física realista, giroscópio e áudio sintetizado nativo.">
+  <title>AquaPlay Vintage Deluxe 2.0 — 4U.IA.BR</title>
+  <meta name="description" content="O clássico brinquedo aquático dos anos 80 e 90 recriado com física hidrodinâmica de vórtices, argolas 3D, colisão real em pinos e aros, áudio submerso e giroscópio 360°.">
   <meta name="theme-color" content="#d97706">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <link rel="manifest" href="manifest.json?v=1.2.0">
+  <link rel="manifest" href="manifest.json?v=2.0.0">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-  <!-- Tailwind CSS & Font Awesome & Google Fonts -->
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@600;700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --shell-top: #fde047;
+      --shell-mid: #f59e0b;
+      --shell-bot: #c2410c;
+      --shell-border: #9a3412;
+      --shell-ink: #3b1905;
+      --bezel-outer: #78350f;
+      --bezel-inner: #291003;
+      --pump-light: #f87171;
+      --pump-mid: #dc2626;
+      --pump-dark: #7f1d1d;
+      --pump-well: #521010;
+      --plug-color: #78350f;
+    }
+
+    body.theme-blue {
+      --shell-top: #7dd3fc;
+      --shell-mid: #0284c7;
+      --shell-bot: #075985;
+      --shell-border: #0c4a6e;
+      --shell-ink: #082f49;
+      --bezel-outer: #0c4a6e;
+      --bezel-inner: #041d2e;
+      --pump-light: #fef08a;
+      --pump-mid: #eab308;
+      --pump-dark: #a16207;
+      --pump-well: #663c04;
+      --plug-color: #075985;
+    }
+
+    body.theme-red {
+      --shell-top: #fca5a5;
+      --shell-mid: #dc2626;
+      --shell-bot: #991b1b;
+      --shell-border: #7f1d1d;
+      --shell-ink: #3b0808;
+      --bezel-outer: #7f1d1d;
+      --bezel-inner: #2b0606;
+      --pump-light: #ffffff;
+      --pump-mid: #e2e8f0;
+      --pump-dark: #94a3b8;
+      --pump-well: #475569;
+      --plug-color: #450a0a;
+    }
+
+    body.theme-teal {
+      --shell-top: #5eead4;
+      --shell-mid: #0d9488;
+      --shell-bot: #115e59;
+      --shell-border: #134e4a;
+      --shell-ink: #042f2e;
+      --bezel-outer: #115e59;
+      --bezel-inner: #042321;
+      --pump-light: #fdba74;
+      --pump-mid: #f97316;
+      --pump-dark: #c2410c;
+      --pump-well: #7c2d12;
+      --plug-color: #134e4a;
+    }
+
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
       -webkit-tap-highlight-color: transparent;
     }
 
+    html, body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
     body {
-      font-family: 'Fredoka', 'Segoe UI', cursive, sans-serif;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      background: radial-gradient(circle at 50% 20%, #1e3a5f 0%, #0c1a2e 70%, #050d18 100%);
-      color: #ffffff;
+      font-family: 'Fredoka', 'Inter', system-ui, sans-serif;
+      min-height: 100dvh;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(251, 191, 36, 0.14), transparent 46%),
+        radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.12), transparent 50%),
+        radial-gradient(circle at 50% 45%, #162235 0%, #0b111d 68%, #060910 100%);
+      color: #f8fafc;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
-      touch-action: pan-y;
+      justify-content: flex-start;
+      padding: 10px 10px 20px;
       user-select: none;
+      touch-action: manipulation;
     }
 
-    .pixel-font {
-      font-family: 'Press Start 2P', cursive;
+    .app-wrap {
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
 
-    /* Permanent Neon Glow Mode Selector */
-    .neon-glow-select {
-      border: 2px solid #22d3ee !important;
-      box-shadow: 0 0 16px rgba(6, 182, 212, 0.75), 0 0 4px rgba(34, 211, 238, 0.9), inset 0 0 8px rgba(6, 182, 212, 0.3) !important;
-      animation: neonPulse 2.8s infinite ease-in-out;
-      background: rgba(8, 28, 48, 0.9) !important;
-    }
-    @keyframes neonPulse {
-      0%, 100% {
-        box-shadow: 0 0 14px rgba(6, 182, 212, 0.7), 0 0 4px rgba(34, 211, 238, 0.8), inset 0 0 6px rgba(6, 182, 212, 0.25);
-        border-color: #22d3ee;
-      }
-      50% {
-        box-shadow: 0 0 24px rgba(6, 182, 212, 0.95), 0 0 10px rgba(103, 232, 249, 1), inset 0 0 12px rgba(6, 182, 212, 0.45);
-        border-color: #67e8f9;
-      }
-    }
-    .neon-glow-icon {
-      color: #22d3ee !important;
-      filter: drop-shadow(0 0 6px #22d3ee) drop-shadow(0 0 12px #06b6d4) !important;
-      animation: neonIconPulse 2.8s infinite ease-in-out;
-    }
-    @keyframes neonIconPulse {
-      0%, 100% { filter: drop-shadow(0 0 5px #22d3ee); }
-      50% { filter: drop-shadow(0 0 12px #67e8f9) drop-shadow(0 0 18px #06b6d4); }
+    /* Top Retro Hardware Bar */
+    .topbar {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 10px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
     }
 
-    /* Hierarquia de Camadas e Stacking Context (Menu Dropdown sempre na frente) */
-    .header-toolbar {
-      position: relative !important;
-      z-index: 1000 !important;
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .scoreboard-bar {
-      position: relative !important;
-      z-index: 5 !important;
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #fbbf24, #d97706);
+      color: #1c1004;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.55), 0 3px 8px rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
     }
 
-    /* Carcaça do Brinquedo Estilo Anos 80 (Toy Shell) */
+    .brand-title {
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      line-height: 1.1;
+    }
+
+    .brand-tag {
+      font-size: 0.6rem;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 5px;
+      background: rgba(251, 191, 36, 0.18);
+      color: #fde68a;
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      letter-spacing: 0.05em;
+    }
+
+    .brand-sub {
+      font-size: 0.64rem;
+      color: rgba(226, 232, 240, 0.6);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .tool-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .tb-btn {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      color: #f1f5f9;
+      height: 32px;
+      padding: 0 9px;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    }
+
+    .tb-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(251, 191, 36, 0.5);
+    }
+
+    .tb-btn:active { transform: scale(0.96); }
+
+    .tb-mode {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.24), rgba(14, 165, 233, 0.18));
+      border-color: rgba(251, 191, 36, 0.55);
+      color: #fef3c7;
+    }
+
+    /* Compact Vintage LCD Scoreboard */
+    .lcd-bar {
+      width: min(95vw, 376px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #0d1624, #09101a);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+    }
+
+    .lcd-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .lcd-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #94a3b8;
+      font-weight: 700;
+    }
+
+    .lcd-val { color: #fbbf24; font-weight: 800; font-size: 0.86rem; }
+    .lcd-time { color: #38bdf8; font-weight: 800; }
+    .lcd-best { color: #cbd5e1; font-weight: 700; font-size: 0.72rem; }
+
+    /* Stage with 3D Perspective & Contact Shadow */
+    .toy-stage {
+      position: relative;
+      perspective: 1100px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 8px;
+    }
+
+    .toy-contact-shadow {
+      width: min(82vw, 310px);
+      height: 22px;
+      margin-top: -8px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.68) 0%, rgba(0, 0, 0, 0.25) 55%, transparent 75%);
+      filter: blur(5px);
+      pointer-events: none;
+    }
+
+    /* Rubber Water-Fill Stopper Plug at Top Center */
+    .water-plug {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 34px;
+      height: 12px;
+      border-radius: 7px 7px 2px 2px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.45), rgba(226,232,240,0.22) 45%, rgba(15,23,42,0.45));
+      border: 1.5px solid rgba(255,255,255,0.3);
+      box-shadow: inset 0 2px 3px rgba(255,255,255,0.6), 0 -2px 6px rgba(0,0,0,0.4);
+      z-index: 2;
+    }
+
+    /* Main Molded ABS Plastic Shell */
     .toy-shell {
       position: relative;
-      z-index: 10 !important;
-      width: min(94vw, 360px);
-      background: linear-gradient(165deg, #fcd34d 0%, #f59e0b 45%, #d97706 100%);
-      border-radius: 36px 36px 48px 48px;
-      padding: 16px 14px 24px 14px;
-      box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.7),
-        0 10px 25px rgba(0, 0, 0, 0.4),
-        inset 0 4px 6px rgba(255, 255, 255, 0.6),
-        inset 0 -6px 12px rgba(180, 83, 9, 0.8);
-      border: 3px solid #b45309;
-      transition: background 0.3s ease, border-color 0.3s ease;
+      width: min(95vw, 376px);
+      border-radius: 38px 38px 50px 50px;
+      padding: 15px 15px 22px;
+      background:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.065'/%3E%3C/svg%3E"),
+        linear-gradient(162deg, var(--shell-top) 0%, var(--shell-mid) 44%, var(--shell-bot) 100%);
+      border: 3px solid var(--shell-border);
+      box-shadow:
+        0 28px 64px rgba(0, 0, 0, 0.72),
+        0 10px 20px rgba(0, 0, 0, 0.45),
+        inset 0 5px 8px rgba(255, 255, 255, 0.58),
+        inset 0 -9px 16px rgba(0, 0, 0, 0.36),
+        inset 4px 0 8px rgba(255, 255, 255, 0.25),
+        inset -4px 0 8px rgba(0, 0, 0, 0.22);
+      transform-style: preserve-3d;
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.08s ease-out;
+      cursor: grab;
     }
 
-    /* Temas do Gabinete */
-    .theme-blue .toy-shell {
-      background: linear-gradient(165deg, #38bdf8 0%, #0284c7 45%, #0369a1 100%);
-      border-color: #075985;
-      box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.7),
-        inset 0 4px 6px rgba(255, 255, 255, 0.6),
-        inset 0 -6px 12px rgba(7, 89, 133, 0.8);
-    }
-    .theme-red .toy-shell {
-      background: linear-gradient(165deg, #f87171 0%, #dc2626 45%, #b91c1c 100%);
-      border-color: #991b1b;
-      box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.7),
-        inset 0 4px 6px rgba(255, 255, 255, 0.6),
-        inset 0 -6px 12px rgba(153, 27, 27, 0.8);
-    }
+    .toy-shell:active { cursor: grabbing; }
 
-    /* Tremor da carcaça ao chacoalhar */
     .toy-shell.shake {
-      animation: toyShake 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-    }
-    @keyframes toyShake {
-      10%, 90% { transform: translate3d(-3px, 1px, 0) rotate(-1.5deg); }
-      20%, 80% { transform: translate3d(4px, -1px, 0) rotate(1.5deg); }
-      30%, 50%, 70% { transform: translate3d(-5px, 2px, 0) rotate(-2deg); }
-      40%, 60% { transform: translate3d(5px, -2px, 0) rotate(2deg); }
+      animation: toyShake 0.36s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
     }
 
-    /* Câmara Acrílica de Água */
+    @keyframes toyShake {
+      10%, 90% { transform: translate3d(-5px, 1px, 0) rotate(-2deg); }
+      20%, 80% { transform: translate3d(6px, -2px, 0) rotate(2.2deg); }
+      30%, 50%, 70% { transform: translate3d(-7px, 2px, 0) rotate(-2.8deg); }
+      40%, 60% { transform: translate3d(7px, -2px, 0) rotate(2.6deg); }
+    }
+
+    /* Recessed Metallic Screws */
+    .screw {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 32%, #f8fafc 15%, #94a3b8 65%, #475569 100%);
+      box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.85),
+        0 1px 2px rgba(0, 0, 0, 0.55),
+        0 0 0 2px rgba(0, 0, 0, 0.14);
+      z-index: 5;
+    }
+    .screw::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 16%; right: 16%; height: 1.6px;
+      background: #334155;
+      transform: translateY(-50%) rotate(32deg);
+    }
+    .screw.tl { top: 13px; left: 14px; }
+    .screw.tr { top: 13px; right: 14px; }
+    .screw.bl { bottom: 16px; left: 16px; }
+    .screw.br { bottom: 16px; right: 16px; }
+
+    /* Embossed Toy Nameplate */
+    .shell-plate {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px 7px;
+      color: var(--shell-ink);
+    }
+
+    .plate-brand {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+    }
+
+    .plate-led {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fca5a5, #dc2626 70%, #7f1d1d);
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.35);
+    }
+
+    .plate-edition {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.34);
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      color: var(--shell-ink);
+    }
+
+    /* Recessed Thick Acrylic Water Tank */
+    .tank-bezel {
+      position: relative;
+      border-radius: 24px 24px 28px 28px;
+      padding: 5px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.32), rgba(255, 255, 255, 0.32));
+      box-shadow:
+        inset 0 4px 10px rgba(0, 0, 0, 0.45),
+        0 2px 0 rgba(255, 255, 255, 0.35);
+    }
+
     .water-chamber {
       position: relative;
       border-radius: 20px 20px 24px 24px;
       overflow: hidden;
-      border: 5px solid #451a03;
-      background: linear-gradient(180deg, #7dd3fc 0%, #38bdf8 30%, #0284c7 70%, #0369a1 100%);
-      box-shadow: 
-        inset 0 0 25px rgba(0, 0, 0, 0.4),
-        inset 0 10px 30px rgba(255, 255, 255, 0.4),
-        0 4px 10px rgba(0, 0, 0, 0.3);
+      border: 4px solid var(--bezel-inner);
+      background: #0284c7;
+      box-shadow:
+        inset 0 0 24px rgba(0, 0, 0, 0.5),
+        inset 0 10px 24px rgba(255, 255, 255, 0.22);
     }
-    .theme-blue .water-chamber { border-color: #082f49; }
-    .theme-red .water-chamber { border-color: #450a0a; }
 
-    /* Vidro Acrílico com Reflexo 3D */
-    .acrylic-glass-reflection {
+    /* Acrylic Edge Refraction & Gloss */
+    .acrylic-overlay {
       position: absolute;
       inset: 0;
       pointer-events: none;
+      z-index: 15;
+      border-radius: 16px 16px 20px 20px;
+      box-shadow:
+        inset 0 0 0 2.5px rgba(255, 255, 255, 0.28),
+        inset 0 0 18px rgba(186, 230, 253, 0.25),
+        inset 0 -10px 18px rgba(0, 15, 35, 0.35);
       background: linear-gradient(
-        135deg, 
-        rgba(255, 255, 255, 0.4) 0%, 
-        rgba(255, 255, 255, 0.08) 35%, 
-        transparent 50%,
-        rgba(255, 255, 255, 0.05) 80%,
-        rgba(255, 255, 255, 0.2) 100%
+        130deg,
+        rgba(255, 255, 255, 0.34) 0%,
+        rgba(255, 255, 255, 0.11) 18%,
+        rgba(255, 255, 255, 0.0) 34%,
+        rgba(255, 255, 255, 0.0) 74%,
+        rgba(255, 255, 255, 0.08) 88%,
+        rgba(255, 255, 255, 0.22) 100%
       );
-      z-index: 20;
     }
 
-    /* Botões Pistão de Borracha (Pumps) */
+    #gameCanvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 340 / 390;
+    }
+
+    /* Control Deck Below Water Tank */
+    .control-deck {
+      margin-top: 14px;
+      padding: 0 8px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .pump-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 96px;
+    }
+
+    /* Recessed Rubber Pump Socket */
+    .pump-well {
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 60%, rgba(0,0,0,0.42), rgba(0,0,0,0.18) 68%, rgba(255,255,255,0.28) 100%);
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 4px 8px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.4);
+    }
+
     .pump-button {
       position: relative;
       width: 72px;
       height: 72px;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #ef4444, #b91c1c 70%, #7f1d1d 100%);
-      border: 3px solid #7f1d1d;
-      box-shadow: 
-        0 8px 0px #5f1414,
-        0 14px 18px rgba(0, 0, 0, 0.5),
-        inset 0 3px 6px rgba(255, 255, 255, 0.5),
-        inset 0 -4px 8px rgba(0, 0, 0, 0.4);
+      background:
+        radial-gradient(circle at 50% 52%, rgba(0,0,0,0.18) 0%, transparent 46%),
+        radial-gradient(circle at 32% 28%, var(--pump-light), var(--pump-mid) 62%, var(--pump-dark) 100%);
+      border: 3px solid var(--pump-dark);
+      box-shadow:
+        0 7px 0 var(--pump-well),
+        0 12px 16px rgba(0, 0, 0, 0.48),
+        inset 0 4px 6px rgba(255, 255, 255, 0.5),
+        inset 0 -5px 9px rgba(0, 0, 0, 0.35);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.06s ease;
+      transition: transform 0.055s ease, box-shadow 0.055s ease;
       touch-action: none;
-    }
-    .pump-button:active, .pump-button.pumping {
-      transform: translateY(6px);
-      box-shadow: 
-        0 2px 0px #5f1414,
-        0 4px 8px rgba(0, 0, 0, 0.5),
-        inset 0 4px 10px rgba(0, 0, 0, 0.5);
+      color: #fff;
     }
 
-    .theme-blue .pump-button {
-      background: radial-gradient(circle at 35% 35%, #fde047, #eab308 70%, #a16207 100%);
-      border-color: #854d0e;
-      box-shadow: 
-        0 8px 0px #713f12,
-        0 14px 18px rgba(0, 0, 0, 0.5),
-        inset 0 3px 6px rgba(255, 255, 255, 0.6),
-        inset 0 -4px 8px rgba(0, 0, 0, 0.4);
-    }
-    .theme-blue .pump-button:active, .theme-blue .pump-button.pumping {
-      box-shadow: 
-        0 2px 0px #713f12,
-        0 4px 8px rgba(0, 0, 0, 0.5),
-        inset 0 4px 10px rgba(0, 0, 0, 0.5);
-    }
-
-    .theme-red .pump-button {
-      background: radial-gradient(circle at 35% 35%, #ffffff, #e2e8f0 70%, #94a3b8 100%);
-      border-color: #64748b;
-      box-shadow: 
-        0 8px 0px #475569,
-        0 14px 18px rgba(0, 0, 0, 0.5),
-        inset 0 3px 6px rgba(255, 255, 255, 0.9),
-        inset 0 -4px 8px rgba(0, 0, 0, 0.3);
-    }
-    .theme-red .pump-button:active, .theme-red .pump-button.pumping {
-      box-shadow: 
-        0 2px 0px #475569,
-        0 4px 8px rgba(0, 0, 0, 0.5),
-        inset 0 4px 10px rgba(0, 0, 0, 0.5);
-    }
-
-    /* Botão Secundário (Shake / Reset) */
-    .util-button {
-      width: 44px;
-      height: 44px;
+    /* Concave Thumb Dimple Ring */
+    .pump-button::before {
+      content: '';
+      position: absolute;
+      inset: 9px;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #10b981, #059669 70%, #047857 100%);
-      border: 2px solid #065f46;
-      box-shadow: 0 4px 0 #064e3b, 0 6px 12px rgba(0, 0, 0, 0.35);
+      border: 1.5px solid rgba(255, 255, 255, 0.26);
+      box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.28);
+      pointer-events: none;
+    }
+
+    body.theme-red .pump-button { color: #334155; }
+
+    .pump-button:active, .pump-button.pumping {
+      transform: translateY(6px) scale(0.97);
+      box-shadow:
+        0 1px 0 var(--pump-well),
+        0 3px 6px rgba(0, 0, 0, 0.45),
+        inset 0 5px 12px rgba(0, 0, 0, 0.45);
+    }
+
+    .pump-label {
+      margin-top: 9px;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--shell-ink);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+      text-transform: uppercase;
+    }
+
+    .kbd-chip {
+      margin-top: 3px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.54rem;
+      font-weight: 700;
+      color: var(--shell-ink);
+      background: rgba(0, 0, 0, 0.11);
+      border: 1px solid rgba(0, 0, 0, 0.14);
+      padding: 1px 6px;
+      border-radius: 999px;
+    }
+
+    /* Center Utility Controls */
+    .center-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding-top: 6px;
+    }
+
+    .util-button {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 34% 30%, #34d399, #059669 68%, #047857 100%);
+      border: 2.5px solid #065f46;
+      box-shadow: 0 5px 0 #064e3b, 0 8px 14px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255,255,255,0.45);
+      color: #fff;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.06s ease;
+      font-size: 0.95rem;
+      transition: transform 0.06s, box-shadow 0.06s;
     }
+
     .util-button:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 #064e3b, 0 2px 6px rgba(0, 0, 0, 0.35);
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #064e3b, 0 3px 6px rgba(0, 0, 0, 0.4);
     }
 
-    /* Parafusos metálicos vintage */
-    .screw {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #e2e8f0 30%, #94a3b8 80%, #64748b 100%);
-      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), 0 1px 2px rgba(0, 0, 0, 0.4);
-      position: relative;
-    }
-    .screw::after {
-      content: '';
-      position: absolute;
-      top: 50%; left: 15%; right: 15%; height: 1.5px;
-      background: #475569;
-      transform: translateY(-50%) rotate(35deg);
-    }
-
-    /* Floating Toast no rodapé */
-    .toast-box {
-      position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%);
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(14px);
-      color: white;
-      padding: 12px 24px;
-      border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5);
-      z-index: 99999;
-      max-width: min(92vw, 520px);
+    .mini-row {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .mini-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #1e293b;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      color: #f8fafc;
+      font-size: 0.66rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.35);
+      transition: transform 0.1s, background 0.15s;
+    }
+    .mini-btn:hover { background: #334155; }
+    .mini-btn:active { transform: scale(0.92); }
+
+    /* Sensor / Tilt Status Pill inside Shell */
+    .sensor-pill-wrap {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .sensor-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 11px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.16);
+      border: 1px solid rgba(0, 0, 0, 0.16);
+      color: var(--shell-ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .sensor-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    /* Footer Hints */
+    footer {
+      margin-top: 6px;
+      text-align: center;
+      color: rgba(203, 213, 225, 0.62);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      max-width: 390px;
+      line-height: 1.5;
+    }
+
+    footer a {
+      color: #93c5fd;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    footer a:hover { text-decoration: underline; }
+
+    /* Toast */
+    .toast-box {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      backdrop-filter: blur(12px);
+      color: #f8fafc;
+      padding: 10px 18px;
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
       font-weight: 700;
-      transition: all 0.25s ease;
+      max-width: 92vw;
+    }
+
+    .hidden { display: none !important; }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 15, 0.82);
+      backdrop-filter: blur(8px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 400px;
+      max-height: 88dvh;
+      overflow-y: auto;
+      background: #0f172a;
+      border: 1.5px solid rgba(251, 191, 36, 0.48);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-close {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.08);
+      color: #f8fafc;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mode-list { display: flex; flex-direction: column; gap: 9px; }
+
+    .mode-opt {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 11px 13px;
+      border-radius: 14px;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+      color: #f8fafc;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .mode-opt:hover, .mode-opt.active {
+      border-color: #fbbf24;
+      background: rgba(245, 158, 11, 0.14);
+    }
+
+    .mode-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .mode-name { font-weight: 700; font-size: 0.88rem; }
+    .mode-desc { font-family: 'Inter', sans-serif; font-size: 0.72rem; color: #94a3b8; margin-top: 2px; }
+
+    .eco-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 8px;
+    }
+
+    .eco-grid a {
+      padding: 9px 11px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .eco-grid a:hover {
+      border-color: #fbbf24;
+      background: rgba(245, 158, 11, 0.14);
+    }
+
+    .win-stats {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 12px;
+      margin: 14px 0 18px;
+    }
+
+    .btn-win {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #f59e0b, #fde047);
+      color: #1c1004;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
     }
 
     #confettiCanvas {
-      position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    @media (max-width: 420px) {
+      .kbd-chip { display: none; }
+      .toy-shell { padding: 13px 11px 18px; }
+      .pump-col { width: 88px; }
     }
   </style>
 </head>
-<body class="p-2 sm:p-4">
-
+<body>
   <canvas id="confettiCanvas"></canvas>
 
-  <div class="w-full max-w-xl flex flex-col items-center">
-
-    <!-- Top Toolbar (Modo com Caixa Acesa, Temas, Áudio, Placar) -->
-    <header class="header-toolbar w-full flex flex-wrap items-center justify-between gap-2 px-3 py-2 mb-2 bg-slate-900/95 backdrop-blur-md rounded-2xl border border-white/10 shadow-lg" style="position: relative; z-index: 1000 !important;">
-      
-      <!-- Marca & Logo -->
-      <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center font-black text-xs text-slate-950 shadow-md">
-          <i class="fas fa-water"></i>
-        </div>
+  <div class="app-wrap">
+    <!-- Top Control Bar -->
+    <header class="topbar">
+      <div class="brand-group">
+        <div class="brand-mark"><i class="fas fa-water"></i></div>
         <div>
-          <div class="font-black text-sm tracking-wide flex items-center gap-1.5">
-            AQUAPLAY <span class="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">DELUXE 4U</span>
+          <div class="brand-title">
+            AQUAPLAY <span class="brand-tag">2.0 DELUXE</span>
           </div>
-          <div class="text-[10px] text-white/50 -mt-0.5">Estrela / Tomy 1982</div>
+          <div class="brand-sub" data-i18n="subtitle">Clássico 1982 • Física Real</div>
         </div>
       </div>
 
-      <!-- Barra de Ferramentas -->
-      <div class="flex items-center gap-2">
-        
-        <!-- Caixa de Seleção de Modo (Permanentemente Acesa com Chevron Aceso) -->
-        <div id="modeSelectWrapper">
-          <button id="btnModeDropdown" type="button" class="neon-glow-select px-3 py-1.5 rounded-xl text-xs flex items-center gap-2 font-black cursor-pointer select-none" title="Escolher Modo de Jogo">
-            <i class="fas fa-bullseye neon-glow-icon text-xs"></i>
-            <span id="modeDisplay" class="text-cyan-200 tracking-wide font-bold">Argolas Clássicas</span>
-            <span class="w-4 h-4 rounded bg-cyan-400/20 flex items-center justify-center border border-cyan-400/40">
-              <i id="modeChevron" class="fas fa-chevron-down neon-glow-icon text-[9px] transition-transform duration-200"></i>
-            </span>
-          </button>
-        </div>
-
-        <!-- Mudar Tema da Carcaça -->
-        <button id="btnThemeToggle" class="px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs flex items-center gap-1" title="Mudar Cor da Carcaça">
-          <i class="fas fa-palette text-amber-400"></i>
+      <div class="tool-row">
+        <button id="btnModeModal" class="tb-btn tb-mode" type="button" title="Modo de Jogo">
+          <i class="fas fa-gamepad"></i>
+          <span id="modeDisplay">2 Pinos 1982</span>
+          <i class="fas fa-chevron-down" style="font-size: 0.6rem;"></i>
         </button>
-
-        <!-- Som Mudo/Ativo -->
-        <button id="btnAudioToggle" class="px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs flex items-center gap-1" title="Ligar/Desligar Som">
-          <i id="audioIcon" class="fas fa-volume-high text-emerald-400"></i>
+        <button id="btnBackdrop" class="tb-btn" type="button" title="Trocar Cenário / Cartão de Fundo">
+          <i class="fas fa-image" style="color: #38bdf8;"></i>
         </button>
-
+        <button id="btnTheme" class="tb-btn" type="button" title="Cor da Carcaça">
+          <i class="fas fa-palette" style="color: #fbbf24;"></i>
+        </button>
+        <button id="btnAudio" class="tb-btn" type="button" title="Som">
+          <i id="audioIcon" class="fas fa-volume-high" style="color: #34d399;"></i>
+        </button>
+        <button id="btnLang" class="tb-btn" type="button" title="PT / EN">EN</button>
+        <button id="btnEco" class="tb-btn" type="button" title="Ecossistema 4u-Labs">🚀</button>
       </div>
     </header>
 
-    <!-- Placar Superior & Tempo -->
-    <div class="scoreboard-bar w-full max-w-[360px] flex items-center justify-between px-3 py-1.5 mb-1.5 bg-black/40 rounded-xl border border-white/10 text-xs" style="position: relative; z-index: 5 !important;">
-      <div class="flex items-center gap-2">
-        <span class="text-white/60 text-[10px] uppercase font-bold tracking-wider">Pontos:</span>
-        <span id="scoreDisplay" class="pixel-font text-amber-400 font-black text-sm">0 / 6</span>
+    <!-- Vintage LCD Scoreboard -->
+    <div class="lcd-bar">
+      <div class="lcd-item">
+        <span class="lcd-label" data-i18n="pts">Pontos</span>
+        <span id="scoreDisplay" class="lcd-val">0 / 8</span>
       </div>
-      <div class="flex items-center gap-3">
-        <div class="flex items-center gap-1.5">
-          <i class="fas fa-stopwatch text-cyan-400 text-[11px]"></i>
-          <span id="timerDisplay" class="pixel-font text-cyan-300 text-[11px]">00:00</span>
-        </div>
-        <div class="text-[10px] text-white/50">
-          Recorde: <span id="bestRecordDisplay" class="text-white/80 font-bold">--:--</span>
-        </div>
+      <div class="lcd-item">
+        <i class="fas fa-stopwatch" style="color: #38bdf8; font-size: 0.72rem;"></i>
+        <span id="timerDisplay" class="lcd-time">00:00</span>
+      </div>
+      <div class="lcd-item">
+        <span class="lcd-label" data-i18n="best">Rec.</span>
+        <span id="bestDisplay" class="lcd-best">--:--</span>
       </div>
     </div>
 
-    <!-- ================= O BRINQUEDO AQUAPLAY (Gabinete 3D) ================= -->
-    <main class="toy-shell" id="toyShell">
-      
-      <!-- 4 Parafusos nas Quinas -->
-      <div class="screw absolute top-3 left-3"></div>
-      <div class="screw absolute top-3 right-3"></div>
-      <div class="screw absolute bottom-4 left-3"></div>
-      <div class="screw absolute bottom-4 right-3"></div>
+    <!-- 3D Toy Shell Stage -->
+    <div class="toy-stage">
+      <main class="toy-shell" id="toyShell">
+        <div class="water-plug" title="Válvula de Água"></div>
+        <div class="screw tl"></div>
+        <div class="screw tr"></div>
+        <div class="screw bl"></div>
+        <div class="screw br"></div>
 
-      <!-- Plaqueta Vintage de Metal / Logotipo Estrela -->
-      <div class="flex items-center justify-between px-3 mb-2">
-        <div class="flex items-center gap-1.5">
-          <span class="w-2.5 h-2.5 rounded-full bg-red-600 border border-white/50 shadow-inner"></span>
-          <span class="font-black text-xs tracking-wider text-slate-900 drop-shadow-sm uppercase">AquaPlay</span>
+        <div class="shell-plate">
+          <div class="plate-brand">
+            <span class="plate-led"></span>
+            <span>AQUAPLAY</span>
+          </div>
+          <div class="plate-edition" id="backdropTag">RECIFE TROPICAL</div>
         </div>
-        <div class="text-[9px] font-black tracking-widest text-slate-800 bg-white/40 px-2 py-0.5 rounded-md border border-black/10">
-          4U LABS
-        </div>
-      </div>
 
-      <!-- Câmara Acrílica com Canvas -->
-      <div class="water-chamber">
-        <div class="acrylic-glass-reflection"></div>
-        <canvas id="gameCanvas" width="320" height="360" class="block w-full h-auto"></canvas>
-      </div>
-
-      <!-- Painel Inferior de Controles Reais (Duas Bombas + Shake + Reset) -->
-      <div class="mt-3 px-2 flex items-center justify-between">
-        
-        <!-- Bomba Esquerda (Pistão) -->
-        <div class="flex flex-col items-center">
-          <button id="btnPumpLeft" class="pump-button" aria-label="Bomba Esquerda">
-            <i class="fas fa-arrow-up text-white/90 text-lg drop-shadow"></i>
-            <span class="text-[9px] font-black text-white/80 tracking-wider -mt-0.5">ESQ</span>
-          </button>
-          <div class="mt-3.5 flex flex-col items-center">
-            <span class="text-[9px] font-black tracking-widest text-slate-900 drop-shadow-sm uppercase">JATO ESQ</span>
-            <span class="text-[8px] font-bold text-slate-800/80 px-2 py-0.5 rounded-full bg-black/10 border border-black/15 shadow-inner mt-0.5 tracking-wider hidden sm:inline-block">[Z / ←]</span>
+        <!-- Acrylic Water Tank -->
+        <div class="tank-bezel">
+          <div class="water-chamber">
+            <div class="acrylic-overlay"></div>
+            <canvas id="gameCanvas" width="340" height="390"></canvas>
           </div>
         </div>
 
-        <!-- Botões Centrais (Chacoalhar e Novo Jogo) -->
-        <div class="flex flex-col items-center gap-1.5">
-          <button id="btnShake" class="util-button" title="Chacoalhar o Brinquedo" aria-label="Chacoalhar">
-            <i class="fas fa-hand-sparkles text-white text-sm"></i>
-          </button>
-          <span class="text-[8px] font-black tracking-wider text-slate-900 drop-shadow-sm uppercase">AGITAR</span>
-          <span class="text-[7px] font-bold text-slate-800/80 px-1.5 py-0.5 rounded-full bg-black/10 border border-black/15 shadow-inner hidden sm:inline-block">[ESPAÇO]</span>
+        <!-- Dual Piston Control Deck -->
+        <div class="control-deck">
+          <div class="pump-col">
+            <div class="pump-well">
+              <button id="btnPumpLeft" class="pump-button" type="button" aria-label="Bomba Esquerda">
+                <i class="fas fa-arrow-up" style="font-size: 1.05rem;"></i>
+                <span style="font-size: 0.58rem; font-weight: 800; letter-spacing: 0.08em;" data-i18n="leftShort">ESQ</span>
+              </button>
+            </div>
+            <span class="pump-label" data-i18n="jetLeft">JATO ESQ</span>
+            <span class="kbd-chip">[Z / ←]</span>
+          </div>
 
-          <button id="btnReset" class="w-6 h-6 rounded-full bg-slate-800 hover:bg-slate-700 border border-white/20 text-white text-[10px] flex items-center justify-center shadow-md active:scale-95 transition-transform mt-1" title="Reiniciar Partida" aria-label="Reiniciar">
-            <i class="fas fa-rotate-right"></i>
-          </button>
-        </div>
+          <div class="center-col">
+            <button id="btnShake" class="util-button" type="button" title="Agitar Brinquedo" aria-label="Agitar">
+              <i class="fas fa-hand-sparkles"></i>
+            </button>
+            <span class="pump-label" style="margin-top: 0;" data-i18n="shake">AGITAR</span>
+            <span class="kbd-chip">[ESPAÇO]</span>
+            <div class="mini-row">
+              <button id="btnTiltLeft" class="mini-btn" type="button" title="Inclinar Esquerda [Q]">
+                <i class="fas fa-rotate-left"></i>
+              </button>
+              <button id="btnReset" class="mini-btn" type="button" title="Reiniciar [R]">
+                <i class="fas fa-arrows-rotate"></i>
+              </button>
+              <button id="btnTiltRight" class="mini-btn" type="button" title="Inclinar Direita [E]">
+                <i class="fas fa-rotate-right"></i>
+              </button>
+            </div>
+          </div>
 
-        <!-- Bomba Direita (Pistão) -->
-        <div class="flex flex-col items-center">
-          <button id="btnPumpRight" class="pump-button" aria-label="Bomba Direita">
-            <i class="fas fa-arrow-up text-white/90 text-lg drop-shadow"></i>
-            <span class="text-[9px] font-black text-white/80 tracking-wider -mt-0.5">DIR</span>
-          </button>
-          <div class="mt-3.5 flex flex-col items-center">
-            <span class="text-[9px] font-black tracking-widest text-slate-900 drop-shadow-sm uppercase">JATO DIR</span>
-            <span class="text-[8px] font-bold text-slate-800/80 px-2 py-0.5 rounded-full bg-black/10 border border-black/15 shadow-inner mt-0.5 tracking-wider hidden sm:inline-block">[X / →]</span>
+          <div class="pump-col">
+            <div class="pump-well">
+              <button id="btnPumpRight" class="pump-button" type="button" aria-label="Bomba Direita">
+                <i class="fas fa-arrow-up" style="font-size: 1.05rem;"></i>
+                <span style="font-size: 0.58rem; font-weight: 800; letter-spacing: 0.08em;" data-i18n="rightShort">DIR</span>
+              </button>
+            </div>
+            <span class="pump-label" data-i18n="jetRight">JATO DIR</span>
+            <span class="kbd-chip">[X / →]</span>
           </div>
         </div>
 
-      </div>
-
-      <!-- Indicador do Giroscópio Vintage (Sempre Ativo com Sensor Físico 360°) -->
-      <div id="tiltSupportArea" class="mt-3 text-center flex items-center justify-center">
-        <div id="tiltStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/20 border border-emerald-500/40 text-emerald-950 font-black text-[10px] shadow-sm select-none">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <i class="fas fa-compass text-emerald-800"></i>
-          <span id="tiltBadgeText" class="tracking-wide">Giroscópio Ativo</span>
+        <div class="sensor-pill-wrap">
+          <div class="sensor-pill">
+            <span class="sensor-dot"></span>
+            <i class="fas fa-compass"></i>
+            <span id="sensorText" data-i18n="sensorReady">Giroscópio 360° &amp; Inclinação [Q/E]</span>
+          </div>
         </div>
-      </div>
+      </main>
+      <div class="toy-contact-shadow"></div>
+    </div>
 
-    </main>
-
-    <!-- Instruções Rápidas no Rodapé -->
-    <footer class="mt-3 text-center text-white/50 text-xs max-w-sm px-2">
-      <p>💡 <strong>Dica Vintage:</strong> Use as bombas esquerda e direita com toques curtos ou alternados para controlar a turbulência d'água!</p>
-      <div class="mt-2 text-[11px] text-white/40">
-        © 2026 <strong>4U.IA.BR</strong> • AquaPlay Nostalgia Deluxe
+    <footer>
+      <p data-i18n="tip">💡 <strong>Dica Realista:</strong> Dê toques rítmicos nas bombas para gerar pulsos de pressão e vórtices na água. Arraste a carcaça ou use <strong>Q / E</strong> para inclinar!</p>
+      <div style="margin-top: 6px;">
+        © 2026 <a href="https://4u.ia.br/" target="_blank" rel="noopener">4U.IA.BR</a> •
+        <a href="https://4u.ia.br/loja/" target="_blank" rel="noopener" data-i18n="storeLink">Loja de Apps</a> •
+        <a href="https://github.com/4u-Labs/aquaplay" target="_blank" rel="noopener">GitHub</a>
       </div>
     </footer>
-
   </div>
 
-  <!-- Toast Notifier no Rodapé -->
+  <!-- Toast -->
   <div id="toast" class="toast-box hidden">
-    <i class="fas fa-water text-cyan-400 text-lg"></i>
-    <span id="toastMsg">Mensagem</span>
+    <i class="fas fa-droplet" style="color: #38bdf8;"></i>
+    <span id="toastMsg"></span>
   </div>
 
-  <!-- Modal de Vitória com Confetes -->
-  <div id="winModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-[9999] flex items-center justify-center p-4">
-    <div class="w-full max-w-sm rounded-3xl bg-slate-900 border-2 border-amber-400 p-6 text-center shadow-[0_25px_80px_rgba(0,0,0,0.9)] animate-bounce-in">
-      <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-400 flex items-center justify-center mx-auto text-3xl mb-3">
-        🏆
-      </div>
-      <h2 class="text-xl font-black text-white mb-1">PARABÉNS! VITÓRIA!</h2>
-      <p class="text-xs text-white/70 mb-4" id="winModalDesc">Você completou o desafio aquático com maestria!</p>
-
-      <div class="bg-white/5 border border-white/10 rounded-2xl p-3 mb-5 flex items-center justify-around">
+  <!-- Mode Selector Modal -->
+  <div id="modeModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-head">
         <div>
-          <span class="text-[10px] text-white/60 block uppercase font-bold">Tempo</span>
-          <span id="winTimeDisplay" class="pixel-font text-cyan-400 text-sm font-black">00:45</span>
+          <div style="font-weight: 800; font-size: 0.95rem;" data-i18n="modalModeTitle">MODO DE JOGO</div>
+          <div style="font-family: 'Inter', sans-serif; font-size: 0.72rem; color: #94a3b8;" data-i18n="modalModeSub">Escolha seu desafio clássico</div>
         </div>
-        <div class="w-px h-8 bg-white/10"></div>
+        <button class="modal-close" id="closeModeModal" type="button"><i class="fas fa-xmark"></i></button>
+      </div>
+      <div class="mode-list">
+        <button type="button" class="mode-opt" data-mode="classic2">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="mode-icon">🎯</span>
+            <div>
+              <div class="mode-name" data-i18n="mClassic2">2 Pinos Clássico (1982)</div>
+              <div class="mode-desc" data-i18n="mClassic2D">Empilhe 8 argolas 3D nos 2 pinos cônicos tradicionais</div>
+            </div>
+          </div>
+          <i class="fas fa-circle-check mode-check" style="color: #fbbf24;"></i>
+        </button>
+
+        <button type="button" class="mode-opt" data-mode="rings6">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="mode-icon">🔱</span>
+            <div>
+              <div class="mode-name" data-i18n="mRings6">Pirâmide 6 Pinos</div>
+              <div class="mode-desc" data-i18n="mRings6D">Encaixe 6 argolas em pinos distribuídos em 3 níveis</div>
+            </div>
+          </div>
+          <i class="fas fa-circle-check mode-check hidden" style="color: #fbbf24;"></i>
+        </button>
+
+        <button type="button" class="mode-opt" data-mode="color">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="mode-icon">🌈</span>
+            <div>
+              <div class="mode-name" data-i18n="mColor">Desafio das Cores</div>
+              <div class="mode-desc" data-i18n="mColorD">Encaixe cada argola no pino da mesma cor (3 pinos)</div>
+            </div>
+          </div>
+          <i class="fas fa-circle-check mode-check hidden" style="color: #fbbf24;"></i>
+        </button>
+
+        <button type="button" class="mode-opt" data-mode="basket">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="mode-icon">🏀</span>
+            <div>
+              <div class="mode-name" data-i18n="mBasket">Basquete Aquático</div>
+              <div class="mode-desc" data-i18n="mBasketD">Aros com colisão real, tabela e redes animadas (6 bolas)</div>
+            </div>
+          </div>
+          <i class="fas fa-circle-check mode-check hidden" style="color: #fbbf24;"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Victory Modal -->
+  <div id="winModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-card" style="text-align: center;">
+      <div style="font-size: 2.6rem; margin-bottom: 6px;">🏆</div>
+      <h2 style="font-size: 1.25rem; font-weight: 800;" data-i18n="winTitle">VITÓRIA NO AQUAPLAY!</h2>
+      <p id="winDesc" style="font-family: 'Inter', sans-serif; font-size: 0.78rem; color: #cbd5e1; margin-top: 4px;"></p>
+      <div class="win-stats">
         <div>
-          <span class="text-[10px] text-white/60 block uppercase font-bold">Recorde</span>
-          <span id="winRecordDisplay" class="pixel-font text-amber-400 text-sm font-black">00:45</span>
+          <div class="lcd-label" data-i18n="time">Tempo</div>
+          <div id="winTime" class="lcd-time" style="font-family: 'JetBrains Mono', monospace; font-size: 1.05rem;">00:00</div>
+        </div>
+        <div style="width:1px; height:32px; background:rgba(255,255,255,0.12);"></div>
+        <div>
+          <div class="lcd-label" data-i18n="record">Recorde</div>
+          <div id="winRecord" class="lcd-val" style="font-family: 'JetBrains Mono', monospace; font-size: 1.05rem;">00:00</div>
         </div>
       </div>
-
-      <button id="btnPlayAgain" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 font-black text-sm shadow-lg hover:brightness-110 active:scale-98 transition-all">
-        <i class="fas fa-rotate-right mr-1.5"></i> JOGAR NOVAMENTE
+      <button id="btnPlayAgain" class="btn-win" type="button" data-i18n="playAgain">
+        <i class="fas fa-rotate-right"></i> JOGAR NOVAMENTE
       </button>
     </div>
   </div>
 
-  <!-- Modal Card de Escolha de Modo (100% Centralizado na Tela, Totalmente Visível, Sem Cortes) -->
-  <div id="modeDropdownMenu" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md transition-all duration-200">
-    <div id="modeModalCard" class="relative w-full max-w-sm rounded-3xl bg-slate-900 border-2 border-cyan-400 p-5 shadow-[0_25px_80px_rgba(0,0,0,0.95),0_0_35px_rgba(6,182,212,0.5)] animate-bounce-in">
-      
-      <!-- Cabeçalho do Card -->
-      <div class="flex items-center justify-between pb-3 mb-4 border-b border-cyan-500/20">
-        <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-lg border border-cyan-400/40 shadow-sm">
-            <i class="fas fa-gamepad"></i>
-          </div>
-          <div>
-            <h3 class="font-black text-sm text-white tracking-wide">MODALIDADE DE JOGO</h3>
-            <p class="text-[10px] text-cyan-300/80 font-medium">Escolha seu desafio vintage</p>
-          </div>
-        </div>
-        <button id="btnCloseModeModal" type="button" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-white/80 flex items-center justify-center text-sm transition-all cursor-pointer" title="Fechar">
-          <i class="fas fa-xmark"></i>
-        </button>
+  <!-- 4u-Labs Ecosystem Modal (14+ Official Links) -->
+  <div id="ecoModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-card" style="max-width: 560px;">
+      <div class="modal-head">
+        <strong style="font-size: 0.92rem;" data-i18n="ecoTitle">🚀 4u-Labs — Aplicativos, suporte e comunidade</strong>
+        <button class="modal-close" id="closeEcoModal" type="button"><i class="fas fa-xmark"></i></button>
       </div>
-
-      <!-- Opções de Jogo -->
-      <div class="flex flex-col gap-3">
-        <!-- Opção 1: Argolas -->
-        <button type="button" data-mode="rings" class="mode-item w-full flex items-center justify-between p-3.5 rounded-2xl transition-all text-left bg-cyan-950/40 hover:bg-cyan-900/50 border-2 border-cyan-500/40 hover:border-cyan-400 active:scale-98 cursor-pointer shadow-md">
-          <div class="flex items-center gap-3">
-            <span class="w-11 h-11 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-2xl shadow-inner border border-cyan-400/30">🎯</span>
-            <div>
-              <div class="text-sm font-black text-white">Argolas Clássicas</div>
-              <div class="text-[11px] text-white/60 leading-tight mt-0.5">Encaixe todas as 6 argolas nas hastes submarinas</div>
-            </div>
-          </div>
-          <i class="fas fa-circle-check text-cyan-400 text-xl check-rings shrink-0 ml-2"></i>
-        </button>
-
-        <!-- Opção 2: Basquete -->
-        <button type="button" data-mode="basket" class="mode-item w-full flex items-center justify-between p-3.5 rounded-2xl transition-all text-left bg-amber-950/40 hover:bg-amber-900/50 border-2 border-amber-500/40 hover:border-amber-400 active:scale-98 cursor-pointer shadow-md">
-          <div class="flex items-center gap-3">
-            <span class="w-11 h-11 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold text-2xl shadow-inner border border-amber-400/30">🏀</span>
-            <div>
-              <div class="text-sm font-black text-white">Basquete Aquático</div>
-              <div class="text-[11px] text-white/60 leading-tight mt-0.5">Enceste as bolas nos cestos flutuantes</div>
-            </div>
-          </div>
-          <i class="fas fa-circle-check text-amber-400 text-xl hidden check-basket shrink-0 ml-2"></i>
-        </button>
+      <div class="eco-grid">
+        <a href="https://4u.ia.br/" target="_blank" rel="noopener">🌐 Portal 4U</a>
+        <a href="https://4u.ia.br/loja/index.php" target="_blank" rel="noopener">🛒 Loja de Apps</a>
+        <a href="https://4u.ia.br/suporte.html" target="_blank" rel="noopener">🛟 Central de Ajuda</a>
+        <a href="https://4u.ia.br/sobre.html" target="_blank" rel="noopener">ℹ️ Sobre 4U</a>
+        <a href="https://4u.ia.br/termos.html" target="_blank" rel="noopener">📄 Termos</a>
+        <a href="https://4u.ia.br/politica.html" target="_blank" rel="noopener">🔒 Privacidade</a>
+        <a href="https://github.com/4u-Labs" target="_blank" rel="noopener">💻 GitHub 4u-Labs</a>
+        <a href="https://4u-labs.github.io/" target="_blank" rel="noopener">📝 Blog Dev</a>
+        <a href="https://alternativeto.net/user/4u-ia-br/added/" target="_blank" rel="noopener">⭐ AlternativeTo</a>
+        <a href="https://www.youtube.com/@fbr4g4" target="_blank" rel="noopener">▶️ YouTube</a>
+        <a href="https://www.instagram.com/fbr4g4/" target="_blank" rel="noopener">📸 Instagram</a>
+        <a href="https://www.facebook.com/fbr4g4/" target="_blank" rel="noopener">📘 Facebook</a>
+        <a href="https://x.com/fbr4g4" target="_blank" rel="noopener">🐦 X / Twitter</a>
+        <a href="https://www.linkedin.com/in/fbr4g4/" target="_blank" rel="noopener">💼 LinkedIn</a>
+        <a href="https://www.paypal.com/ncp/payment/L7YRCS984T33N" target="_blank" rel="noopener">☕ Apoiar via PayPal</a>
       </div>
-
     </div>
   </div>
 
-  <!-- ================= SCRIPTS & GAME ENGINE ================= -->
   <script>
-    // Vibração segura compatível com políticas de ativação do navegador
+  (() => {
+    'use strict';
+
+    // ==================== I18N (PT-BR / EN) ====================
+    const I18N = {
+      pt: {
+        subtitle: 'Clássico 1982 • Física Real',
+        pts: 'Pontos',
+        best: 'Rec.',
+        leftShort: 'ESQ',
+        rightShort: 'DIR',
+        jetLeft: 'JATO ESQ',
+        jetRight: 'JATO DIR',
+        shake: 'AGITAR',
+        sensorReady: 'Giroscópio 360° & Inclinação [Q/E]',
+        tip: '💡 Dica Realista: Dê toques rítmicos nas bombas para criar pulsos de pressão e vórtices. Arraste a carcaça ou use Q / E para inclinar!',
+        storeLink: 'Loja de Apps',
+        modalModeTitle: 'MODO DE JOGO',
+        modalModeSub: 'Escolha seu desafio clássico',
+        mClassic2: '2 Pinos Clássico (1982)',
+        mClassic2D: 'Empilhe 8 argolas 3D nos 2 pinos cônicos tradicionais',
+        mRings6: 'Pirâmide 6 Pinos',
+        mRings6D: 'Encaixe 6 argolas em pinos distribuídos em 3 níveis',
+        mColor: 'Desafio das Cores',
+        mColorD: 'Encaixe cada argola no pino da mesma cor (3 pinos)',
+        mBasket: 'Basquete Aquático',
+        mBasketD: 'Aros com colisão real, tabela e redes animadas (6 bolas)',
+        winTitle: 'VITÓRIA NO AQUAPLAY!',
+        time: 'Tempo',
+        record: 'Recorde',
+        playAgain: 'JOGAR NOVAMENTE',
+        ecoTitle: '🚀 4u-Labs — Aplicativos, suporte e comunidade',
+        winNewRecord: '🎉 NOVO RECORDE PESSOAL! Precisão hidráulica impecável!',
+        winRegular: 'Você dominou a turbulência da água com maestria!',
+        modeNames: { classic2: '2 Pinos 1982', rings6: 'Pirâmide 6', color: 'Cores', basket: 'Basquete' },
+        backdropNames: { coral: 'RECIFE TROPICAL', submarine: 'SUBMARINO 1982', court: 'QUADRA RETRÔ', abyss: 'ABISMO NEON' },
+        themeNames: { yellow: 'Amarelo Estrela', blue: 'Azul Oceano', red: 'Vermelho Tomy', teal: 'Turquesa 90s' },
+        toastAudioOn: 'Áudio submerso ativado',
+        toastAudioOff: 'Áudio desativado',
+        toastWrongColor: 'Cor diferente! Use o jato para soltar e encaixar no pino certo.'
+      },
+      en: {
+        subtitle: '1982 Classic • Real Fluid Physics',
+        pts: 'Score',
+        best: 'Best',
+        leftShort: 'LEFT',
+        rightShort: 'RIGHT',
+        jetLeft: 'LEFT JET',
+        jetRight: 'RIGHT JET',
+        shake: 'SHAKE',
+        sensorReady: '360° Gyro & Desktop Tilt [Q/E]',
+        tip: '💡 Realistic Tip: Tap pumps rhythmically for crisp pressure bursts & water vortices. Drag the shell or press Q / E to tilt!',
+        storeLink: 'App Store',
+        modalModeTitle: 'GAME MODE',
+        modalModeSub: 'Choose your vintage water challenge',
+        mClassic2: 'Classic 2-Peg (1982)',
+        mClassic2D: 'Stack 8 tumbling 3D rings onto 2 classic tapered pegs',
+        mRings6: '6-Peg Pyramid',
+        mRings6D: 'Thread 6 rings onto 6 pegs across 3 depth tiers',
+        mColor: 'Color Match',
+        mColorD: 'Match each ring to its color-coded peg (3 pegs)',
+        mBasket: 'Aqua Basketball',
+        mBasketD: 'Real rim-bounce physics, backboards & swinging nets (6 balls)',
+        winTitle: 'AQUAPLAY VICTORY!',
+        time: 'Time',
+        record: 'Best',
+        playAgain: 'PLAY AGAIN',
+        ecoTitle: '🚀 4u-Labs — Apps, support and community',
+        winNewRecord: '🎉 NEW PERSONAL RECORD! Master of water currents!',
+        winRegular: 'You mastered the underwater turbulence!',
+        modeNames: { classic2: 'Classic 2-Peg', rings6: '6-Peg Pyramid', color: 'Color Match', basket: 'Basketball' },
+        backdropNames: { coral: 'TROPICAL REEF', submarine: '1982 SUBMARINE', court: 'RETRO COURT', abyss: 'NEON ABYSS' },
+        themeNames: { yellow: 'Estrela Yellow', blue: 'Ocean Blue', red: 'Tomy Red', teal: '90s Teal' },
+        toastAudioOn: 'Submerged audio enabled',
+        toastAudioOff: 'Audio muted',
+        toastWrongColor: 'Color mismatch! Jet it off and match the peg color.'
+      }
+    };
+
     function safeVibrate(pattern) {
       try {
-        if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
-          if (navigator.userActivation && !navigator.userActivation.hasBeenActive) {
-            return;
-          }
+        if (navigator && 'vibrate' in navigator) {
+          if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
           navigator.vibrate(pattern);
         }
-      } catch (e) {}
+      } catch (_) {}
     }
 
-    // ===== SINTETIZADOR DE ÁUDIO NATIVO (WEB AUDIO API) =====
-    class AquaAudioSynth {
+    // ==================== PROCEDURAL SUBMERGED WEB AUDIO ====================
+    class SubmergedAudio {
       constructor() {
         this.ctx = null;
+        this.noiseBuf = null;
         this.muted = localStorage.getItem('aquaplay_muted') === 'true';
-        this.bubbleNoiseNode = null;
-        this.bubbleGainNode = null;
+        this.lastTapTime = 0;
       }
 
-      init() {
+      ensure() {
+        if (this.muted) return false;
         if (!this.ctx) {
-          const AudioContext = window.AudioContext || window.webkitAudioContext;
-          if (AudioContext) {
-            this.ctx = new AudioContext();
-          }
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return false;
+          this.ctx = new AC();
         }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume().catch(() => {});
+        }
+        if (!this.noiseBuf && this.ctx) {
+          const len = Math.floor(this.ctx.sampleRate * 0.6);
+          const buf = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
+          const data = buf.getChannelData(0);
+          for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
+          this.noiseBuf = buf;
+        }
+        return !!this.ctx;
       }
 
       toggle() {
         this.muted = !this.muted;
-        localStorage.setItem('aquaplay_muted', this.muted);
+        localStorage.setItem('aquaplay_muted', String(this.muted));
         return !this.muted;
       }
 
-      // Som mecânico de compressão da borracha do pistão
-      playPump(side = 'left') {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
-        try {
-          const freq = side === 'left' ? 140 : 165;
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(freq * 0.4, this.ctx.currentTime + 0.12);
-
-          gain.gain.setValueAtTime(0.35, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
-
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.12);
-        } catch (e) {}
+      connectPanned(node, panVal) {
+        if (this.ctx.createStereoPanner) {
+          const p = this.ctx.createStereoPanner();
+          p.pan.value = panVal;
+          node.connect(p);
+          p.connect(this.ctx.destination);
+        } else {
+          node.connect(this.ctx.destination);
+        }
       }
 
-      // Som borbulhante de água ascendente
-      playBubbleSound() {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
+      // Rubber piston thump + pressurized underwater water whoosh
+      playPump(side) {
+        if (!this.ensure()) return;
         try {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          const startF = 350 + Math.random() * 400;
-          const endF = startF + 150 + Math.random() * 200;
+          const t = this.ctx.currentTime;
+          const pan = side === 'left' ? -0.35 : 0.35;
 
+          // 1. Soft rubber membrane thump
+          const osc = this.ctx.createOscillator();
+          const gOsc = this.ctx.createGain();
           osc.type = 'sine';
-          osc.frequency.setValueAtTime(startF, this.ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(endF, this.ctx.currentTime + 0.08);
+          osc.frequency.setValueAtTime(side === 'left' ? 132 : 148, t);
+          osc.frequency.exponentialRampToValueAtTime(44, t + 0.11);
+          gOsc.gain.setValueAtTime(0.32, t);
+          gOsc.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+          osc.connect(gOsc);
+          this.connectPanned(gOsc, pan);
+          osc.start(t);
+          osc.stop(t + 0.13);
 
-          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+          // 2. Bandpass-filtered water surge noise
+          if (this.noiseBuf) {
+            const src = this.ctx.createBufferSource();
+            src.buffer = this.noiseBuf;
+            const bp = this.ctx.createBiquadFilter();
+            bp.type = 'bandpass';
+            bp.frequency.setValueAtTime(420, t);
+            bp.frequency.exponentialRampToValueAtTime(980, t + 0.08);
+            bp.frequency.exponentialRampToValueAtTime(300, t + 0.22);
+            bp.Q.value = 1.6;
 
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.08);
-        } catch (e) {}
+            const gN = this.ctx.createGain();
+            gN.gain.setValueAtTime(0.001, t);
+            gN.gain.linearRampToValueAtTime(0.22, t + 0.03);
+            gN.gain.exponentialRampToValueAtTime(0.001, t + 0.23);
+
+            src.connect(bp);
+            bp.connect(gN);
+            this.connectPanned(gN, pan);
+            src.start(t);
+            src.stop(t + 0.24);
+          }
+        } catch (_) {}
       }
 
-      // Clique suave de plástico submarino (argola bate na haste/parede)
-      playPlink() {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
+      // Minnaert resonance bubble bloop
+      playBubble(radius = 3, pan = 0) {
+        if (!this.ensure()) return;
         try {
+          const t = this.ctx.currentTime;
+          const base = clamp(1200 / Math.max(radius, 1.4), 260, 950) * (0.9 + Math.random() * 0.2);
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
-          const f = 750 + Math.random() * 200;
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(base, t);
+          osc.frequency.exponentialRampToValueAtTime(base * 1.85, t + 0.065);
+          gain.gain.setValueAtTime(0.08, t);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
+          osc.connect(gain);
+          this.connectPanned(gain, pan);
+          osc.start(t);
+          osc.stop(t + 0.075);
+        } catch (_) {}
+      }
 
+      // Muffled underwater plastic clack (low-pass filtered)
+      playPlasticTap(intensity = 0.5, pan = 0) {
+        const now = performance.now();
+        if (now - this.lastTapTime < 45) return;
+        this.lastTapTime = now;
+        if (!this.ensure()) return;
+        try {
+          const t = this.ctx.currentTime;
+          const vol = clamp(intensity * 0.22, 0.03, 0.24);
+          const osc = this.ctx.createOscillator();
+          const lp = this.ctx.createBiquadFilter();
+          const gain = this.ctx.createGain();
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(f, this.ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(f * 1.5, this.ctx.currentTime + 0.05);
-
-          gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.06);
-
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.06);
-        } catch (e) {}
+          const f = 540 + Math.random() * 240;
+          osc.frequency.setValueAtTime(f, t);
+          osc.frequency.exponentialRampToValueAtTime(f * 0.55, t + 0.04);
+          lp.type = 'lowpass';
+          lp.frequency.value = 920;
+          gain.gain.setValueAtTime(vol, t);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.045);
+          osc.connect(lp);
+          lp.connect(gain);
+          this.connectPanned(gain, pan);
+          osc.start(t);
+          osc.stop(t + 0.05);
+        } catch (_) {}
       }
 
-      // Ponto/Encaixe com sucesso
-      playScore() {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
+      playScore(good = true) {
+        if (!this.ensure()) return;
         try {
-          const notes = [523, 659, 784];
-          notes.forEach((freq, idx) => {
+          const t = this.ctx.currentTime;
+          const notes = good ? [587.3, 880, 1174.6] : [330, 277];
+          notes.forEach((f, idx) => {
             const osc = this.ctx.createOscillator();
-            const gain = this.ctx.createGain();
+            const g = this.ctx.createGain();
             osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.07);
-
-            gain.gain.setValueAtTime(0.25, this.ctx.currentTime + idx * 0.07);
-            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.07 + 0.14);
-
-            osc.connect(gain);
-            gain.connect(this.ctx.destination);
-            osc.start(this.ctx.currentTime + idx * 0.07);
-            osc.stop(this.ctx.currentTime + idx * 0.07 + 0.15);
+            osc.frequency.setValueAtTime(f, t + idx * 0.06);
+            g.gain.setValueAtTime(0.18, t + idx * 0.06);
+            g.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.06 + 0.16);
+            osc.connect(g);
+            g.connect(this.ctx.destination);
+            osc.start(t + idx * 0.06);
+            osc.stop(t + idx * 0.06 + 0.18);
           });
-        } catch (e) {}
+        } catch (_) {}
       }
 
-      // Agitação / Chacoalhar
-      playSplash() {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
+      playSlosh() {
+        if (!this.ensure() || !this.noiseBuf) return;
         try {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(120, this.ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.2);
-
-          gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.2);
-
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 0.2);
-        } catch (e) {}
+          const t = this.ctx.currentTime;
+          const src = this.ctx.createBufferSource();
+          src.buffer = this.noiseBuf;
+          const bp = this.ctx.createBiquadFilter();
+          bp.type = 'bandpass';
+          bp.frequency.setValueAtTime(220, t);
+          bp.frequency.linearRampToValueAtTime(520, t + 0.12);
+          bp.frequency.exponentialRampToValueAtTime(160, t + 0.32);
+          bp.Q.value = 1.2;
+          const g = this.ctx.createGain();
+          g.gain.setValueAtTime(0.001, t);
+          g.gain.linearRampToValueAtTime(0.28, t + 0.05);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 0.33);
+          src.connect(bp);
+          bp.connect(g);
+          g.connect(this.ctx.destination);
+          src.start(t);
+          src.stop(t + 0.35);
+        } catch (_) {}
       }
 
-      // Fanfarra vintage de vitória
       playVictory() {
-        if (this.muted) return;
-        this.init();
-        if (!this.ctx) return;
+        if (!this.ensure()) return;
         try {
-          const arpeggio = [440, 554, 659, 880, 1108];
-          arpeggio.forEach((n, i) => {
+          const t = this.ctx.currentTime;
+          [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => {
             const osc = this.ctx.createOscillator();
-            const gain = this.ctx.createGain();
+            const g = this.ctx.createGain();
             osc.type = 'triangle';
-            osc.frequency.setValueAtTime(n, this.ctx.currentTime + i * 0.09);
-
-            gain.gain.setValueAtTime(0.3, this.ctx.currentTime + i * 0.09);
-            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + i * 0.09 + 0.35);
-
-            osc.connect(gain);
-            gain.connect(this.ctx.destination);
-            osc.start(this.ctx.currentTime + i * 0.09);
-            osc.stop(this.ctx.currentTime + i * 0.09 + 0.4);
+            osc.frequency.setValueAtTime(f, t + i * 0.085);
+            g.gain.setValueAtTime(0.22, t + i * 0.085);
+            g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.085 + 0.36);
+            osc.connect(g);
+            g.connect(this.ctx.destination);
+            osc.start(t + i * 0.085);
+            osc.stop(t + i * 0.085 + 0.38);
           });
-        } catch (e) {}
+        } catch (_) {}
       }
     }
 
-    const sound = new AquaAudioSynth();
+    const sound = new SubmergedAudio();
 
-    // ===== FÍSICA E ENGINE DO JOGO =====
+    // ==================== MATH & CANVAS HIDPI ====================
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+    const rand = (min, max) => Math.random() * (max - min) + min;
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    const W = 340;
+    const H = 390;
+    const WATER_TOP = 24;
+    const NOZZLE_L = W * 0.21;
+    const NOZZLE_R = W * 0.79;
+
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
+    let DPR = Math.min(window.devicePixelRatio || 1, 2.5);
 
-    const CONFIG = {
-      gravity: 0.16,
-      buoyancy: 0.024,
-      waterDrag: 0.975,
-      angularDrag: 0.95,
-      jetMaxForce: 2.8,
-      jetRadius: 110,
-      ringRadius: 13,
-      ringInnerRadius: 6.5,
-      basketBallRadius: 10,
-      numRings: 6,
-      numBalls: 6
-    };
+    function setupHiDPI() {
+      DPR = Math.min(window.devicePixelRatio || 1, 2.5);
+      canvas.width = Math.round(W * DPR);
+      canvas.height = Math.round(H * DPR);
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+    setupHiDPI();
+    window.addEventListener('resize', () => { setupHiDPI(); rebuildBackdropCache(); });
 
-    let state = {
-      mode: localStorage.getItem('aquaplay_mode') || 'rings', // 'rings' | 'basket'
-      theme: localStorage.getItem('aquaplay_theme') || 'yellow', // 'yellow' | 'blue' | 'red'
+    // ==================== STATE ====================
+    const THEMES = ['yellow', 'blue', 'red', 'teal'];
+    const BACKDROPS = ['coral', 'submarine', 'court', 'abyss'];
+
+    const state = {
+      lang: localStorage.getItem('aquaplay_lang') || 'pt',
+      mode: localStorage.getItem('aquaplay_mode_v2') || 'classic2',
+      theme: localStorage.getItem('aquaplay_theme') || 'yellow',
+      backdrop: localStorage.getItem('aquaplay_backdrop') || 'coral',
       score: 0,
-      targetScore: 6,
+      targetScore: 8,
       gameWon: false,
       startTime: 0,
       elapsedMs: 0,
       timerActive: false,
-      timerInterval: null,
-      tiltEnabled: true,
+      timerId: null,
+      // 360° gravity + desktop manual tilt
       gravityX: 0,
       gravityY: 1,
-      targetGravityX: 0,
-      targetGravityY: 1,
-      tiltX: 0,
-      tiltY: 0,
-      // Bombas
-      pumpLeftActive: false,
-      pumpRightActive: false,
-      jetForceLeft: 0,
-      jetForceRight: 0,
-      // Objetos físicos
+      gyroX: 0,
+      gyroY: 1,
+      manualTiltX: 0,
+      tiltLeftHeld: false,
+      tiltRightHeld: false,
+      shellPitchRecoil: 0,
+      // Realistic rubber piston pulse + steady residual
+      pumpLHeld: false,
+      pumpRHeld: false,
+      jetL: 0,
+      jetR: 0,
+      pulseL: 0,
+      pulseR: 0,
+      // Entities
       rings: [],
+      pegs: [],
       balls: [],
-      spikes: [],
-      baskets: [],
+      hoops: [],
       bubbles: [],
-      jetParticles: [],
-      dustParticles: [],
-      topAirBubble: { x: 160, y: 16, radius: 24, vx: 0 }
+      motes: [],
+      airPocket: { x: W * 0.5, y: 14, rx: 46, ry: 10, wobble: 0, squash: 0 },
+      staticEdgeBubbles: []
     };
 
-    // Utilidades matemáticas
-    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-    const randomRange = (min, max) => Math.random() * (max - min) + min;
-    const lerp = (a, b, t) => a + (b - a) * t;
-
-    // Toast Notifier
-    let toastTimer = null;
-    function showToast(msg, duration = 2200) {
-      const toast = document.getElementById('toast');
-      document.getElementById('toastMsg').textContent = msg;
-      toast.classList.remove('hidden');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.add('hidden'), duration);
+    // Pre-generate tiny persistent micro-bubbles clinging to acrylic edges
+    for (let i = 0; i < 24; i++) {
+      const side = i % 3;
+      const x = side === 0 ? rand(4, 15) : (side === 1 ? rand(W - 15, W - 4) : rand(20, W - 20));
+      const y = side === 2 ? rand(H - 12, H - 3) : rand(45, H - 25);
+      state.staticEdgeBubbles.push({ x, y, r: rand(1.0, 2.4), a: rand(0.22, 0.45) });
     }
 
-    // ===== CLASSE ARGOLA 3D (RINGS MODE) =====
-    class Ring {
-      constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.vx = randomRange(-1.5, 1.5);
-        this.vy = randomRange(-2, 0);
-        this.radius = CONFIG.ringRadius;
-        this.innerRadius = CONFIG.ringInnerRadius;
-        this.angle = randomRange(0, Math.PI * 2);
-        this.angularVel = randomRange(-0.1, 0.1);
-        this.color = color;
-        this.onSpike = false;
-        this.settling = false;
-        this.spikeIndex = -1;
-        this.stackPos = 0;
-        this.floatPhase = randomRange(0, Math.PI * 2);
-      }
+    // ==================== CLOSED-CHAMBER FLUID VORTEX FIELD ====================
+    function sampleFluidVelocity(x, y) {
+      let fx = 0;
+      let fy = 0;
 
-      update(dt) {
-        if (this.onSpike) {
-          // Virar de ponta cabeça faz a argola escorregar da haste aberta!
-          if (state.gravityY < -0.25) {
-            this.onSpike = false;
-            this.spikeIndex = -1;
-            this.vy = -3.2;
-            this.vx = randomRange(-1.8, 1.8);
-            this.angularVel = randomRange(-0.25, 0.25);
-            state.score = Math.max(0, state.score - 1);
-            updateScoreUI();
-            sound.playPlink();
-            safeVibrate(35);
-          } else {
-            const spike = state.spikes[this.spikeIndex];
-            if (!spike) { this.onSpike = false; return; }
-            const targetY = spike.crotchY - this.stackPos * 10;
-            this.x = lerp(this.x, spike.x, 0.25);
-            this.y = lerp(this.y, targetY, 0.25);
-            this.angle = lerp(this.angle, 0, 0.2);
-            this.vx = this.vy = this.angularVel = 0;
-            return;
-          }
-        }
-
-        if (this.settling) {
-          if (state.gravityY < -0.25) {
-            this.settling = false;
-          } else {
-            const spike = state.spikes[this.spikeIndex];
-            if (!spike) { this.settling = false; return; }
-            const targetY = spike.crotchY - this.stackPos * 10;
-            this.x = lerp(this.x, spike.x, 0.15);
-            this.y = lerp(this.y, targetY, 0.15);
-            this.angle = lerp(this.angle, 0, 0.15);
-            this.vx *= 0.5; this.vy *= 0.5;
-            if (Math.abs(this.x - spike.x) < 0.6 && Math.abs(this.y - targetY) < 0.6) {
-              this.x = spike.x; this.y = targetY;
-              this.settling = false;
-              this.onSpike = true;
-              state.score++;
-              updateScoreUI();
-              sound.playScore();
-              safeVibrate([30, 20, 30]);
-              checkVictory();
-            }
-            return;
-          }
-        }
-
-        // Gravidade e flutuabilidade dinâmicas 360° (Giroscópio real com inclinação e ponta-cabeça)
-        const depthFactor = this.y / canvas.height;
-        const gForce = CONFIG.gravity;
-        const bForce = CONFIG.buoyancy * (1 - depthFactor * 0.4);
-
-        // A gravidade puxa no vetor real (gravityX, gravityY)
-        // A flutuabilidade age sempre na direção oposta da gravidade aparente
-        this.vx += state.gravityX * (gForce - bForce * 0.35);
-        this.vy += state.gravityY * gForce - (state.gravityY > 0 ? bForce : -bForce * 0.6);
-
-        // Oscilação suave na água
-        this.floatPhase += 0.035;
-        this.vx += Math.sin(this.floatPhase) * 0.015;
-
-        // Jato Esquerdo
-        if (state.jetForceLeft > 0.05) {
-          this.applyJet(canvas.width * 0.25, state.jetForceLeft, 1);
-        }
-        // Jato Direito
-        if (state.jetForceRight > 0.05) {
-          this.applyJet(canvas.width * 0.75, state.jetForceRight, -1);
-        }
-
-        // Resistência da água
-        this.vx *= CONFIG.waterDrag;
-        this.vy *= CONFIG.waterDrag;
-        this.angularVel *= CONFIG.angularDrag;
-
-        // Movimento
-        this.x += this.vx * dt;
-        this.y += this.vy * dt;
-        this.angle += this.angularVel * dt;
-
-        this.vx = clamp(this.vx, -14, 14);
-        this.vy = clamp(this.vy, -16, 16);
-
-        this.handleWalls();
-      }
-
-      applyJet(jetX, force, swirlDirection) {
-        const dx = this.x - jetX;
+      // Left nozzle drives upward plume on left, arching rightward near top, returning down right/center
+      if (state.jetL > 0.02) {
+        const s = state.jetL;
+        const dx = x - NOZZLE_L;
         const distX = Math.abs(dx);
-        if (distX < CONFIG.jetRadius && this.y > 26) {
-          const horizFactor = Math.pow(1 - distX / CONFIG.jetRadius, 0.6);
-          const vertFactor = 0.3 + 0.7 * Math.pow(this.y / canvas.height, 0.65);
-          const effectiveForce = force * horizFactor * vertFactor;
-
-          // Impulso vertical potente e direto para cima
-          this.vy -= effectiveForce * 1.55;
-
-          // Dispersão cônica e redemoinho suave para o centro
-          const coneDispersion = (dx / CONFIG.jetRadius) * effectiveForce * 0.35;
-          const swirlPush = swirlDirection * effectiveForce * 0.35;
-          this.vx += coneDispersion + swirlPush + randomRange(-0.08, 0.08) * effectiveForce;
-          this.angularVel += (swirlDirection * 0.003 - dx * 0.0015) * effectiveForce;
+        const jetW = 92;
+        if (distX < jetW) {
+          const hx = Math.pow(1 - distX / jetW, 1.35);
+          const vyFactor = 0.35 + 0.65 * Math.pow(clamp(y / H, 0, 1), 0.55);
+          fy -= s * 1.42 * hx * vyFactor;
+          fx += s * (dx / jetW) * 0.32 * hx;
         }
+        // Closed-chamber vortex circulation centered around (0.42*W, 0.44*H)
+        const vxC = x - W * 0.44;
+        const vyC = y - H * 0.44;
+        const dC = Math.hypot(vxC, vyC) + 34;
+        const swirl = (s * 24) / dC;
+        // Clockwise circulation: up on left, right at top, down on right, left at bottom
+        fx += (-vyC / dC) * swirl * 0.44;
+        fy += (vxC / dC) * swirl * 0.32;
       }
 
-      handleWalls() {
-        const bounce = 0.35;
-        // Chão
-        if (this.y + this.radius > canvas.height) {
-          this.y = canvas.height - this.radius;
-          if (Math.abs(this.vy) > 1.2) sound.playPlink();
-          this.vy *= -bounce;
-          this.vx *= 0.7;
+      // Right nozzle mirrors: upward plume on right, arching leftward near top, counter-clockwise circulation
+      if (state.jetR > 0.02) {
+        const s = state.jetR;
+        const dx = x - NOZZLE_R;
+        const distX = Math.abs(dx);
+        const jetW = 92;
+        if (distX < jetW) {
+          const hx = Math.pow(1 - distX / jetW, 1.35);
+          const vyFactor = 0.35 + 0.65 * Math.pow(clamp(y / H, 0, 1), 0.55);
+          fy -= s * 1.42 * hx * vyFactor;
+          fx += s * (dx / jetW) * 0.32 * hx;
         }
-        // Teto (abaixo da bolha de ar)
-        if (this.y - this.radius < 26) {
-          this.y = 26 + this.radius;
-          this.vy *= -bounce * 0.5;
-        }
-        // Paredes
-        if (this.x + this.radius > canvas.width) {
-          this.x = canvas.width - this.radius;
-          if (Math.abs(this.vx) > 1.2) sound.playPlink();
-          this.vx *= -bounce;
-        }
-        if (this.x - this.radius < 0) {
-          this.x = this.radius;
-          if (Math.abs(this.vx) > 1.2) sound.playPlink();
-          this.vx *= -bounce;
-        }
+        const vxC = x - W * 0.56;
+        const vyC = y - H * 0.44;
+        const dC = Math.hypot(vxC, vyC) + 34;
+        const swirl = (s * 24) / dC;
+        // Counter-clockwise: up on right, left at top, down on left, right at bottom
+        fx += (vyC / dC) * swirl * 0.44;
+        fy += (-vxC / dC) * swirl * 0.32;
       }
 
-      draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
+      return { fx, fy };
+    }
 
-        // Sombra suave na água
-        ctx.beginPath();
-        ctx.arc(2, 3, this.radius, 0, Math.PI * 2);
-        ctx.arc(2, 3, this.innerRadius, 0, Math.PI * 2, true);
-        ctx.fillStyle = 'rgba(0, 20, 50, 0.25)';
-        ctx.fill();
+    // ==================== VINTAGE PRINTED BACKDROP CARD CACHE ====================
+    const bgCanvas = document.createElement('canvas');
+    const bgCtx = bgCanvas.getContext('2d');
+    const BG_PAD = 18;
 
-        // Corpo toróide 3D
-        const grad = ctx.createRadialGradient(
-          -this.radius * 0.3, -this.radius * 0.3, 0,
-          0, 0, this.radius * 1.2
-        );
-        grad.addColorStop(0, '#ffffff');
-        grad.addColorStop(0.3, this.color);
-        grad.addColorStop(1, '#0f172a');
+    function rebuildBackdropCache() {
+      const bw = W + BG_PAD * 2;
+      const bh = H + BG_PAD * 2;
+      bgCanvas.width = Math.round(bw * DPR);
+      bgCanvas.height = Math.round(bh * DPR);
+      bgCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      const c = bgCtx;
 
-        ctx.beginPath();
-        ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
-        ctx.arc(0, 0, this.innerRadius, 0, Math.PI * 2, true);
-        ctx.fillStyle = grad;
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(255,255,255,0.4)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
+      if (state.backdrop === 'coral') {
+        const g = c.createLinearGradient(0, 0, 0, bh);
+        g.addColorStop(0, '#7dd3fc');
+        g.addColorStop(0.28, '#22d3ee');
+        g.addColorStop(0.68, '#0284c7');
+        g.addColorStop(1, '#0c4a6e');
+        c.fillStyle = g;
+        c.fillRect(0, 0, bw, bh);
 
-        // Furo da argola (revela fundo d'água com profundidade)
-        ctx.beginPath();
-        ctx.arc(0, 0, this.innerRadius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(14, 116, 144, 0.3)';
-        ctx.fill();
+        // Distant reef silhouettes (80s lithograph vibe)
+        c.fillStyle = 'rgba(7, 89, 133, 0.42)';
+        c.beginPath();
+        c.moveTo(0, bh - 75);
+        c.quadraticCurveTo(bw * 0.25, bh - 145, bw * 0.5, bh - 95);
+        c.quadraticCurveTo(bw * 0.78, bh - 155, bw, bh - 80);
+        c.lineTo(bw, bh); c.lineTo(0, bh); c.closePath(); c.fill();
 
-        ctx.restore();
+        // Retro dolphin silhouette jumping in mid-background
+        c.save();
+        c.translate(bw * 0.68, bh * 0.36);
+        c.rotate(-0.18);
+        c.fillStyle = 'rgba(224, 242, 254, 0.26)';
+        c.beginPath();
+        c.ellipse(0, 0, 26, 9, 0, 0, Math.PI * 2);
+        c.fill();
+        c.beginPath();
+        c.moveTo(22, 0); c.lineTo(34, -8); c.lineTo(31, 7); c.closePath(); c.fill();
+        c.beginPath();
+        c.moveTo(-4, -7); c.lineTo(4, -17); c.lineTo(9, -6); c.closePath(); c.fill();
+        c.restore();
+
+        // Vintage tropical fish trio
+        const drawFish = (fx, fy, sc, col, flip = 1) => {
+          c.save();
+          c.translate(fx, fy);
+          c.scale(flip * sc, sc);
+          c.fillStyle = col;
+          c.beginPath();
+          c.ellipse(0, 0, 12, 6.5, 0, 0, Math.PI * 2);
+          c.fill();
+          c.beginPath();
+          c.moveTo(-10, 0); c.lineTo(-18, -6); c.lineTo(-18, 6); c.closePath(); c.fill();
+          c.fillStyle = 'rgba(255,255,255,0.75)';
+          c.beginPath(); c.arc(6, -1.5, 1.5, 0, Math.PI * 2); c.fill();
+          c.restore();
+        };
+        drawFish(bw * 0.24, bh * 0.28, 1.0, 'rgba(251, 191, 36, 0.42)', 1);
+        drawFish(bw * 0.33, bh * 0.34, 0.75, 'rgba(251, 146, 60, 0.38)', 1);
+        drawFish(bw * 0.78, bh * 0.56, 0.9, 'rgba(244, 114, 182, 0.36)', -1);
+
+        // Sandy seafloor with vintage warm coral domes
+        const sand = c.createLinearGradient(0, bh - 70, 0, bh);
+        sand.addColorStop(0, '#fcd34d');
+        sand.addColorStop(0.55, '#d97706');
+        sand.addColorStop(1, '#92400e');
+        c.fillStyle = sand;
+        c.beginPath();
+        c.moveTo(0, bh - 38);
+        c.quadraticCurveTo(bw * 0.3, bh - 56, bw * 0.55, bh - 40);
+        c.quadraticCurveTo(bw * 0.82, bh - 26, bw, bh - 46);
+        c.lineTo(bw, bh); c.lineTo(0, bh); c.closePath(); c.fill();
+
+        // Coral branches left & right
+        const drawCoral = (cx, cy, col) => {
+          c.strokeStyle = col; c.lineCap = 'round'; c.lineWidth = 6;
+          c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx, cy - 28);
+          c.moveTo(cx, cy - 12); c.lineTo(cx - 12, cy - 24);
+          c.moveTo(cx, cy - 18); c.lineTo(cx + 12, cy - 30);
+          c.stroke();
+        };
+        drawCoral(38, bh - 34, 'rgba(244, 63, 94, 0.55)');
+        drawCoral(bw - 42, bh - 34, 'rgba(251, 113, 133, 0.5)');
+        drawCoral(bw - 70, bh - 30, 'rgba(168, 85, 247, 0.42)');
+      } else if (state.backdrop === 'submarine') {
+        const g = c.createLinearGradient(0, 0, 0, bh);
+        g.addColorStop(0, '#38bdf8');
+        g.addColorStop(0.35, '#0369a1');
+        g.addColorStop(0.75, '#1e3a8a');
+        g.addColorStop(1, '#0f172a');
+        c.fillStyle = g;
+        c.fillRect(0, 0, bw, bh);
+
+        // Classic Yellow Submarine silhouette
+        c.save();
+        c.translate(bw * 0.52, bh * 0.32);
+        c.fillStyle = 'rgba(250, 204, 21, 0.35)';
+        c.beginPath(); c.ellipse(0, 0, 44, 17, 0, 0, Math.PI * 2); c.fill();
+        c.fillRect(-10, -28, 20, 14);
+        c.fillRect(-2, -38, 4, 12);
+        c.fillRect(-2, -38, 12, 4);
+        c.fillStyle = 'rgba(186, 230, 253, 0.55)';
+        [-20, 0, 20].forEach(px => { c.beginPath(); c.arc(px, 0, 5, 0, Math.PI * 2); c.fill(); });
+        c.restore();
+
+        // Ocean floor & treasure chest silhouette
+        c.fillStyle = 'rgba(15, 23, 42, 0.65)';
+        c.beginPath();
+        c.moveTo(0, bh - 45);
+        c.quadraticCurveTo(bw * 0.5, bh - 70, bw, bh - 40);
+        c.lineTo(bw, bh); c.lineTo(0, bh); c.closePath(); c.fill();
+
+        c.fillStyle = 'rgba(180, 83, 9, 0.55)';
+        c.fillRect(bw * 0.72, bh - 62, 34, 20);
+        c.fillStyle = 'rgba(250, 204, 21, 0.55)';
+        c.fillRect(bw * 0.72, bh - 65, 34, 5);
+      } else if (state.backdrop === 'court') {
+        const g = c.createLinearGradient(0, 0, 0, bh);
+        g.addColorStop(0, '#0ea5e9');
+        g.addColorStop(0.45, '#0369a1');
+        g.addColorStop(0.82, '#1e3a5f');
+        g.addColorStop(1, '#78350f');
+        c.fillStyle = g;
+        c.fillRect(0, 0, bw, bh);
+
+        // Stadium upper bleachers & floodlight halos
+        for (let i = 0; i < 4; i++) {
+          const lx = bw * (0.18 + i * 0.21);
+          const lg = c.createRadialGradient(lx, 46, 2, lx, 46, 56);
+          lg.addColorStop(0, 'rgba(254, 249, 195, 0.45)');
+          lg.addColorStop(1, 'transparent');
+          c.fillStyle = lg;
+          c.fillRect(lx - 56, 0, 112, 110);
+        }
+
+        // Perspective retro hardwood floor at bottom
+        c.fillStyle = 'rgba(217, 119, 6, 0.48)';
+        c.fillRect(0, bh - 62, bw, 62);
+        c.strokeStyle = 'rgba(255, 255, 255, 0.28)';
+        c.lineWidth = 1.5;
+        c.beginPath();
+        c.moveTo(0, bh - 62); c.lineTo(bw, bh - 62);
+        c.ellipse(bw * 0.5, bh - 34, 62, 16, 0, 0, Math.PI * 2);
+        c.stroke();
+      } else {
+        // Abyss Bioluminescent
+        const g = c.createLinearGradient(0, 0, 0, bh);
+        g.addColorStop(0, '#1e3a8a');
+        g.addColorStop(0.45, '#1e1b4b');
+        g.addColorStop(0.85, '#0f172a');
+        g.addColorStop(1, '#020617');
+        c.fillStyle = g;
+        c.fillRect(0, 0, bw, bh);
+
+        // Soft glowing jellyfish silhouettes
+        const drawJelly = (jx, jy, r, col) => {
+          c.save();
+          const jg = c.createRadialGradient(jx, jy, 2, jx, jy, r * 2.2);
+          jg.addColorStop(0, col);
+          jg.addColorStop(1, 'transparent');
+          c.fillStyle = jg;
+          c.beginPath(); c.arc(jx, jy, r * 2.2, 0, Math.PI * 2); c.fill();
+          c.fillStyle = col;
+          c.beginPath(); c.arc(jx, jy, r, Math.PI, 0); c.fill();
+          c.strokeStyle = col; c.lineWidth = 1.4;
+          for (let k = -2; k <= 2; k++) {
+            c.beginPath();
+            c.moveTo(jx + k * (r * 0.32), jy);
+            c.quadraticCurveTo(jx + k * (r * 0.4) + 4, jy + r * 0.9, jx + k * (r * 0.25), jy + r * 1.9);
+            c.stroke();
+          }
+          c.restore();
+        };
+        drawJelly(bw * 0.24, bh * 0.34, 15, 'rgba(34, 211, 238, 0.35)');
+        drawJelly(bw * 0.76, bh * 0.48, 12, 'rgba(192, 132, 252, 0.35)');
+      }
+
+      // Vintage halftone print texture subtle overlay
+      c.fillStyle = 'rgba(255, 255, 255, 0.025)';
+      for (let y = 0; y < bh; y += 6) {
+        c.fillRect(0, y, bw, 1);
       }
     }
 
-    // ===== CLASSE HASTE (SPIKE) =====
-    class Spike {
-      constructor(x, y, color = '#e2e8f0') {
+    // ==================== ENTITIES ====================
+    class Peg {
+      constructor(x, baseY, height, color = '#f8fafc', colorKey = null, maxRings = 4, anchoredBottom = false) {
         this.x = x;
-        this.yBase = y;
-        this.height = 38;
-        this.crotchY = y - this.height * 0.55;
-        this.armLength = 15;
-        this.armAngle = Math.PI / 4.2;
+        this.baseY = baseY;
+        this.height = height;
+        this.tipY = baseY - height;
+        this.baseRadius = 5.5;
+        this.tipRadius = 2.6;
         this.color = color;
+        this.colorKey = colorKey;
+        this.maxRings = maxRings;
+        this.anchoredBottom = anchoredBottom;
         this.rings = [];
       }
 
-      checkLanding(ring) {
-        if (ring.onSpike || ring.settling || this.rings.length >= 1) return false;
-        const dx = Math.abs(ring.x - this.x);
-        const openingWidth = this.armLength * Math.sin(this.armAngle) * 0.9;
-        if (dx > openingWidth - ring.innerRadius * 0.2) return false;
-
-        const ringBottom = ring.y + ring.radius;
-        const inRange = ringBottom > this.crotchY - ring.radius * 0.5 && ringBottom < this.crotchY + ring.radius * 0.7;
-        if (!inRange) return false;
-        if (ring.vy < 0.05) return false; // deve estar caindo
-
-        let angle = ring.angle % (Math.PI * 2);
-        if (angle > Math.PI) angle -= Math.PI * 2;
-        if (Math.abs(angle) > Math.PI / 1.6) return false;
-
-        const speed = Math.hypot(ring.vx, ring.vy);
-        if (speed > 8) return false;
-        return true;
+      shaftRadiusAt(y) {
+        const t = clamp((y - this.tipY) / this.height, 0, 1);
+        return lerp(this.tipRadius, this.baseRadius, t);
       }
 
-      addRing(ring) {
-        if (!this.rings.includes(ring)) {
-          this.rings.push(ring);
-          ring.stackPos = this.rings.length - 1;
-          ring.spikeIndex = state.spikes.indexOf(this);
-          ring.settling = true;
-        }
-      }
-
-      draw() {
-        const armEndY = this.crotchY - this.armLength * Math.cos(this.armAngle);
-        const leftArmX = this.x - this.armLength * Math.sin(this.armAngle);
-        const rightArmX = this.x + this.armLength * Math.sin(this.armAngle);
-
-        // Tronco da haste
+      drawBase() {
+        ctx.save();
+        // Cast shadow onto backdrop
+        ctx.fillStyle = 'rgba(2, 18, 38, 0.28)';
         ctx.beginPath();
-        ctx.moveTo(this.x - 3, this.yBase);
-        ctx.lineTo(this.x + 3, this.yBase);
-        ctx.lineTo(this.x + 1.5, this.crotchY);
-        ctx.lineTo(this.x - 1.5, this.crotchY);
-        ctx.closePath();
-        ctx.fillStyle = this.color;
+        ctx.ellipse(this.x + 3, this.baseY + 3, 13, 5.5, 0, 0, Math.PI * 2);
         ctx.fill();
 
-        // Braços
-        ctx.lineCap = 'round';
-        ctx.lineWidth = 4;
-        ctx.strokeStyle = this.color;
+        // Molded acrylic/plastic mounting pedestal
+        const pedGrad = ctx.createLinearGradient(this.x - 12, this.baseY - 4, this.x + 12, this.baseY + 5);
+        pedGrad.addColorStop(0, '#ffffff');
+        pedGrad.addColorStop(0.5, this.color);
+        pedGrad.addColorStop(1, '#475569');
+        ctx.fillStyle = pedGrad;
         ctx.beginPath();
-        ctx.moveTo(this.x, this.crotchY); ctx.lineTo(leftArmX, armEndY);
-        ctx.moveTo(this.x, this.crotchY); ctx.lineTo(rightArmX, armEndY);
+        ctx.ellipse(this.x, this.baseY, 12, 5, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(15, 23, 42, 0.35)';
+        ctx.lineWidth = 1;
         ctx.stroke();
 
-        // Brilho superior
-        ctx.lineWidth = 1.5;
-        ctx.strokeStyle = '#ffffff';
+        // Support strut to tank floor if anchoredBottom
+        if (this.anchoredBottom && this.baseY < H - 4) {
+          const stGrad = ctx.createLinearGradient(this.x - 4, 0, this.x + 4, 0);
+          stGrad.addColorStop(0, 'rgba(255,255,255,0.6)');
+          stGrad.addColorStop(0.5, this.color);
+          stGrad.addColorStop(1, 'rgba(30,41,59,0.55)');
+          ctx.fillStyle = stGrad;
+          ctx.fillRect(this.x - 4, this.baseY + 2, 8, H - this.baseY);
+        }
+        ctx.restore();
+      }
+
+      drawShaft() {
+        ctx.save();
+        // Shadow of shaft
+        ctx.strokeStyle = 'rgba(2, 18, 38, 0.22)';
+        ctx.lineWidth = 6;
+        ctx.lineCap = 'round';
         ctx.beginPath();
-        ctx.moveTo(this.x, this.crotchY - 1); ctx.lineTo(leftArmX * 0.8 + this.x * 0.2, armEndY * 0.8 + this.crotchY * 0.2);
-        ctx.moveTo(this.x, this.crotchY - 1); ctx.lineTo(rightArmX * 0.8 + this.x * 0.2, armEndY * 0.8 + this.crotchY * 0.2);
+        ctx.moveTo(this.x + 3, this.baseY);
+        ctx.lineTo(this.x + 3, this.tipY + 2);
         ctx.stroke();
+
+        // Tapered translucent plastic cone shaft
+        const grad = ctx.createLinearGradient(this.x - this.baseRadius, 0, this.x + this.baseRadius, 0);
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(0.35, this.color);
+        grad.addColorStop(0.85, '#64748b');
+        grad.addColorStop(1, '#334155');
+
+        ctx.beginPath();
+        ctx.moveTo(this.x - this.baseRadius, this.baseY);
+        ctx.lineTo(this.x - this.tipRadius, this.tipY);
+        ctx.arc(this.x, this.tipY, this.tipRadius, Math.PI, 0, false);
+        ctx.lineTo(this.x + this.baseRadius, this.baseY);
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // Crisp specular highlight line along peg
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.78)';
+        ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        ctx.moveTo(this.x - this.baseRadius * 0.42, this.baseY - 2);
+        ctx.lineTo(this.x - this.tipRadius * 0.35, this.tipY + 2);
+        ctx.stroke();
+        ctx.restore();
       }
     }
 
-    // ===== CLASSE BOLA DE BASQUETE (BASKET MODE) =====
-    class BasketBall {
-      constructor(x, y, color = '#f97316') {
+    class Ring {
+      constructor(x, y, color, colorKey) {
         this.x = x;
         this.y = y;
-        this.vx = randomRange(-1.5, 1.5);
-        this.vy = randomRange(-2, 0);
-        this.radius = CONFIG.basketBallRadius;
+        this.vx = rand(-0.6, 0.6);
+        this.vy = rand(-0.5, 0.2);
+        this.radius = 14.5;
+        this.tube = 4.2;
+        this.innerRadius = this.radius - this.tube;
+        this.angle = rand(-0.6, 0.6);
+        this.angularVel = rand(-0.04, 0.04);
+        // Out-of-plane 3D pitch: 0 = flat face-on, ~1.12 = horizontal seated on peg
+        this.tilt = rand(0.15, 0.9);
+        this.tiltVel = rand(-0.04, 0.04);
         this.color = color;
-        this.scored = false;
-        this.scoredBasketIdx = -1;
-        this.floatPhase = randomRange(0, Math.PI * 2);
+        this.colorKey = colorKey;
+        this.peg = null; // non-null when physically threaded around a peg
+        this.wrongColorNotified = false;
+        this.phase = rand(0, Math.PI * 2);
       }
 
-      update(dt) {
-        if (this.scored) {
-          // Virar de ponta cabeça faz a bola cair da cesta!
-          if (state.gravityY < -0.25) {
-            this.scored = false;
-            this.scoredBasketIdx = -1;
-            this.vy = -3.5;
-            this.vx = randomRange(-1.8, 1.8);
-            state.score = Math.max(0, state.score - 1);
-            updateScoreUI();
-            sound.playPlink();
-            safeVibrate(35);
-          } else {
-            const basket = state.baskets[this.scoredBasketIdx];
-            if (basket) {
-              this.x = lerp(this.x, basket.x, 0.2);
-              this.y = lerp(this.y, basket.netBottomY - 8, 0.2);
-              this.vx = this.vy = 0;
+      update(stepDt) {
+        const dt60 = stepDt * 60;
+        const fluid = sampleFluidVelocity(this.x, this.y);
+
+        if (this.peg) {
+          // Physically slides along the peg shaft! Can be blasted OFF the top by strong jet or inversion!
+          const peg = this.peg;
+          const idx = peg.rings.indexOf(this);
+          const restY = peg.baseY - 5 - idx * 8.2;
+
+          // Gravity along shaft + upward jet force
+          const gNet = state.gravityY * 0.16;
+          this.vy += (gNet + fluid.fy * 0.72) * dt60;
+          this.vy *= Math.pow(0.86, dt60);
+          this.y += this.vy * dt60;
+
+          // Center horizontally onto tapered shaft with slight physical wiggle
+          this.x = lerp(this.x, peg.x + clamp(fluid.fx * 1.4, -2.5, 2.5), 0.28);
+          this.angle = lerp(this.angle, 0, 0.22);
+          this.tilt = lerp(this.tilt, 1.14, 0.22);
+          this.vx = 0;
+
+          // Rest on base or ring below
+          if (this.y > restY) {
+            if (this.vy > 1.2) sound.playPlasticTap(this.vy * 0.2, (this.x / W) * 2 - 1);
+            this.y = restY;
+            this.vy = 0;
+          }
+
+          // Pop off tip if pushed above peg.tipY - 4 (by direct jet or turning upside down!)
+          if (this.y < peg.tipY - 4) {
+            peg.rings.splice(idx, 1);
+            this.peg = null;
+            this.vy = Math.min(this.vy, -2.4);
+            this.vx = rand(-1.5, 1.5) + fluid.fx * 0.6;
+            this.tiltVel = rand(-0.12, 0.12);
+            this.angularVel = rand(-0.14, 0.14);
+            this.wrongColorNotified = false;
+            recomputeScore();
+            sound.playPlasticTap(0.5, (this.x / W) * 2 - 1);
+            safeVibrate(22);
+          }
+          return;
+        }
+
+        // Free ring in closed water chamber
+        const depth = clamp(this.y / H, 0, 1);
+        const gForce = 0.155;
+        const buoyancy = 0.028 * (1 - depth * 0.35);
+
+        this.vx += (state.gravityX * (gForce - buoyancy * 0.3) + fluid.fx) * dt60;
+        this.vy += (state.gravityY * gForce - (state.gravityY >= 0 ? buoyancy : -buoyancy * 0.5) + fluid.fy) * dt60;
+
+        // Subtle falling-leaf underwater flutter coupled to 3D tilt
+        this.phase += 0.045 * dt60;
+        const flatness = Math.abs(Math.sin(this.tilt)); // 1 when horizontal/flat, 0 when vertical edge-on
+        this.vx += Math.sin(this.phase) * 0.018 * (0.4 + flatness) * dt60;
+
+        // Anisotropic hydrodynamic drag (horizontal rings fall slower, edge-on rings cut faster)
+        const dragX = lerp(0.978, 0.962, 1 - flatness);
+        const dragY = lerp(0.982, 0.955, flatness);
+        this.vx *= Math.pow(dragX, dt60);
+        this.vy *= Math.pow(dragY, dt60);
+
+        // Fluid shear torque drives organic 3D tumbling
+        const speed = Math.hypot(this.vx, this.vy);
+        this.angularVel += (fluid.fx * 0.008 - this.vx * 0.0018) * dt60;
+        this.tiltVel += (fluid.fy * -0.012 + Math.sin(this.phase) * 0.004 * (speed + 0.3)) * dt60;
+        this.angularVel *= Math.pow(0.94, dt60);
+        this.tiltVel *= Math.pow(0.93, dt60);
+
+        this.vx = clamp(this.vx, -12, 12);
+        this.vy = clamp(this.vy, -14, 14);
+        this.x += this.vx * dt60;
+        this.y += this.vy * dt60;
+        this.angle += this.angularVel * dt60;
+        this.tilt += this.tiltVel * dt60;
+
+        this.collideWalls();
+        this.collidePegs();
+      }
+
+      collideWalls() {
+        const bounce = 0.38;
+        const pan = (this.x / W) * 2 - 1;
+        if (this.y + this.radius > H - 2) {
+          this.y = H - 2 - this.radius;
+          if (Math.abs(this.vy) > 1.3) sound.playPlasticTap(Math.abs(this.vy) * 0.16, pan);
+          this.vy *= -bounce;
+          this.vx *= 0.78;
+          this.tilt = lerp(this.tilt, 0.85, 0.08);
+        }
+        if (this.y - this.radius < WATER_TOP) {
+          this.y = WATER_TOP + this.radius;
+          if (Math.abs(this.vy) > 1.5) sound.playPlasticTap(Math.abs(this.vy) * 0.12, pan);
+          this.vy *= -bounce * 0.55;
+        }
+        if (this.x + this.radius > W - 2) {
+          this.x = W - 2 - this.radius;
+          if (Math.abs(this.vx) > 1.2) sound.playPlasticTap(Math.abs(this.vx) * 0.16, 0.7);
+          this.vx *= -bounce;
+          this.angularVel *= -0.5;
+        }
+        if (this.x - this.radius < 2) {
+          this.x = 2 + this.radius;
+          if (Math.abs(this.vx) > 1.2) sound.playPlasticTap(Math.abs(this.vx) * 0.16, -0.7);
+          this.vx *= -bounce;
+          this.angularVel *= -0.5;
+        }
+      }
+
+      collidePegs() {
+        for (const peg of state.pegs) {
+          // 1. Check threading over the peg tip from above!
+          const dxTip = this.x - peg.x;
+          const dyTip = this.y - peg.tipY;
+          if (
+            peg.rings.length < peg.maxRings &&
+            Math.abs(dxTip) < this.innerRadius * 0.92 &&
+            dyTip >= -6 && dyTip <= 12 &&
+            this.vy > -0.35 &&
+            state.gravityY > 0.15
+          ) {
+            this.peg = peg;
+            peg.rings.push(this);
+            this.x = peg.x;
+            this.vy = Math.max(this.vy * 0.55, 0.7);
+            const isMatch = !peg.colorKey || peg.colorKey === this.colorKey;
+            if (!isMatch && !this.wrongColorNotified) {
+              this.wrongColorNotified = true;
+              showToast(I18N[state.lang].toastWrongColor, 2600);
             }
+            recomputeScore();
+            sound.playScore(isMatch);
+            safeVibrate(isMatch ? [25, 20, 30] : [50]);
+            checkVictory();
             return;
           }
-        }
 
-        // Gravidade e flutuabilidade dinâmicas 360° para basquete
-        const depthFactor = this.y / canvas.height;
-        const gForce = CONFIG.gravity;
-        const bForce = CONFIG.buoyancy * (1 - depthFactor * 0.45);
-
-        this.vx += state.gravityX * (gForce - bForce * 0.35);
-        this.vy += state.gravityY * gForce - (state.gravityY > 0 ? bForce : -bForce * 0.6);
-
-        this.floatPhase += 0.04;
-        this.vx += Math.sin(this.floatPhase) * 0.015;
-
-        if (state.jetForceLeft > 0.05) this.applyJet(canvas.width * 0.25, state.jetForceLeft, 1);
-        if (state.jetForceRight > 0.05) this.applyJet(canvas.width * 0.75, state.jetForceRight, -1);
-
-        this.vx *= CONFIG.waterDrag;
-        this.vy *= CONFIG.waterDrag;
-
-        this.x += this.vx * dt;
-        this.y += this.vy * dt;
-
-        this.vx = clamp(this.vx, -15, 15);
-        this.vy = clamp(this.vy, -17, 17);
-
-        this.handleWalls();
-      }
-
-      applyJet(jetX, force, swirlDirection) {
-        const dx = this.x - jetX;
-        const distX = Math.abs(dx);
-        if (distX < CONFIG.jetRadius && this.y > 26) {
-          const horizFactor = Math.pow(1 - distX / CONFIG.jetRadius, 0.6);
-          const vertFactor = 0.3 + 0.7 * Math.pow(this.y / canvas.height, 0.65);
-          const effectiveForce = force * horizFactor * vertFactor;
-
-          this.vy -= effectiveForce * 1.55;
-          const coneDispersion = (dx / CONFIG.jetRadius) * effectiveForce * 0.35;
-          const swirlPush = swirlDirection * effectiveForce * 0.35;
-          this.vx += coneDispersion + swirlPush + randomRange(-0.08, 0.08) * effectiveForce;
+          // 2. Physical shaft deflection (so free rings bounce off pegs instead of ghosting through!)
+          if (this.y > peg.tipY + 4 && this.y < peg.baseY + 4) {
+            const shaftR = peg.shaftRadiusAt(this.y);
+            const dx = this.x - peg.x;
+            const minSep = shaftR + this.radius * 0.78;
+            if (Math.abs(dx) < minSep) {
+              const sign = dx >= 0 ? 1 : -1;
+              this.x = peg.x + sign * minSep;
+              if (Math.abs(this.vx) > 0.9) sound.playPlasticTap(Math.abs(this.vx) * 0.2, (this.x / W) * 2 - 1);
+              this.vx = sign * Math.max(Math.abs(this.vx) * 0.5, 0.55);
+              this.angularVel += sign * 0.05;
+            }
+          } else if (Math.hypot(dxTip, dyTip) < peg.tipRadius + this.tube + 2 && Math.abs(dxTip) >= this.innerRadius * 0.75) {
+            // Glancing bounce off rounded peg tip
+            const d = Math.hypot(dxTip, dyTip) || 1;
+            const nx = dxTip / d, ny = dyTip / d;
+            this.vx += nx * 1.1;
+            this.vy += ny * 0.9;
+            this.tiltVel += nx * 0.08;
+            sound.playPlasticTap(0.35, (this.x / W) * 2 - 1);
+          }
         }
       }
 
-      handleWalls() {
-        const bounce = 0.5;
-        if (this.y + this.radius > canvas.height) {
-          this.y = canvas.height - this.radius;
-          if (Math.abs(this.vy) > 1.2) sound.playPlink();
-          this.vy *= -bounce;
-          this.vx *= 0.7;
-        }
-        if (this.y - this.radius < 26) {
-          this.y = 26 + this.radius;
-          this.vy *= -bounce * 0.5;
-        }
-        if (this.x + this.radius > canvas.width) {
-          this.x = canvas.width - this.radius;
-          if (Math.abs(this.vx) > 1.2) sound.playPlink();
-          this.vx *= -bounce;
-        }
-        if (this.x - this.radius < 0) {
-          this.x = this.radius;
-          if (Math.abs(this.vx) > 1.2) sound.playPlink();
-          this.vx *= -bounce;
-        }
-      }
+      // Draw either full ring (free) or split back/front half (when threaded around peg!)
+      draw(layer = 'full') {
+        const pitch = Math.sin(this.tilt);
+        const yScale = clamp(Math.abs(Math.cos(this.tilt)), 0.34, 1);
+        const thickness3D = pitch * 3.8;
+        const r = this.radius;
 
-      draw() {
         ctx.save();
         ctx.translate(this.x, this.y);
+        if (!this.peg) ctx.rotate(this.angle);
 
-        // Sombra
+        const startA = layer === 'back' ? Math.PI : (layer === 'front' ? 0 : 0);
+        const endA = layer === 'back' ? Math.PI * 2 : (layer === 'front' ? Math.PI : Math.PI * 2);
+
+        // Soft cast shadow on back/bottom layer
+        if (layer !== 'front') {
+          ctx.save();
+          ctx.translate(2.5, 4);
+          ctx.scale(1, yScale);
+          ctx.beginPath();
+          ctx.arc(0, 0, r - this.tube * 0.5, startA, endA);
+          ctx.strokeStyle = 'rgba(2, 16, 36, 0.24)';
+          ctx.lineWidth = this.tube * 1.15;
+          ctx.lineCap = 'round';
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // 3D plastic rim depth underside
+        ctx.save();
+        ctx.translate(0, thickness3D * 0.55);
+        ctx.scale(1, yScale);
         ctx.beginPath();
-        ctx.arc(2, 2, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 20, 50, 0.25)';
-        ctx.fill();
+        ctx.arc(0, 0, r - this.tube * 0.5, startA, endA);
+        ctx.strokeStyle = shadeHex(this.color, -44);
+        ctx.lineWidth = this.tube * 1.12;
+        ctx.lineCap = layer === 'full' ? 'butt' : 'round';
+        ctx.stroke();
+        ctx.restore();
 
-        // Bola com textura 3D
-        const grad = ctx.createRadialGradient(
-          -this.radius * 0.35, -this.radius * 0.35, 0,
-          0, 0, this.radius * 1.2
-        );
-        grad.addColorStop(0, '#ffedd5');
-        grad.addColorStop(0.3, this.color);
-        grad.addColorStop(1, '#7c2d12');
-
+        // Main glossy ring torus
+        ctx.save();
+        ctx.scale(1, yScale);
         ctx.beginPath();
-        ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = grad;
-        ctx.fill();
-        ctx.strokeStyle = '#7c2d12';
-        ctx.lineWidth = 1.2;
+        ctx.arc(0, 0, r - this.tube * 0.5, startA, endA);
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = this.tube;
+        ctx.lineCap = layer === 'full' ? 'butt' : 'round';
         ctx.stroke();
 
-        // Listras de basquete
+        // Bright wet plastic specular highlight along inner/upper rim
         ctx.beginPath();
-        ctx.arc(0, 0, this.radius * 0.65, 0, Math.PI);
-        ctx.strokeStyle = 'rgba(0,0,0,0.4)';
-        ctx.lineWidth = 1;
+        ctx.arc(-0.8, -1.0, r - this.tube * 0.58, startA === 0 && endA === Math.PI ? 0.25 : startA + 0.35, endA - 0.35);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.58)';
+        ctx.lineWidth = 1.45;
+        ctx.lineCap = 'round';
         ctx.stroke();
+        ctx.restore();
 
         ctx.restore();
       }
     }
 
-    // ===== CLASSE CESTA DE BASQUETE (HOOP) =====
+    // ==================== BASKETBALL MODE ====================
     class BasketHoop {
       constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.rimRadius = 18;
-        this.netBottomY = y + 26;
-        this.scoredCount = 0;
+        this.rimHalf = 19;
+        this.netH = 26;
+        this.netSway = 0;
+        this.netSwayVel = 0;
+        this.netStretch = 0;
+        this.balls = [];
       }
 
-      checkBasket(ball) {
-        if (ball.scored) return false;
-        const dx = Math.abs(ball.x - this.x);
-        if (dx < this.rimRadius * 0.75) {
-          // Passando pelo aro de cima para baixo
-          if (ball.y >= this.y - 2 && ball.y <= this.y + 12 && ball.vy > 0.1) {
-            ball.scored = true;
-            ball.scoredBasketIdx = state.baskets.indexOf(this);
-            this.scoredCount++;
-            state.score++;
-            updateScoreUI();
-            sound.playScore();
-            safeVibrate([40, 30, 40]);
-            checkVictory();
-            return true;
-          }
-        }
-        return false;
+      update(stepDt) {
+        const dt60 = stepDt * 60;
+        // Spring-damped net physics
+        const fluid = sampleFluidVelocity(this.x, this.y + 12);
+        this.netSwayVel += (-this.netSway * 0.14 + fluid.fx * 0.15) * dt60;
+        this.netSwayVel *= Math.pow(0.86, dt60);
+        this.netSway = clamp(this.netSway + this.netSwayVel * dt60, -9, 9);
+        this.netStretch = lerp(this.netStretch, 0, 0.12 * dt60);
       }
 
-      draw() {
-        // Tabela de acrílico atrás
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
-        ctx.lineWidth = 2;
-        ctx.fillRect(this.x - 22, this.y - 24, 44, 24);
-        ctx.strokeRect(this.x - 22, this.y - 24, 44, 24);
+      drawBack() {
+        ctx.save();
+        // Acrylic backboard with subtle bevel
+        ctx.fillStyle = 'rgba(240, 249, 255, 0.34)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.82)';
+        ctx.lineWidth = 1.8;
+        roundRectPath(ctx, this.x - 24, this.y - 26, 48, 28, 4);
+        ctx.fill();
+        ctx.stroke();
 
-        // Quadrado guia vermelho na tabela
+        // Red shooter box
         ctx.strokeStyle = '#ef4444';
         ctx.lineWidth = 1.5;
-        ctx.strokeRect(this.x - 10, this.y - 18, 20, 14);
+        ctx.strokeRect(this.x - 9, this.y - 16, 18, 12);
 
-        // Rede submarina
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+        // Back half of metallic red rim
+        ctx.beginPath();
+        ctx.ellipse(this.x, this.y, this.rimHalf, 4.5, 0, Math.PI, Math.PI * 2);
+        ctx.strokeStyle = '#991b1b';
+        ctx.lineWidth = 3.2;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      drawFront() {
+        ctx.save();
+        const sway = this.netSway;
+        const botY = this.y + this.netH + this.netStretch;
+        const botHalf = 9.5;
+
+        // Animated woven net cords
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.72)';
+        ctx.lineWidth = 1.1;
+        for (let i = 0; i <= 4; i++) {
+          const t = i / 4;
+          const topX = lerp(this.x - this.rimHalf + 2, this.x + this.rimHalf - 2, t);
+          const bx = lerp(this.x - botHalf, this.x + botHalf, t) + sway;
+          ctx.beginPath();
+          ctx.moveTo(topX, this.y + 1);
+          ctx.quadraticCurveTo(lerp(topX, bx, 0.5) + sway * 0.35, this.y + this.netH * 0.55, bx, botY);
+          ctx.stroke();
+        }
+        // Cross lattice bands
+        for (let row = 1; row <= 2; row++) {
+          const rT = row / 3;
+          const ry = lerp(this.y + 2, botY, rT);
+          const hw = lerp(this.rimHalf - 2, botHalf, rT);
+          ctx.beginPath();
+          ctx.moveTo(this.x - hw + sway * rT, ry);
+          ctx.lineTo(this.x + hw + sway * rT, ry);
+          ctx.stroke();
+        }
+
+        // Front metallic orange-red rim with specular sheen
+        ctx.beginPath();
+        ctx.ellipse(this.x, this.y, this.rimHalf, 4.5, 0, 0, Math.PI);
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 3.6;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(this.x, this.y - 0.8, this.rimHalf - 1, 3.8, 0, 0.25, Math.PI - 0.25);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
         ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(this.x - this.rimRadius, this.y); ctx.lineTo(this.x - 8, this.netBottomY);
-        ctx.moveTo(this.x + this.rimRadius, this.y); ctx.lineTo(this.x + 8, this.netBottomY);
-        ctx.moveTo(this.x - 8, this.y); ctx.lineTo(this.x, this.netBottomY);
-        ctx.moveTo(this.x + 8, this.y); ctx.lineTo(this.x, this.netBottomY);
         ctx.stroke();
-
-        // Aro vermelho
-        ctx.beginPath();
-        ctx.ellipse(this.x, this.y, this.rimRadius, 5, 0, 0, Math.PI * 2);
-        ctx.strokeStyle = '#dc2626';
-        ctx.lineWidth = 3.5;
-        ctx.stroke();
+        ctx.restore();
       }
     }
 
-    // ===== PARTÍCULAS: BOLHAS & POEIRA =====
-    class Bubble {
-      constructor(x, y, radius = randomRange(1.8, 4.5)) {
+    class BasketBall {
+      constructor(x, y, color) {
         this.x = x;
         this.y = y;
-        this.radius = radius;
-        this.vx = randomRange(-0.6, 0.6);
-        this.vy = randomRange(-2.2, -0.8);
-        this.life = 1;
-        this.decay = randomRange(0.008, 0.02);
-        this.wobble = randomRange(0, Math.PI * 2);
+        this.vx = rand(-0.6, 0.6);
+        this.vy = rand(-0.4, 0.2);
+        this.radius = 10.2;
+        this.angle = rand(0, Math.PI * 2);
+        this.angularVel = rand(-0.05, 0.05);
+        this.color = color;
+        this.hoop = null;
+        this.prevY = y;
       }
 
-      update() {
-        this.wobble += 0.09;
-        this.x += this.vx + Math.sin(this.wobble) * 0.4;
-        this.y += this.vy;
-        this.life -= this.decay;
-        return this.life > 0 && this.y > 20;
+      update(stepDt) {
+        const dt60 = stepDt * 60;
+        this.prevY = this.y;
+        const fluid = sampleFluidVelocity(this.x, this.y);
+
+        if (this.hoop) {
+          const hoop = this.hoop;
+          const idx = hoop.balls.indexOf(this);
+          const pocketY = hoop.y + hoop.netH - 9 - idx * 12;
+          if (state.gravityY < -0.3 || fluid.fy < -1.1) {
+            hoop.balls.splice(idx, 1);
+            this.hoop = null;
+            this.vy = -2.8;
+            this.vx = rand(-1.4, 1.4);
+            recomputeScore();
+            sound.playPlasticTap(0.5, (this.x / W) * 2 - 1);
+            return;
+          }
+          this.x = lerp(this.x, hoop.x + hoop.netSway * 0.65, 0.2);
+          this.y = lerp(this.y, pocketY, 0.2);
+          this.vx = this.vy = 0;
+          this.angularVel *= 0.85;
+          this.angle += this.angularVel * dt60;
+          return;
+        }
+
+        const gForce = 0.16;
+        const buoyancy = 0.024;
+        this.vx += (state.gravityX * (gForce - buoyancy * 0.3) + fluid.fx) * dt60;
+        this.vy += (state.gravityY * gForce - (state.gravityY >= 0 ? buoyancy : -buoyancy * 0.5) + fluid.fy) * dt60;
+
+        this.vx *= Math.pow(0.976, dt60);
+        this.vy *= Math.pow(0.976, dt60);
+        this.angularVel += (fluid.fx * 0.012) * dt60;
+        this.angularVel *= Math.pow(0.96, dt60);
+
+        this.vx = clamp(this.vx, -13, 13);
+        this.vy = clamp(this.vy, -15, 15);
+        this.x += this.vx * dt60;
+        this.y += this.vy * dt60;
+        this.angle += this.angularVel * dt60;
+
+        this.collideWalls();
+        this.collideHoops();
+      }
+
+      collideWalls() {
+        const bounce = 0.56;
+        const pan = (this.x / W) * 2 - 1;
+        if (this.y + this.radius > H - 2) {
+          this.y = H - 2 - this.radius;
+          if (Math.abs(this.vy) > 1.2) sound.playPlasticTap(Math.abs(this.vy) * 0.18, pan);
+          this.vy *= -bounce;
+          this.vx *= 0.84;
+          this.angularVel += this.vx * 0.025;
+        }
+        if (this.y - this.radius < WATER_TOP) {
+          this.y = WATER_TOP + this.radius;
+          this.vy *= -bounce * 0.6;
+        }
+        if (this.x + this.radius > W - 2) {
+          this.x = W - 2 - this.radius;
+          if (Math.abs(this.vx) > 1.1) sound.playPlasticTap(Math.abs(this.vx) * 0.18, 0.7);
+          this.vx *= -bounce;
+        }
+        if (this.x - this.radius < 2) {
+          this.x = 2 + this.radius;
+          if (Math.abs(this.vx) > 1.1) sound.playPlasticTap(Math.abs(this.vx) * 0.18, -0.7);
+          this.vx *= -bounce;
+        }
+      }
+
+      collideHoops() {
+        for (const hoop of state.hoops) {
+          // Physical collision against Left & Right rim lip circles!
+          const lips = [
+            { x: hoop.x - hoop.rimHalf, y: hoop.y },
+            { x: hoop.x + hoop.rimHalf, y: hoop.y }
+          ];
+          for (const lip of lips) {
+            const dx = this.x - lip.x;
+            const dy = this.y - lip.y;
+            const d = Math.hypot(dx, dy);
+            const minD = this.radius + 2.8;
+            if (d < minD && d > 0.001) {
+              const nx = dx / d, ny = dy / d;
+              this.x = lip.x + nx * minD;
+              this.y = lip.y + ny * minD;
+              const vn = this.vx * nx + this.vy * ny;
+              if (vn < 0) {
+                this.vx -= 1.55 * vn * nx;
+                this.vy -= 1.55 * vn * ny;
+                this.angularVel += (nx * this.vy - ny * this.vx) * 0.04;
+                hoop.netSwayVel += nx * 0.6;
+                sound.playPlasticTap(Math.abs(vn) * 0.25, (this.x / W) * 2 - 1);
+              }
+            }
+          }
+
+          // Clean downward swish through the hoop opening!
+          if (
+            hoop.balls.length < 3 &&
+            Math.abs(this.x - hoop.x) < hoop.rimHalf - 4 &&
+            this.prevY <= hoop.y + 4 &&
+            this.y > hoop.y + 4 &&
+            this.vy > 0.15
+          ) {
+            this.hoop = hoop;
+            hoop.balls.push(this);
+            hoop.netStretch = 6.5;
+            hoop.netSwayVel += clamp(this.vx * 1.4, -4, 4);
+            recomputeScore();
+            sound.playScore(true);
+            safeVibrate([35, 25, 45]);
+            checkVictory();
+            return;
+          }
+        }
       }
 
       draw() {
-        const r = this.radius * this.life;
-        const grad = ctx.createRadialGradient(
-          this.x - r * 0.3, this.y - r * 0.3, 0,
-          this.x, this.y, r
-        );
-        grad.addColorStop(0, `rgba(255,255,255,${this.life * 0.75})`);
-        grad.addColorStop(0.6, `rgba(186,230,253,${this.life * 0.4})`);
-        grad.addColorStop(1, `rgba(56,189,248,${this.life * 0.1})`);
+        ctx.save();
+        ctx.translate(this.x, this.y);
+
+        // Soft cast shadow
+        ctx.beginPath();
+        ctx.arc(2.5, 3.5, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(2, 16, 36, 0.26)';
+        ctx.fill();
+
+        // Glossy 3D sphere shading
+        const grad = ctx.createRadialGradient(-this.radius * 0.36, -this.radius * 0.36, 1, 0, 0, this.radius * 1.15);
+        grad.addColorStop(0, '#fff7ed');
+        grad.addColorStop(0.28, this.color);
+        grad.addColorStop(1, shadeHex(this.color, -55));
 
         ctx.beginPath();
-        ctx.arc(this.x, this.y, r, 0, Math.PI * 2);
+        ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
         ctx.fillStyle = grad;
         ctx.fill();
-        ctx.strokeStyle = `rgba(255,255,255,${this.life * 0.6})`;
-        ctx.lineWidth = 0.5;
+
+        // Spinning basketball seams clipped inside sphere
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(0, 0, this.radius - 0.4, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.rotate(this.angle);
+        ctx.strokeStyle = 'rgba(15, 23, 42, 0.46)';
+        ctx.lineWidth = 1.1;
+        ctx.beginPath();
+        ctx.moveTo(-this.radius, 0); ctx.lineTo(this.radius, 0);
+        ctx.moveTo(0, -this.radius); ctx.lineTo(0, this.radius);
+        ctx.arc(-this.radius * 0.72, 0, this.radius * 0.78, -0.9, 0.9);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(this.radius * 0.72, 0, this.radius * 0.78, Math.PI - 0.9, Math.PI + 0.9);
+        ctx.stroke();
+        ctx.restore();
+
+        // Wet specular highlight dot
+        ctx.beginPath();
+        ctx.ellipse(-this.radius * 0.32, -this.radius * 0.36, 2.8, 1.7, -0.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+        ctx.fill();
+
+        ctx.restore();
+      }
+    }
+
+    // ==================== WATER PARTICLES (BUBBLES & MOTES) ====================
+    class Bubble {
+      constructor(x, y, r = rand(1.6, 4.4), vx = rand(-0.6, 0.6), vy = rand(-2.8, -1.2)) {
+        this.x = x; this.y = y; this.r = r;
+        this.vx = vx; this.vy = vy;
+        this.life = 1;
+        this.decay = rand(0.007, 0.017);
+        this.wobble = rand(0, Math.PI * 2);
+      }
+      update(stepDt) {
+        const dt60 = stepDt * 60;
+        const fluid = sampleFluidVelocity(this.x, this.y);
+        this.wobble += 0.1 * dt60;
+        this.vx += (fluid.fx * 0.35 - state.gravityX * 0.04) * dt60;
+        this.vy += (fluid.fy * 0.45 - state.gravityY * 0.06) * dt60;
+        this.vx *= Math.pow(0.94, dt60);
+        this.vy *= Math.pow(0.95, dt60);
+        this.x += (this.vx + Math.sin(this.wobble) * 0.35) * dt60;
+        this.y += this.vy * dt60;
+        this.life -= this.decay * dt60;
+        return this.life > 0 && this.y > WATER_TOP - 4 && this.x > 0 && this.x < W;
+      }
+      draw() {
+        const r = Math.max(0.6, this.r * (0.45 + 0.55 * this.life));
+        const g = ctx.createRadialGradient(this.x - r * 0.32, this.y - r * 0.32, 0, this.x, this.y, r);
+        g.addColorStop(0, `rgba(255,255,255,${this.life * 0.9})`);
+        g.addColorStop(0.55, `rgba(186,230,253,${this.life * 0.35})`);
+        g.addColorStop(1, `rgba(56,189,248,${this.life * 0.08})`);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = g;
+        ctx.fill();
+        ctx.strokeStyle = `rgba(255,255,255,${this.life * 0.58})`;
+        ctx.lineWidth = 0.6;
         ctx.stroke();
       }
     }
 
-    class DustParticle {
-      constructor() {
-        this.reset();
-      }
+    class WaterMote {
+      constructor() { this.reset(); }
       reset() {
-        this.x = randomRange(0, canvas.width);
-        this.y = randomRange(30, canvas.height);
-        this.radius = randomRange(0.6, 1.4);
-        this.vx = randomRange(-0.06, 0.06);
-        this.vy = randomRange(-0.06, 0.06);
-        this.opacity = randomRange(0.12, 0.3);
-        this.phase = randomRange(0, Math.PI * 2);
+        this.x = rand(4, W - 4);
+        this.y = rand(WATER_TOP + 6, H - 6);
+        this.r = rand(0.6, 1.35);
+        this.a = rand(0.14, 0.32);
+        this.vx = rand(-0.08, 0.08);
+        this.vy = rand(-0.08, 0.08);
       }
-      update() {
-        this.phase += 0.02;
-        this.x += this.vx + Math.sin(this.phase) * 0.03;
-        this.y += this.vy + Math.cos(this.phase * 0.7) * 0.02;
-        if (this.x < 0 || this.x > canvas.width || this.y < 25 || this.y > canvas.height) {
-          this.reset();
-        }
+      update(stepDt) {
+        const dt60 = stepDt * 60;
+        const fluid = sampleFluidVelocity(this.x, this.y);
+        this.vx = lerp(this.vx, fluid.fx * 1.4, 0.08 * dt60);
+        this.vy = lerp(this.vy, fluid.fy * 1.4, 0.08 * dt60);
+        this.x += this.vx * dt60;
+        this.y += this.vy * dt60;
+        if (this.x < 0) this.x += W;
+        if (this.x > W) this.x -= W;
+        if (this.y < WATER_TOP) this.y = H - 6;
+        if (this.y > H) this.y = WATER_TOP + 6;
       }
       draw() {
+        ctx.fillStyle = `rgba(224, 242, 254, ${this.a})`;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(224, 242, 254, ${this.opacity})`;
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
-    // ===== RENDERIZAÇÃO DE FUNDO E CÂMARA D'ÁGUA =====
-    function drawWaterBackground() {
-      // Degradê de profundidade submarina
-      const bgGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      bgGrad.addColorStop(0, '#38bdf8');
-      bgGrad.addColorStop(0.35, '#0284c7');
-      bgGrad.addColorStop(0.75, '#0369a1');
-      bgGrad.addColorStop(1, '#075985');
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Cáusticas de luz em movimento
-      const time = Date.now() * 0.0012;
-      ctx.globalAlpha = 0.08;
-      for (let i = 0; i < 4; i++) {
-        const cx = canvas.width * 0.5 + Math.sin(time + i * 1.5) * 60;
-        const cy = canvas.height * 0.5 + Math.cos(time * 0.8 + i) * 70;
-        const r = 45 + Math.sin(time * 0.6 + i) * 16;
-        const cGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-        cGrad.addColorStop(0, '#ffffff');
-        cGrad.addColorStop(1, 'transparent');
-        ctx.fillStyle = cGrad;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-      }
-      ctx.globalAlpha = 1;
-
-      // Superfície da água & Bolha de ar no topo
-      drawTopAirBubble();
+    // ==================== HELPERS ====================
+    function shadeHex(hex, delta) {
+      const n = parseInt(hex.replace('#', ''), 16);
+      const r = clamp(((n >> 16) & 255) + delta, 0, 255);
+      const g = clamp(((n >> 8) & 255) + delta, 0, 255);
+      const b = clamp((n & 255) + delta, 0, 255);
+      return `rgb(${r},${g},${b})`;
     }
 
-    function drawTopAirBubble() {
-      const bubble = state.topAirBubble;
-      // A bolha de ar viaja na direção OPOSTA à gravidade da água!
-      const targetBubbleX = canvas.width * 0.5 - state.gravityX * 85 + (state.jetForceLeft - state.jetForceRight) * 8;
-      const targetBubbleY = state.gravityY < 0 
-        ? lerp(20, canvas.height - 24, clamp(-state.gravityY, 0, 1))
-        : 20;
+    function roundRectPath(c, x, y, w, h, r) {
+      c.beginPath();
+      c.moveTo(x + r, y);
+      c.arcTo(x + w, y, x + w, y + h, r);
+      c.arcTo(x + w, y + h, x, y + h, r);
+      c.arcTo(x, y + h, x, y, r);
+      c.arcTo(x, y, x + w, y, r);
+      c.closePath();
+    }
 
-      bubble.x = lerp(bubble.x, clamp(targetBubbleX, 35, canvas.width - 35), 0.08);
-      bubble.y = lerp(bubble.y, targetBubbleY, 0.08);
+    // ==================== COLLISION SOLVER (ELASTIC DAMPED) ====================
+    function resolveBodyCollisions(list, restitution, skipFn) {
+      for (let i = 0; i < list.length; i++) {
+        for (let j = i + 1; j < list.length; j++) {
+          const a = list[i], b = list[j];
+          if (skipFn(a) || skipFn(b)) continue;
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const dist = Math.hypot(dx, dy);
+          const minD = a.radius + b.radius - 1.5;
+          if (dist < minD && dist > 0.001) {
+            const nx = dx / dist, ny = dy / dist;
+            const overlap = minD - dist;
+            a.x -= nx * overlap * 0.5;
+            a.y -= ny * overlap * 0.5;
+            b.x += nx * overlap * 0.5;
+            b.y += ny * overlap * 0.5;
 
-      // Bolha de ar flutuante no acrílico
+            const rvx = b.vx - a.vx;
+            const rvy = b.vy - a.vy;
+            const vn = rvx * nx + rvy * ny;
+            if (vn < 0) {
+              const imp = -(1 + restitution) * vn * 0.5;
+              a.vx -= imp * nx;
+              a.vy -= imp * ny;
+              b.vx += imp * nx;
+              b.vy += imp * ny;
+              if (a.angularVel !== undefined) {
+                a.angularVel += (ny * rvx - nx * rvy) * 0.012;
+                b.angularVel -= (ny * rvx - nx * rvy) * 0.012;
+              }
+              if (Math.abs(vn) > 1.6) {
+                sound.playPlasticTap(Math.abs(vn) * 0.14, ((a.x + b.x) * 0.5 / W) * 2 - 1);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // ==================== RENDER UNDERWATER SCENE ====================
+    function drawSceneBase(nowSec) {
+      // 1. Printed vintage backdrop card with subtle 3D parallax!
+      const px = clamp(-state.gravityX * 9, -BG_PAD + 2, BG_PAD - 2);
+      const py = clamp(-(state.gravityY - 1) * 5, -BG_PAD + 2, BG_PAD - 2);
+      ctx.drawImage(bgCanvas, -BG_PAD + px, -BG_PAD + py, W + BG_PAD * 2, H + BG_PAD * 2);
+
+      // 2. Animated underwater god-rays / caustics
       ctx.save();
+      for (let i = 0; i < 4; i++) {
+        const rx = W * (0.14 + i * 0.24) + Math.sin(nowSec * 0.7 + i * 1.4) * 16;
+        const rw = 26 + Math.sin(nowSec * 0.9 + i) * 8;
+        const rg = ctx.createLinearGradient(rx, 0, rx + 40, H * 0.85);
+        rg.addColorStop(0, 'rgba(224, 242, 254, 0.14)');
+        rg.addColorStop(0.55, 'rgba(186, 230, 253, 0.05)');
+        rg.addColorStop(1, 'transparent');
+        ctx.fillStyle = rg;
+        ctx.beginPath();
+        ctx.moveTo(rx - rw * 0.5, 0);
+        ctx.lineTo(rx + rw * 0.5, 0);
+        ctx.lineTo(rx + rw * 1.4 + 34, H * 0.92);
+        ctx.lineTo(rx - rw * 0.2 + 34, H * 0.92);
+        ctx.closePath();
+        ctx.fill();
+      }
+      ctx.restore();
+
+      // 3. Live swaying seaweed in coral / submarine backdrops
+      if (state.backdrop === 'coral' || state.backdrop === 'submarine') {
+        ctx.save();
+        ctx.lineCap = 'round';
+        const weeds = [
+          { x: 18, h: 66, col: 'rgba(16, 185, 129, 0.45)', ph: 0 },
+          { x: 30, h: 48, col: 'rgba(52, 211, 153, 0.36)', ph: 1.4 },
+          { x: W - 22, h: 62, col: 'rgba(16, 185, 129, 0.42)', ph: 2.6 }
+        ];
+        weeds.forEach(w => {
+          const sway = Math.sin(nowSec * 1.6 + w.ph) * 7 + (state.jetL - state.jetR) * 8;
+          ctx.strokeStyle = w.col;
+          ctx.lineWidth = 4.5;
+          ctx.beginPath();
+          ctx.moveTo(w.x, H);
+          ctx.quadraticCurveTo(w.x + sway * 0.6, H - w.h * 0.55, w.x + sway, H - w.h);
+          ctx.stroke();
+        });
+        ctx.restore();
+      }
+
+      // 4. Visible bottom nozzle valves (where the hydraulic jets actually burst from!)
+      drawNozzle(NOZZLE_L, state.jetL);
+      drawNozzle(NOZZLE_R, state.jetR);
+
+      // 5. Hydrodynamic jet plumes
+      drawJetPlume(NOZZLE_L, state.jetL, 1);
+      drawJetPlume(NOZZLE_R, state.jetR, -1);
+
+      // 6. Top water meniscus & deformable organic air pocket
+      drawAirPocket(nowSec);
+    }
+
+    function drawNozzle(nx, force) {
+      ctx.save();
+      const glow = clamp(force / 2.2, 0, 1);
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.65)';
       ctx.beginPath();
-      ctx.ellipse(bubble.x, bubble.y, bubble.radius * 1.5, bubble.radius * 0.5, 0, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+      ctx.ellipse(nx, H - 3, 14, 5.5, 0, Math.PI, Math.PI * 2);
       ctx.fill();
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+      ctx.fillStyle = glow > 0.05 ? `rgba(186, 230, 253, ${0.4 + glow * 0.55})` : 'rgba(148, 163, 184, 0.5)';
+      ctx.beginPath();
+      ctx.ellipse(nx, H - 4, 6.5, 2.6, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawJetPlume(nx, force, dir) {
+      if (force < 0.05) return;
+      ctx.save();
+      const k = clamp(force / 2.4, 0, 1);
+      const h = H * (0.34 + k * 0.52);
+      const w = 14 + k * 34;
+      const g = ctx.createLinearGradient(nx, H, nx + dir * 24, H - h);
+      g.addColorStop(0, `rgba(224, 242, 254, ${0.44 * k})`);
+      g.addColorStop(0.5, `rgba(186, 230, 253, ${0.18 * k})`);
+      g.addColorStop(1, 'transparent');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.moveTo(nx - 7, H);
+      ctx.quadraticCurveTo(nx - w * 0.45 + dir * 10 * k, H - h * 0.55, nx + dir * 32 * k - w * 0.35, H - h);
+      ctx.lineTo(nx + dir * 32 * k + w * 0.45, H - h);
+      ctx.quadraticCurveTo(nx + w * 0.55 + dir * 12 * k, H - h * 0.5, nx + 7, H);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawAirPocket(nowSec) {
+      const p = state.airPocket;
+      p.wobble += 0.06;
+      const targetX = W * 0.5 - state.gravityX * 92 + (state.jetL - state.jetR) * 10;
+      const targetY = state.gravityY < -0.15 ? lerp(14, H - 18, clamp(-state.gravityY, 0, 1)) : 12;
+      p.x = lerp(p.x, clamp(targetX, 54, W - 54), 0.09);
+      p.y = lerp(p.y, targetY, 0.09);
+      p.squash = lerp(p.squash, (state.jetL + state.jetR) * 1.4, 0.12);
+
+      const rx = p.rx + Math.sin(p.wobble) * 3.5 + p.squash * 2.5;
+      const ry = p.ry - p.squash * 0.6 + Math.cos(p.wobble * 1.3) * 1.1;
+
+      // Subtle continuous top liquid meniscus line
+      ctx.save();
+      ctx.strokeStyle = 'rgba(224, 242, 254, 0.28)';
       ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(0, WATER_TOP - 2);
+      ctx.quadraticCurveTo(W * 0.5, WATER_TOP + 2 + Math.sin(nowSec * 2) * 1.5, W, WATER_TOP - 2);
       ctx.stroke();
 
-      // Reflexo brilhante na bolha
-      ctx.beginPath();
-      ctx.ellipse(bubble.x - bubble.radius * 0.4, bubble.y - 2, bubble.radius * 0.5, bubble.radius * 0.15, 0, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-      ctx.fill();
-      ctx.restore();
-    }
-
-    // Desenhar fluxo visual das correntes d'água das bombas
-    function drawJetFlow(jetX, force, side) {
-      if (force < 0.08) return;
-      ctx.save();
-      const intensity = force / CONFIG.jetMaxForce;
-      const height = canvas.height * (0.35 + intensity * 0.45);
-      const width = 28 + intensity * 24;
-
-      const grad = ctx.createLinearGradient(jetX, canvas.height, jetX, canvas.height - height);
-      grad.addColorStop(0, `rgba(224, 242, 254, ${0.4 * intensity})`);
-      grad.addColorStop(0.4, `rgba(186, 230, 253, ${0.25 * intensity})`);
-      grad.addColorStop(1, 'transparent');
-
-      ctx.beginPath();
-      ctx.moveTo(jetX - width * 0.5, canvas.height);
-      ctx.quadraticCurveTo(
-        jetX + side * 15 * intensity, canvas.height - height * 0.6,
-        jetX + side * 25 * intensity, canvas.height - height
-      );
-      ctx.quadraticCurveTo(
-        jetX + width * 0.5 + side * 10 * intensity, canvas.height - height * 0.5,
-        jetX + width * 0.5, canvas.height
-      );
-      ctx.closePath();
+      // Organic shiny air pocket trapped under acrylic lid
+      const grad = ctx.createRadialGradient(p.x - rx * 0.25, p.y - ry * 0.3, 2, p.x, p.y, rx);
+      grad.addColorStop(0, 'rgba(255, 255, 255, 0.62)');
+      grad.addColorStop(0.55, 'rgba(224, 242, 254, 0.26)');
+      grad.addColorStop(1, 'rgba(186, 230, 253, 0.14)');
       ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.ellipse(p.x, p.y, rx, Math.max(6, ry), state.gravityX * -0.08, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.68)';
+      ctx.lineWidth = 1.3;
+      ctx.stroke();
+
+      // Bright crescent reflection inside pocket
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+      ctx.beginPath();
+      ctx.ellipse(p.x - rx * 0.28, p.y - ry * 0.26, rx * 0.36, Math.max(1.8, ry * 0.22), 0, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     }
 
-    // ===== GERENCIAMENTO DE ESTADO & MODOS =====
+    function drawStaticEdgeBubbles() {
+      ctx.save();
+      for (const b of state.staticEdgeBubbles) {
+        ctx.fillStyle = `rgba(255, 255, 255, ${b.a})`;
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    // ==================== GAME MODES & SCORING ====================
     function initGame() {
       state.score = 0;
       state.gameWon = false;
       state.rings = [];
+      state.pegs = [];
       state.balls = [];
-      state.spikes = [];
-      state.baskets = [];
+      state.hoops = [];
       state.bubbles = [];
-      state.dustParticles = [];
-      state.jetForceLeft = 0;
-      state.jetForceRight = 0;
+      state.motes = [];
+      state.jetL = state.jetR = state.pulseL = state.pulseR = 0;
 
-      // Partículas de poeira submarina
-      for (let i = 0; i < 20; i++) {
-        state.dustParticles.push(new DustParticle());
-      }
+      for (let i = 0; i < 24; i++) state.motes.push(new WaterMote());
 
-      if (state.mode === 'rings') {
-        initRingsMode();
+      if (state.mode === 'classic2') {
+        // Authentic 1982 Estrela 2-peg stacking AquaPlay!
+        state.targetScore = 8;
+        state.pegs.push(new Peg(W * 0.35, H - 110, 82, '#f8fafc', null, 5, true));
+        state.pegs.push(new Peg(W * 0.65, H - 110, 82, '#f8fafc', null, 5, true));
+        const palette = [
+          ['#ef4444', 'red'], ['#f97316', 'orange'], ['#facc15', 'yellow'], ['#22c55e', 'green'],
+          ['#06b6d4', 'cyan'], ['#3b82f6', 'blue'], ['#a855f7', 'purple'], ['#ec4899', 'pink']
+        ];
+        palette.forEach(([col, key], i) => {
+          const x = 34 + (i / (palette.length - 1)) * (W - 68);
+          state.rings.push(new Ring(x, H - 22 - (i % 2) * 14, col, key));
+        });
+      } else if (state.mode === 'rings6') {
+        // Classic 6-peg 3-tier pyramid
+        state.targetScore = 6;
+        state.pegs.push(new Peg(W * 0.25, H - 64, 46, '#f8fafc', null, 2, true));
+        state.pegs.push(new Peg(W * 0.50, H - 64, 46, '#f8fafc', null, 2, true));
+        state.pegs.push(new Peg(W * 0.75, H - 64, 46, '#f8fafc', null, 2, true));
+        state.pegs.push(new Peg(W * 0.32, H * 0.54, 46, '#f1f5f9', null, 2, false));
+        state.pegs.push(new Peg(W * 0.68, H * 0.54, 46, '#f1f5f9', null, 2, false));
+        state.pegs.push(new Peg(W * 0.50, H * 0.31, 46, '#fde047', null, 2, false));
+
+        const palette = [
+          ['#ef4444', 'red'], ['#f59e0b', 'amber'], ['#10b981', 'green'],
+          ['#3b82f6', 'blue'], ['#8b5cf6', 'purple'], ['#ec4899', 'pink']
+        ];
+        palette.forEach(([col, key], i) => {
+          const x = 38 + (i / (palette.length - 1)) * (W - 76);
+          state.rings.push(new Ring(x, H - 22, col, key));
+        });
+      } else if (state.mode === 'color') {
+        // 3 Color-Coded Pegs (Red, Green, Blue) + 6 Matching Rings
+        state.targetScore = 6;
+        state.pegs.push(new Peg(W * 0.25, H - 96, 68, '#f87171', 'red', 3, true));
+        state.pegs.push(new Peg(W * 0.50, H - 130, 72, '#4ade80', 'green', 3, true));
+        state.pegs.push(new Peg(W * 0.75, H - 96, 68, '#60a5fa', 'blue', 3, true));
+        const pairs = [
+          ['#ef4444', 'red'], ['#22c55e', 'green'], ['#3b82f6', 'blue'],
+          ['#ef4444', 'red'], ['#22c55e', 'green'], ['#3b82f6', 'blue']
+        ];
+        pairs.forEach(([col, key], i) => {
+          const x = 38 + (i / (pairs.length - 1)) * (W - 76);
+          state.rings.push(new Ring(x, H - 22, col, key));
+        });
       } else {
-        initBasketMode();
+        // Aquatic Basketball with 3 floating hoops
+        state.targetScore = 6;
+        state.hoops.push(new BasketHoop(W * 0.28, H * 0.44));
+        state.hoops.push(new BasketHoop(W * 0.72, H * 0.44));
+        state.hoops.push(new BasketHoop(W * 0.50, H * 0.27));
+        const bCols = ['#f97316', '#ef4444', '#eab308', '#22c55e', '#06b6d4', '#a855f7'];
+        bCols.forEach((col, i) => {
+          const x = 38 + (i / (bCols.length - 1)) * (W - 76);
+          state.balls.push(new BasketBall(x, H - 20, col));
+        });
       }
 
       updateScoreUI();
@@ -1432,541 +2634,465 @@
       document.getElementById('winModal').classList.add('hidden');
     }
 
-    function initRingsMode() {
-      state.targetScore = CONFIG.numRings;
-
-      // 6 Hastes em 3 níveis (inferior, intermediário e topo)
-      const bottomY = canvas.height - 48;
-      const spacing = canvas.width / 4;
-      const spikeColor = '#f1f5f9';
-
-      // Nível Inferior (3 hastes)
-      for (let i = 0; i < 3; i++) {
-        state.spikes.push(new Spike(spacing * (i + 1), bottomY, spikeColor));
+    function recomputeScore() {
+      if (state.mode === 'basket') {
+        state.score = state.balls.filter(b => b.hoop !== null).length;
+      } else if (state.mode === 'color') {
+        state.score = state.rings.filter(r => r.peg && r.peg.colorKey === r.colorKey).length;
+      } else {
+        state.score = state.rings.filter(r => r.peg !== null).length;
       }
-      // Nível Médio (2 hastes)
-      state.spikes.push(new Spike(canvas.width * 0.28, canvas.height * 0.53, spikeColor));
-      state.spikes.push(new Spike(canvas.width * 0.72, canvas.height * 0.53, spikeColor));
-      // Nível Superior (1 haste mestre no centro)
-      state.spikes.push(new Spike(canvas.width * 0.5, canvas.height * 0.28, '#fbbf24'));
-
-      // 6 Argolas coloridas nostálgicas distribuídas equilibradamente
-      const colors = ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
-      const ringSpacing = (canvas.width - 64) / (CONFIG.numRings - 1);
-      for (let i = 0; i < CONFIG.numRings; i++) {
-        const x = 32 + i * ringSpacing;
-        const y = canvas.height - CONFIG.ringRadius - 8;
-        state.rings.push(new Ring(x, y, colors[i]));
-      }
+      updateScoreUI();
     }
 
-    function initBasketMode() {
-      state.targetScore = CONFIG.numBalls;
-
-      // 3 Cestas submarinas em posições estratégicas
-      state.baskets.push(new BasketHoop(canvas.width * 0.28, canvas.height * 0.42));
-      state.baskets.push(new BasketHoop(canvas.width * 0.72, canvas.height * 0.42));
-      state.baskets.push(new BasketHoop(canvas.width * 0.5, canvas.height * 0.26));
-
-      // 6 Bolinhas flutuantes com cores vivas distribuídas equilibradamente
-      const ballColors = ['#f97316', '#ef4444', '#eab308', '#22c55e', '#06b6d4', '#a855f7'];
-      const ballSpacing = (canvas.width - 64) / (CONFIG.numBalls - 1);
-      for (let i = 0; i < CONFIG.numBalls; i++) {
-        const x = 32 + i * ballSpacing;
-        const y = canvas.height - CONFIG.basketBallRadius - 8;
-        state.balls.push(new BasketBall(x, y, ballColors[i]));
-      }
+    function formatTime(ms) {
+      const s = Math.floor(ms / 1000);
+      return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
     }
 
-    // Cronômetro
     function startTimer() {
-      clearInterval(state.timerInterval);
+      clearInterval(state.timerId);
       state.startTime = Date.now();
       state.elapsedMs = 0;
       state.timerActive = true;
-      state.timerInterval = setInterval(() => {
+      document.getElementById('timerDisplay').textContent = '00:00';
+      state.timerId = setInterval(() => {
         if (!state.timerActive) return;
         state.elapsedMs = Date.now() - state.startTime;
         document.getElementById('timerDisplay').textContent = formatTime(state.elapsedMs);
       }, 200);
     }
 
-    function stopTimer() {
-      state.timerActive = false;
-      clearInterval(state.timerInterval);
-    }
-
-    function formatTime(ms) {
-      const totalSec = Math.floor(ms / 1000);
-      const m = Math.floor(totalSec / 60);
-      const s = totalSec % 60;
-      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    }
-
     function updateScoreUI() {
       document.getElementById('scoreDisplay').textContent = `${state.score} / ${state.targetScore}`;
-      const best = localStorage.getItem(`aquaplay_best_${state.mode}`);
-      document.getElementById('bestRecordDisplay').textContent = best ? formatTime(parseInt(best)) : '--:--';
+      const best = localStorage.getItem(`aquaplay_v2_best_${state.mode}`);
+      document.getElementById('bestDisplay').textContent = best ? formatTime(parseInt(best, 10)) : '--:--';
     }
 
     function checkVictory() {
       if (state.score >= state.targetScore && !state.gameWon) {
         state.gameWon = true;
-        stopTimer();
+        state.timerActive = false;
+        clearInterval(state.timerId);
         sound.playVictory();
         triggerConfetti();
         safeVibrate([60, 40, 80, 40, 100]);
 
-        const bestKey = `aquaplay_best_${state.mode}`;
-        const previousBest = localStorage.getItem(bestKey);
-        let isNewRecord = false;
-        if (!previousBest || state.elapsedMs < parseInt(previousBest)) {
-          localStorage.setItem(bestKey, state.elapsedMs);
-          isNewRecord = true;
-        }
+        const key = `aquaplay_v2_best_${state.mode}`;
+        const prev = localStorage.getItem(key);
+        const isNew = !prev || state.elapsedMs < parseInt(prev, 10);
+        if (isNew) localStorage.setItem(key, String(state.elapsedMs));
+        updateScoreUI();
 
-        const winModal = document.getElementById('winModal');
-        document.getElementById('winTimeDisplay').textContent = formatTime(state.elapsedMs);
-        document.getElementById('winRecordDisplay').textContent = formatTime(parseInt(localStorage.getItem(bestKey)));
-        document.getElementById('winModalDesc').textContent = isNewRecord 
-          ? "🎉 NOVO RECORDE PESSOAL! Você foi incrivelmente rápido!"
-          : "Você completou o desafio aquático com maestria!";
-        winModal.classList.remove('hidden');
+        document.getElementById('winTime').textContent = formatTime(state.elapsedMs);
+        document.getElementById('winRecord').textContent = formatTime(parseInt(localStorage.getItem(key), 10));
+        document.getElementById('winDesc').textContent = isNew ? I18N[state.lang].winNewRecord : I18N[state.lang].winRegular;
+        document.getElementById('winModal').classList.remove('hidden');
       }
     }
 
-    // Chacoalhar o brinquedo
     function triggerShake() {
       if (state.gameWon) return;
       const shell = document.getElementById('toyShell');
       shell.classList.remove('shake');
-      void shell.offsetWidth; // reflow
+      void shell.offsetWidth;
       shell.classList.add('shake');
-      sound.playSplash();
+      sound.playSlosh();
       safeVibrate([40, 50, 40]);
 
-      // Impulsos aleatórios nas peças livres
-      if (state.mode === 'rings') {
-        state.rings.forEach(r => {
-          if (!r.onSpike) {
-            r.vx += randomRange(-4.5, 4.5);
-            r.vy += randomRange(-3.5, 3.5);
-            r.angularVel += randomRange(-0.25, 0.25);
-          }
+      if (state.mode === 'basket') {
+        state.balls.forEach(b => {
+          if (!b.hoop) { b.vx += rand(-4.8, 4.8); b.vy += rand(-3.8, 2.2); }
         });
       } else {
-        state.balls.forEach(b => {
-          if (!b.scored) {
-            b.vx += randomRange(-4.5, 4.5);
-            b.vy += randomRange(-3.5, 3.5);
+        state.rings.forEach(r => {
+          if (!r.peg) {
+            r.vx += rand(-4.8, 4.8);
+            r.vy += rand(-3.8, 2.2);
+            r.angularVel += rand(-0.22, 0.22);
+            r.tiltVel += rand(-0.22, 0.22);
           }
         });
       }
 
-      // Nuvem de bolhas
-      for (let i = 0; i < 14; i++) {
-        state.bubbles.push(new Bubble(randomRange(20, canvas.width - 20), canvas.height - randomRange(10, 60)));
+      // Detached air pocket micro-bubbles + bottom burst
+      for (let i = 0; i < 16; i++) {
+        state.bubbles.push(new Bubble(rand(22, W - 22), i < 6 ? WATER_TOP + rand(4, 16) : H - rand(8, 50), rand(1.5, 4.5)));
       }
     }
 
-    // Confetes Canvas
     function triggerConfetti() {
       const c = document.getElementById('confettiCanvas');
       c.width = window.innerWidth;
       c.height = window.innerHeight;
       const cc = c.getContext('2d');
-      const particles = [];
-      const colors = ['#f59e0b', '#ef4444', '#10b981', '#3b82f6', '#ec4899', '#8b5cf6'];
-
-      for (let i = 0; i < 90; i++) {
-        particles.push({
-          x: c.width * 0.5,
-          y: c.height * 0.45,
-          vx: (Math.random() - 0.5) * 14,
-          vy: (Math.random() - 0.7) * 16,
-          color: colors[i % colors.length],
-          size: Math.random() * 8 + 4,
-          rotation: Math.random() * 360,
-          rotSpeed: (Math.random() - 0.5) * 10
-        });
-      }
-
-      let frame = 0;
-      function anim() {
+      const cols = ['#f59e0b', '#ef4444', '#10b981', '#3b82f6', '#ec4899', '#a855f7'];
+      const parts = Array.from({ length: 95 }, (_, i) => ({
+        x: c.width * 0.5, y: c.height * 0.42,
+        vx: rand(-8, 8), vy: rand(-12, -3),
+        col: cols[i % cols.length], s: rand(4, 9), rot: rand(0, 360), rv: rand(-8, 8)
+      }));
+      let f = 0;
+      (function loop() {
         cc.clearRect(0, 0, c.width, c.height);
-        particles.forEach(p => {
-          p.x += p.vx;
-          p.y += p.vy;
-          p.vy += 0.35;
-          p.rotation += p.rotSpeed;
+        parts.forEach(p => {
+          p.x += p.vx; p.y += p.vy; p.vy += 0.32; p.rot += p.rv;
           cc.save();
           cc.translate(p.x, p.y);
-          cc.rotate(p.rotation * Math.PI / 180);
-          cc.fillStyle = p.color;
-          cc.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+          cc.rotate(p.rot * Math.PI / 180);
+          cc.fillStyle = p.col;
+          cc.fillRect(-p.s * 0.5, -p.s * 0.3, p.s, p.s * 0.6);
           cc.restore();
         });
-        frame++;
-        if (frame < 170) requestAnimationFrame(anim);
+        if (++f < 155) requestAnimationFrame(loop);
         else cc.clearRect(0, 0, c.width, c.height);
-      }
-      anim();
+      })();
     }
 
-    // ===== GAME LOOP PRINCIPAL =====
-    let lastTime = 0;
-    function gameLoop(timestamp) {
-      const dt = Math.min((timestamp - lastTime) / 16.67, 2.0);
-      lastTime = timestamp;
+    let toastTimer = null;
+    function showToast(msg, ms = 2200) {
+      const box = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      box.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => box.classList.add('hidden'), ms);
+    }
 
-      // Suavização hidrodinâmica da gravidade pelo giroscópio (inércia d'água 360°)
-      state.gravityX = lerp(state.gravityX, state.targetGravityX, 0.12);
-      state.gravityY = lerp(state.gravityY, state.targetGravityY, 0.12);
+    // ==================== MAIN LOOP (SUB-STEPPED 60/120/144Hz SAFE) ====================
+    let lastTs = performance.now();
+    const shellEl = document.getElementById('toyShell');
 
-      // 1. Atualizar forças dos jatos
-      if (state.pumpLeftActive) {
-        state.jetForceLeft = lerp(state.jetForceLeft, CONFIG.jetMaxForce, 0.18);
-        if (Math.random() < 0.4) sound.playBubbleSound();
-        if (state.bubbles.length < 50) {
-          state.bubbles.push(new Bubble(canvas.width * 0.22 + randomRange(-25, 25), canvas.height - randomRange(5, 30)));
-        }
-      } else {
-        state.jetForceLeft = lerp(state.jetForceLeft, 0, 0.12);
+    function tick(ts) {
+      const rawDt = clamp((ts - lastTs) / 1000, 0.001, 1 / 24);
+      lastTs = ts;
+      const nowSec = ts * 0.001;
+
+      // Desktop tilt keyboard smoothly shifts manualTiltX
+      if (state.tiltLeftHeld) state.manualTiltX = clamp(state.manualTiltX - 2.6 * rawDt, -1.15, 1.15);
+      else if (state.tiltRightHeld) state.manualTiltX = clamp(state.manualTiltX + 2.6 * rawDt, -1.15, 1.15);
+      else if (!isDraggingShell) state.manualTiltX = lerp(state.manualTiltX, 0, 1 - Math.pow(0.05, rawDt));
+
+      const targetGX = clamp(state.gyroX + state.manualTiltX, -1.5, 1.5);
+      const targetGY = clamp(state.gyroY, -1.5, 1.5);
+      const gSmooth = 1 - Math.pow(0.001, rawDt);
+      state.gravityX = lerp(state.gravityX, targetGX, gSmooth);
+      state.gravityY = lerp(state.gravityY, targetGY, gSmooth);
+
+      // Visual 3D plastic shell tilt feedback
+      state.shellPitchRecoil = lerp(state.shellPitchRecoil, (state.pumpLHeld || state.pumpRHeld) ? -2.2 : 0, 1 - Math.pow(0.001, rawDt));
+      if (!shellEl.classList.contains('shake')) {
+        const rotY = clamp(state.gravityX * 9.5, -13, 13);
+        const rotX = clamp((state.gravityY - 1) * -6 + state.shellPitchRecoil, -10, 10);
+        shellEl.style.transform = `rotateY(${rotY.toFixed(2)}deg) rotateX(${rotX.toFixed(2)}deg)`;
       }
 
-      if (state.pumpRightActive) {
-        state.jetForceRight = lerp(state.jetForceRight, CONFIG.jetMaxForce, 0.18);
-        if (Math.random() < 0.4) sound.playBubbleSound();
-        if (state.bubbles.length < 50) {
-          state.bubbles.push(new Bubble(canvas.width * 0.78 + randomRange(-25, 25), canvas.height - randomRange(5, 30)));
-        }
-      } else {
-        state.jetForceRight = lerp(state.jetForceRight, 0, 0.12);
+      // Realistic Piston Pressure Pulse (strong burst on press + gentle residual flow while held)
+      state.pulseL *= Math.pow(0.04, rawDt);
+      state.pulseR *= Math.pow(0.04, rawDt);
+      const targetJetL = state.pulseL * 2.55 + (state.pumpLHeld ? 0.68 : 0);
+      const targetJetR = state.pulseR * 2.55 + (state.pumpRHeld ? 0.68 : 0);
+      state.jetL = lerp(state.jetL, targetJetL, 1 - Math.pow(0.0002, rawDt));
+      state.jetR = lerp(state.jetR, targetJetR, 1 - Math.pow(0.0002, rawDt));
+
+      // Spawn jet bubbles
+      if (state.jetL > 0.25 && state.bubbles.length < 70 && Math.random() < clamp(state.jetL * 0.42, 0.1, 0.85)) {
+        const br = rand(1.4, 4.2);
+        state.bubbles.push(new Bubble(NOZZLE_L + rand(-12, 12), H - rand(4, 14), br, rand(-0.4, 0.9), -1.8 - state.jetL * 1.4));
+        if (Math.random() < 0.28) sound.playBubble(br, -0.35);
+      }
+      if (state.jetR > 0.25 && state.bubbles.length < 70 && Math.random() < clamp(state.jetR * 0.42, 0.1, 0.85)) {
+        const br = rand(1.4, 4.2);
+        state.bubbles.push(new Bubble(NOZZLE_R + rand(-12, 12), H - rand(4, 14), br, rand(-0.9, 0.4), -1.8 - state.jetR * 1.4));
+        if (Math.random() < 0.28) sound.playBubble(br, 0.35);
       }
 
-      // 2. Renderizar fundo aquático
-      drawWaterBackground();
+      // Sub-step physics for crisp, zero-tunneling collisions
+      const SUBSTEPS = 3;
+      const stepDt = rawDt / SUBSTEPS;
+      for (let s = 0; s < SUBSTEPS; s++) {
+        state.motes.forEach(m => m.update(stepDt));
+        state.bubbles = state.bubbles.filter(b => b.update(stepDt));
 
-      // 3. Partículas de poeira submarina
-      state.dustParticles.forEach(d => { d.update(); d.draw(); });
+        if (state.mode === 'basket') {
+          state.hoops.forEach(h => h.update(stepDt));
+          state.balls.forEach(b => b.update(stepDt));
+          resolveBodyCollisions(state.balls, 0.62, b => b.hoop !== null);
+        } else {
+          state.rings.forEach(r => r.update(stepDt));
+          resolveBodyCollisions(state.rings, 0.44, r => r.peg !== null);
+        }
+      }
 
-      // 4. Fluxo visual das correntes
-      drawJetFlow(canvas.width * 0.22, state.jetForceLeft, 1);
-      drawJetFlow(canvas.width * 0.78, state.jetForceRight, -1);
-
-      // 5. Bolhas d'água
-      state.bubbles = state.bubbles.filter(b => b.update());
+      // ==================== RENDERING PIPELINE ====================
+      drawSceneBase(nowSec);
+      state.motes.forEach(m => m.draw());
       state.bubbles.forEach(b => b.draw());
 
-      // 6. Atualizar elementos do modo atual
-      if (state.mode === 'rings') {
-        state.spikes.forEach(s => s.draw());
-        state.rings.forEach(r => r.update(dt));
-
-        // Colisões entre argolas
-        for (let i = 0; i < state.rings.length; i++) {
-          for (let j = i + 1; j < state.rings.length; j++) {
-            const r1 = state.rings[i], r2 = state.rings[j];
-            if (r1.onSpike && r2.onSpike) continue;
-            const dist = Math.hypot(r2.x - r1.x, r2.y - r1.y);
-            const minDist = r1.radius + r2.radius;
-            if (dist < minDist && dist > 0) {
-              const nx = (r2.x - r1.x) / dist, ny = (r2.y - r1.y) / dist;
-              const overlap = minDist - dist;
-              if (!r1.onSpike && !r1.settling) { r1.x -= overlap * 0.5 * nx; r1.y -= overlap * 0.5 * ny; }
-              if (!r2.onSpike && !r2.settling) { r2.x += overlap * 0.5 * nx; r2.y += overlap * 0.5 * ny; }
-            }
-          }
-        }
-
-        // Encaixe nas hastes
-        if (!state.gameWon) {
-          state.rings.forEach(ring => {
-            if (ring.onSpike || ring.settling) return;
-            for (const spike of state.spikes) {
-              if (spike.checkLanding(ring)) {
-                spike.addRing(ring);
-                break;
-              }
-            }
-          });
-        }
-
-        state.rings.forEach(r => r.draw());
+      if (state.mode === 'basket') {
+        state.hoops.forEach(h => h.drawBack());
+        state.balls.forEach(b => b.draw());
+        state.hoops.forEach(h => h.drawFront());
       } else {
-        // Modo Basquete
-        state.baskets.forEach(b => b.draw());
-        state.balls.forEach(ball => {
-          ball.update(dt);
-          if (!state.gameWon) {
-            for (const basket of state.baskets) {
-              if (basket.checkBasket(ball)) break;
-            }
-          }
-          ball.draw();
-        });
+        // TRUE 3D DEPTH LAYERING:
+        // 1. Peg pedestals
+        state.pegs.forEach(p => p.drawBase());
+        // 2. Back half of threaded rings (BEHIND peg shaft!)
+        state.rings.forEach(r => { if (r.peg) r.draw('back'); });
+        // 3. Tapered peg shafts
+        state.pegs.forEach(p => p.drawShaft());
+        // 4. Front half of threaded rings (IN FRONT of peg shaft!)
+        state.rings.forEach(r => { if (r.peg) r.draw('front'); });
+        // 5. Free floating rings tumbling in foreground water
+        state.rings.forEach(r => { if (!r.peg) r.draw('full'); });
       }
 
-      requestAnimationFrame(gameLoop);
+      drawStaticEdgeBubbles();
+      requestAnimationFrame(tick);
     }
 
-    // ===== EVENT LISTENERS & INICIALIZAÇÃO =====
-    document.addEventListener('DOMContentLoaded', () => {
-
-      // Alternar Modo de Jogo (Dropdown)
-      function setGameMode(newMode) {
-        state.mode = newMode;
-        localStorage.setItem('aquaplay_mode', state.mode);
-        updateModeDropdownUI();
-        showToast(state.mode === 'rings' ? "Modo ativado: Argolas Clássicas" : "Modo ativado: Basquete Aquático");
-        initGame();
-      }
-
-      function updateModeDropdownUI() {
-        const isRings = state.mode === 'rings';
-        document.getElementById('modeDisplay').textContent = isRings ? "Argolas Clássicas" : "Basquete Aquático";
-        const checkR = document.querySelector('.check-rings');
-        const checkB = document.querySelector('.check-basket');
-        if (checkR) checkR.classList.toggle('hidden', !isRings);
-        if (checkB) checkB.classList.toggle('hidden', isRings);
-      }
-
-      const btnModeDropdown = document.getElementById('btnModeDropdown');
-      const modeDropdownMenu = document.getElementById('modeDropdownMenu');
-      const modeChevron = document.getElementById('modeChevron');
-      const btnCloseModeModal = document.getElementById('btnCloseModeModal');
-      const modeModalCard = document.getElementById('modeModalCard');
-
-      function openModeModal() {
-        if (!modeDropdownMenu) return;
-        modeDropdownMenu.classList.remove('hidden');
-        if (modeChevron) modeChevron.style.transform = 'rotate(180deg)';
-      }
-
-      function closeModeModal() {
-        if (!modeDropdownMenu) return;
-        modeDropdownMenu.classList.add('hidden');
-        if (modeChevron) modeChevron.style.transform = 'rotate(0deg)';
-      }
-
-      if (btnModeDropdown && modeDropdownMenu) {
-        btnModeDropdown.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const isOpen = !modeDropdownMenu.classList.contains('hidden');
-          if (isOpen) {
-            closeModeModal();
-          } else {
-            openModeModal();
-          }
-        });
-
-        if (btnCloseModeModal) {
-          btnCloseModeModal.addEventListener('click', (e) => {
-            e.stopPropagation();
-            closeModeModal();
-          });
-        }
-
-        // Fechar ao tocar no fundo escuro
-        modeDropdownMenu.addEventListener('click', (e) => {
-          if (e.target === modeDropdownMenu) {
-            closeModeModal();
-          }
-        });
-
-        // Fechar com tecla ESC
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && !modeDropdownMenu.classList.contains('hidden')) {
-            closeModeModal();
-          }
-        });
-
-        document.querySelectorAll('.mode-item').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            setGameMode(btn.dataset.mode);
-            closeModeModal();
-          });
-        });
-      }
-
-      // Alternar Temas da Carcaça
-      const themes = ['yellow', 'blue', 'red'];
-      function setTheme(thm) {
-        state.theme = thm;
-        localStorage.setItem('aquaplay_theme', state.theme);
-        document.body.className = `p-2 sm:p-4 theme-${state.theme}`;
-      }
-      document.getElementById('btnThemeToggle').addEventListener('click', () => {
-        const nextIdx = (themes.indexOf(state.theme) + 1) % themes.length;
-        setTheme(themes[nextIdx]);
-        showToast(`Tema alterado: ${state.theme === 'yellow' ? 'Amarelo Estrela' : (state.theme === 'blue' ? 'Azul Oceano' : 'Vermelho Arcade')}`);
+    // ==================== UI, CONTROLS & SENSORS ====================
+    function applyLanguage() {
+      const d = I18N[state.lang];
+      document.documentElement.lang = state.lang === 'pt' ? 'pt-BR' : 'en';
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (d[k]) el.textContent = d[k];
       });
-      setTheme(state.theme);
+      document.getElementById('btnLang').textContent = state.lang === 'pt' ? 'EN' : 'PT';
+      document.getElementById('modeDisplay').textContent = d.modeNames[state.mode] || state.mode;
+      document.getElementById('backdropTag').textContent = d.backdropNames[state.backdrop] || state.backdrop;
+    }
 
-      // Controle de Áudio
-      const btnAudioToggle = document.getElementById('btnAudioToggle');
-      const audioIcon = document.getElementById('audioIcon');
-      function updateAudioIcon() {
-        audioIcon.className = sound.muted ? "fas fa-volume-xmark text-rose-400" : "fas fa-volume-high text-emerald-400";
-      }
-      btnAudioToggle.addEventListener('click', () => {
-        const active = sound.toggle();
-        updateAudioIcon();
-        showToast(active ? "Efeitos sonoros ativados." : "Efeitos sonoros desativados.");
+    function applyTheme() {
+      document.body.className = `theme-${state.theme}`;
+    }
+
+    function updateModeChecks() {
+      document.querySelectorAll('.mode-opt').forEach(btn => {
+        const active = btn.dataset.mode === state.mode;
+        btn.classList.toggle('active', active);
+        const chk = btn.querySelector('.mode-check');
+        if (chk) chk.classList.toggle('hidden', !active);
       });
-      updateAudioIcon();
+    }
 
-      // Botões Pistão (Bomba Esquerda / Bomba Direita)
-      const btnPumpLeft = document.getElementById('btnPumpLeft');
-      const btnPumpRight = document.getElementById('btnPumpRight');
-
-      function startPumpLeft(e) {
-        if (e) e.preventDefault();
-        state.pumpLeftActive = true;
-        btnPumpLeft.classList.add('pumping');
-        sound.playPump('left');
-        safeVibrate(25);
+    function setMode(newMode) {
+      state.mode = newMode;
+      localStorage.setItem('aquaplay_mode_v2', newMode);
+      // Auto-select matching classic backdrop when entering/leaving Basketball
+      if (newMode === 'basket' && state.backdrop !== 'court') {
+        state.backdrop = 'court';
+        localStorage.setItem('aquaplay_backdrop', state.backdrop);
+        rebuildBackdropCache();
+      } else if (newMode !== 'basket' && state.backdrop === 'court') {
+        state.backdrop = 'coral';
+        localStorage.setItem('aquaplay_backdrop', state.backdrop);
+        rebuildBackdropCache();
       }
-      function endPumpLeft(e) {
-        if (e) e.preventDefault();
-        state.pumpLeftActive = false;
-        btnPumpLeft.classList.remove('pumping');
-      }
-
-      function startPumpRight(e) {
-        if (e) e.preventDefault();
-        state.pumpRightActive = true;
-        btnPumpRight.classList.add('pumping');
-        sound.playPump('right');
-        safeVibrate(25);
-      }
-      function endPumpRight(e) {
-        if (e) e.preventDefault();
-        state.pumpRightActive = false;
-        btnPumpRight.classList.remove('pumping');
-      }
-
-      // Função unificada para soltar as bombas
-      function endAllPumps() {
-        endPumpLeft();
-        endPumpRight();
-      }
-
-      window.addEventListener('mouseup', endAllPumps);
-      window.addEventListener('touchend', endAllPumps);
-      window.addEventListener('touchcancel', endAllPumps);
-
-      // Eventos de Mouse e Touch para Bomba Esquerda
-      btnPumpLeft.addEventListener('mousedown', startPumpLeft);
-      btnPumpLeft.addEventListener('mouseleave', endPumpLeft);
-      btnPumpLeft.addEventListener('touchstart', startPumpLeft, { passive: false });
-      btnPumpLeft.addEventListener('touchend', endPumpLeft, { passive: false });
-      btnPumpLeft.addEventListener('touchcancel', endPumpLeft, { passive: false });
-
-      // Eventos de Mouse e Touch para Bomba Direita
-      btnPumpRight.addEventListener('mousedown', startPumpRight);
-      btnPumpRight.addEventListener('mouseleave', endPumpRight);
-      btnPumpRight.addEventListener('touchstart', startPumpRight, { passive: false });
-      btnPumpRight.addEventListener('touchend', endPumpRight, { passive: false });
-      btnPumpRight.addEventListener('touchcancel', endPumpRight, { passive: false });
-
-      // Chacoalhar e Reiniciar
-      document.getElementById('btnShake').addEventListener('click', triggerShake);
-      document.getElementById('btnReset').addEventListener('click', initGame);
-      document.getElementById('btnPlayAgain').addEventListener('click', initGame);
-
-      // Atalhos de Teclado
-      window.addEventListener('keydown', (e) => {
-        if (e.repeat) return;
-        const k = e.key.toLowerCase();
-        if (k === 'z' || k === 'arrowleft') startPumpLeft();
-        if (k === 'x' || k === 'arrowright') startPumpRight();
-        if (k === ' ' || k === 'spacebar') { e.preventDefault(); triggerShake(); }
-        if (k === 'r') initGame();
-        if (k === 'm') { sound.toggle(); updateAudioIcon(); }
-      });
-      window.addEventListener('keyup', (e) => {
-        const k = e.key.toLowerCase();
-        if (k === 'z' || k === 'arrowleft') endPumpLeft();
-        if (k === 'x' || k === 'arrowright') endPumpRight();
-      });
-
-      // Suporte a Giroscópio 360° (Mobile DeviceOrientation - Sempre Ativo por Padrão)
-      function initGyroscope() {
-        if (!window.DeviceOrientationEvent) return;
-
-        // Se iOS 13+ requer permissão em gesto do usuário
-        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-          const enableOnFirstGesture = () => {
-            DeviceOrientationEvent.requestPermission().then(res => {
-              if (res === 'granted') {
-                window.addEventListener('deviceorientation', handleOrientation);
-                const badge = document.getElementById('tiltBadgeText');
-                if (badge) badge.textContent = "Giroscópio Ativo";
-              }
-            }).catch(() => {});
-            window.removeEventListener('touchstart', enableOnFirstGesture);
-            window.removeEventListener('click', enableOnFirstGesture);
-          };
-          window.addEventListener('touchstart', enableOnFirstGesture, { once: true });
-          window.addEventListener('click', enableOnFirstGesture, { once: true });
-        } else {
-          // Android, Chrome e navegadores modernos: ativa imediatamente no carregamento!
-          window.addEventListener('deviceorientation', handleOrientation);
-        }
-      }
-
-      function handleOrientation(e) {
-        if (!state.tiltEnabled) return;
-
-        // beta: rotação frente/trás [-180, 180] (em pé ~ 50° a 80°, ponta cabeça < -10° ou invertido)
-        // gamma: inclinação lateral [-90, 90] (esquerda negativo, direita positivo)
-        const beta = (e.beta !== null && e.beta !== undefined) ? e.beta : 60;
-        const gamma = (e.gamma !== null && e.gamma !== undefined) ? e.gamma : 0;
-
-        const radBeta = beta * Math.PI / 180;
-        const radGamma = gamma * Math.PI / 180;
-
-        // Projeção física do vetor de gravidade 3D na água 2D do brinquedo
-        let gx = Math.sin(radGamma);
-        let gy = Math.sin(radBeta);
-
-        // Se o celular estiver virado de costas
-        if (Math.abs(gamma) > 90) {
-          gy = -gy;
-        }
-
-        // Zona morta suave para estabilidade das mãos
-        if (Math.abs(gx) < 0.04) gx = 0;
-
-        // Atualizar alvos de aceleração da gravidade
-        state.targetGravityX = clamp(gx * 1.35, -1.6, 1.6);
-        state.targetGravityY = clamp(gy * 1.25, -1.6, 1.6);
-      }
-
-      initGyroscope();
-
-      // Previne zoom indesejado no mobile
-      document.addEventListener('gesturestart', e => e.preventDefault());
-
-      // Iniciar
-      updateModeDropdownUI();
+      updateModeChecks();
+      applyLanguage();
       initGame();
-      requestAnimationFrame(gameLoop);
+      showToast(I18N[state.lang].modeNames[newMode]);
+    }
+
+    // Pump button interactions (supports rapid rhythmic pumping + holding)
+    const btnL = document.getElementById('btnPumpLeft');
+    const btnR = document.getElementById('btnPumpRight');
+
+    function fireLeft(e) {
+      if (e) e.preventDefault();
+      state.pumpLHeld = true;
+      state.pulseL = 1.0;
+      btnL.classList.add('pumping');
+      sound.playPump('left');
+      safeVibrate(22);
+      for (let i = 0; i < 6; i++) {
+        state.bubbles.push(new Bubble(NOZZLE_L + rand(-10, 10), H - rand(4, 14), rand(1.8, 4.4), rand(-0.5, 1.1), rand(-4.8, -2.5)));
+      }
+    }
+    function stopLeft() {
+      state.pumpLHeld = false;
+      btnL.classList.remove('pumping');
+    }
+
+    function fireRight(e) {
+      if (e) e.preventDefault();
+      state.pumpRHeld = true;
+      state.pulseR = 1.0;
+      btnR.classList.add('pumping');
+      sound.playPump('right');
+      safeVibrate(22);
+      for (let i = 0; i < 6; i++) {
+        state.bubbles.push(new Bubble(NOZZLE_R + rand(-10, 10), H - rand(4, 14), rand(1.8, 4.4), rand(-1.1, 0.5), rand(-4.8, -2.5)));
+      }
+    }
+    function stopRight() {
+      state.pumpRHeld = false;
+      btnR.classList.remove('pumping');
+    }
+
+    btnL.addEventListener('pointerdown', fireLeft);
+    btnL.addEventListener('pointerup', stopLeft);
+    btnL.addEventListener('pointerleave', stopLeft);
+    btnL.addEventListener('pointercancel', stopLeft);
+
+    btnR.addEventListener('pointerdown', fireRight);
+    btnR.addEventListener('pointerup', stopRight);
+    btnR.addEventListener('pointerleave', stopRight);
+    btnR.addEventListener('pointercancel', stopRight);
+    window.addEventListener('pointerup', () => { stopLeft(); stopRight(); state.tiltLeftHeld = false; state.tiltRightHeld = false; });
+
+    // Desktop Tilt via Dragging the Plastic Shell
+    let isDraggingShell = false;
+    let dragStartX = 0;
+    shellEl.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('button')) return;
+      isDraggingShell = true;
+      dragStartX = e.clientX;
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (!isDraggingShell) return;
+      state.manualTiltX = clamp((e.clientX - dragStartX) / 85, -1.25, 1.25);
+    });
+    window.addEventListener('pointerup', () => { isDraggingShell = false; });
+
+    // Mini Tilt Buttons
+    const bTL = document.getElementById('btnTiltLeft');
+    const bTR = document.getElementById('btnTiltRight');
+    bTL.addEventListener('pointerdown', (e) => { e.preventDefault(); state.tiltLeftHeld = true; });
+    bTL.addEventListener('pointerleave', () => { state.tiltLeftHeld = false; });
+    bTR.addEventListener('pointerdown', (e) => { e.preventDefault(); state.tiltRightHeld = true; });
+    bTR.addEventListener('pointerleave', () => { state.tiltRightHeld = false; });
+
+    // Keyboard shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.repeat) return;
+      const k = e.key.toLowerCase();
+      if (k === 'z' || k === 'arrowleft') fireLeft();
+      if (k === 'x' || k === 'arrowright') fireRight();
+      if (k === 'q') state.tiltLeftHeld = true;
+      if (k === 'e') state.tiltRightHeld = true;
+      if (k === ' ') { e.preventDefault(); triggerShake(); }
+      if (k === 'r') initGame();
+      if (k === 'm') {
+        const on = sound.toggle();
+        updateAudioUI();
+        showToast(on ? I18N[state.lang].toastAudioOn : I18N[state.lang].toastAudioOff);
+      }
+      if (k === 'escape') {
+        document.getElementById('modeModal').classList.add('hidden');
+        document.getElementById('ecoModal').classList.add('hidden');
+      }
+    });
+    window.addEventListener('keyup', (e) => {
+      const k = e.key.toLowerCase();
+      if (k === 'z' || k === 'arrowleft') stopLeft();
+      if (k === 'x' || k === 'arrowright') stopRight();
+      if (k === 'q') state.tiltLeftHeld = false;
+      if (k === 'e') state.tiltRightHeld = false;
     });
 
-    // PWA Service Worker com verificação ativa de atualização
+    // Toolbar buttons & Modals
+    document.getElementById('btnShake').addEventListener('click', triggerShake);
+    document.getElementById('btnReset').addEventListener('click', initGame);
+    document.getElementById('btnPlayAgain').addEventListener('click', initGame);
+
+    const modeModal = document.getElementById('modeModal');
+    document.getElementById('btnModeModal').addEventListener('click', () => modeModal.classList.remove('hidden'));
+    document.getElementById('closeModeModal').addEventListener('click', () => modeModal.classList.add('hidden'));
+    modeModal.addEventListener('click', (e) => { if (e.target === modeModal) modeModal.classList.add('hidden'); });
+    document.querySelectorAll('.mode-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        setMode(btn.dataset.mode);
+        modeModal.classList.add('hidden');
+      });
+    });
+
+    const ecoModal = document.getElementById('ecoModal');
+    document.getElementById('btnEco').addEventListener('click', () => ecoModal.classList.remove('hidden'));
+    document.getElementById('closeEcoModal').addEventListener('click', () => ecoModal.classList.add('hidden'));
+    ecoModal.addEventListener('click', (e) => { if (e.target === ecoModal) ecoModal.classList.add('hidden'); });
+
+    document.getElementById('btnBackdrop').addEventListener('click', () => {
+      const idx = (BACKDROPS.indexOf(state.backdrop) + 1) % BACKDROPS.length;
+      state.backdrop = BACKDROPS[idx];
+      localStorage.setItem('aquaplay_backdrop', state.backdrop);
+      rebuildBackdropCache();
+      applyLanguage();
+      showToast(I18N[state.lang].backdropNames[state.backdrop]);
+    });
+
+    document.getElementById('btnTheme').addEventListener('click', () => {
+      const idx = (THEMES.indexOf(state.theme) + 1) % THEMES.length;
+      state.theme = THEMES[idx];
+      localStorage.setItem('aquaplay_theme', state.theme);
+      applyTheme();
+      showToast(I18N[state.lang].themeNames[state.theme]);
+    });
+
+    function updateAudioUI() {
+      const ic = document.getElementById('audioIcon');
+      ic.className = sound.muted ? 'fas fa-volume-xmark' : 'fas fa-volume-high';
+      ic.style.color = sound.muted ? '#fb7185' : '#34d399';
+    }
+    document.getElementById('btnAudio').addEventListener('click', () => {
+      const on = sound.toggle();
+      updateAudioUI();
+      showToast(on ? I18N[state.lang].toastAudioOn : I18N[state.lang].toastAudioOff);
+    });
+
+    document.getElementById('btnLang').addEventListener('click', () => {
+      state.lang = state.lang === 'pt' ? 'en' : 'pt';
+      localStorage.setItem('aquaplay_lang', state.lang);
+      applyLanguage();
+    });
+
+    // 360° Mobile Gyroscope
+    function handleOrientation(e) {
+      if (e.beta == null && e.gamma == null) return;
+      const beta = e.beta ?? 60;
+      const gamma = e.gamma ?? 0;
+      let gx = Math.sin(gamma * Math.PI / 180);
+      let gy = Math.sin(beta * Math.PI / 180);
+      if (Math.abs(gamma) > 90) gy = -gy;
+      if (Math.abs(gx) < 0.04) gx = 0;
+      state.gyroX = clamp(gx * 1.4, -1.5, 1.5);
+      state.gyroY = clamp(gy * 1.3, -1.5, 1.5);
+    }
+
+    if (window.DeviceOrientationEvent) {
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        const ask = () => {
+          DeviceOrientationEvent.requestPermission().then(res => {
+            if (res === 'granted') window.addEventListener('deviceorientation', handleOrientation);
+          }).catch(() => {});
+        };
+        window.addEventListener('pointerdown', ask, { once: true });
+      } else {
+        window.addEventListener('deviceorientation', handleOrientation);
+      }
+    }
+
+    // Boot
+    applyTheme();
+    updateAudioUI();
+    updateModeChecks();
+    rebuildBackdropCache();
+    applyLanguage();
+    initGame();
+    requestAnimationFrame(tick);
+
+    // Service Worker (no reload flash on first visit!)
     if ('serviceWorker' in navigator) {
+      const hadController = !!navigator.serviceWorker.controller;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js?v=1.3.1').then(reg => {
-          reg.update();
-        }).catch(e => console.warn(e));
+        navigator.serviceWorker.register('service-worker.js?v=2.0.0').then(r => r.update()).catch(() => {});
       });
       navigator.serviceWorker.addEventListener('controllerchange', () => {
-        window.location.reload();
+        if (hadController) window.location.reload();
       });
     }
+  })();
   </script>
 </body>
 </html>
