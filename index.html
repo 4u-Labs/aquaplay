@@ -1804,6 +1804,7 @@
         this.color = color;
         this.colorKey = colorKey;
         this.peg = null; // non-null when physically threaded around a peg
+        this.pegGrace = 0;
         this.wrongColorNotified = false;
         this.phase = rand(0, Math.PI * 2);
       }
@@ -1813,14 +1814,17 @@
         const fluid = sampleFluidVelocity(this.x, this.y);
 
         if (this.peg) {
-          // Physically slides along the peg shaft! Can be blasted OFF the top by strong jet or inversion!
+          // Physically slides along the peg shaft! Can be blasted OFF the top by sustained jet or inversion!
           const peg = this.peg;
           const idx = peg.rings.indexOf(this);
           const restY = peg.baseY - 5 - idx * 8.2;
+          const isWrongColor = peg.colorKey && peg.colorKey !== this.colorKey;
+          const jetSensitivity = isWrongColor ? 0.65 : 0.34;
+          if (this.pegGrace > 0) this.pegGrace -= stepDt;
 
           // Gravity along shaft + upward jet force
           const gNet = state.gravityY * 0.16;
-          this.vy += (gNet + fluid.fy * 0.72) * dt60;
+          this.vy += (gNet + fluid.fy * jetSensitivity) * dt60;
           this.vy *= Math.pow(0.86, dt60);
           this.y += this.vy * dt60;
 
@@ -1847,8 +1851,8 @@
             }
           }
 
-          // Pop off tip if pushed above peg.tipY - 4 (by direct jet or turning upside down!)
-          if (this.y < peg.tipY - 4) {
+          // Pop off tip ONLY after entry grace AND when genuinely pushed upward or inverted!
+          if (this.pegGrace <= 0 && this.y < peg.tipY - 5 && (state.gravityY < -0.15 || this.vy < -0.5)) {
             peg.rings.splice(idx, 1);
             this.peg = null;
             this.vy = Math.min(this.vy, -2.4);
@@ -1942,9 +1946,11 @@
             state.gravityY > 0.15
           ) {
             this.peg = peg;
+            this.pegGrace = 0.35;
             peg.rings.push(this);
             this.x = peg.x;
-            this.vy = Math.max(this.vy * 0.55, 0.7);
+            this.y = Math.max(this.y, peg.tipY + 2);
+            this.vy = Math.max(this.vy * 0.55, 0.85);
             const isMatch = !peg.colorKey || peg.colorKey === this.colorKey;
             if (!isMatch && !this.wrongColorNotified) {
               this.wrongColorNotified = true;
@@ -1969,7 +1975,7 @@
               this.vx = sign * Math.max(Math.abs(this.vx) * 0.5, 0.55);
               this.angularVel += sign * 0.05;
             }
-          } else if (Math.hypot(dxTip, dyTip) < peg.tipRadius + this.tube + 2 && Math.abs(dxTip) >= this.innerRadius * 0.75) {
+          } else if (Math.hypot(dxTip, dyTip) < peg.tipRadius + this.tube + 2 && Math.abs(dxTip) >= this.innerRadius * 0.95) {
             // Glancing bounce off rounded peg tip
             const d = Math.hypot(dxTip, dyTip) || 1;
             const nx = dxTip / d, ny = dyTip / d;
@@ -3128,7 +3134,7 @@
     if ('serviceWorker' in navigator) {
       const hadController = !!navigator.serviceWorker.controller;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js?v=2.0.4').then(r => r.update()).catch(() => {});
+        navigator.serviceWorker.register('service-worker.js?v=2.0.5').then(r => r.update()).catch(() => {});
       });
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (hadController) window.location.reload();
