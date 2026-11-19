@@ -1381,8 +1381,8 @@
     const W = 340;
     const H = 390;
     const WATER_TOP = 24;
-    const NOZZLE_L = W * 0.24;
-    const NOZZLE_R = W * 0.76;
+    const NOZZLE_L = W * 0.21;
+    const NOZZLE_R = W * 0.79;
 
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
@@ -1452,55 +1452,48 @@
     function sampleFluidVelocity(x, y) {
       let fx = 0;
       let fy = 0;
-      const yNorm = clamp(y / H, 0, 1); // 0 at top, 1 at bottom
 
-      // Realistic pressurized AquaPlay chamber:
-      // - Crisp upward fountain surge strongest near the bottom so 1 tap arcs rings just above the pegs
-      //   (without pinning them to the ceiling!) and 2 taps/hold sends them all the way to the top.
-      // - Zero bottom-center dead-zone + subtle fountain spread so rings fan out over ALL pegs.
+      // Left nozzle drives upward plume on left, arching rightward near top, returning down right/center
       if (state.jetL > 0.02) {
         const s = state.jetL;
         const dx = x - NOZZLE_L;
-        // Full lift from the left glass wall all the way to the nozzle (zero corner dead-zone!),
-        // then smoothly tapering across the center & right side.
-        const distX = dx < 0 ? Math.abs(dx) * 0.25 : dx;
-        const jetW = 245;
+        const distX = Math.abs(dx);
+        const jetW = 92;
         if (distX < jetW) {
-          const hx = Math.pow(1 - distX / jetW, 1.1);
-          const vyFactor = 0.16 + 0.84 * Math.pow(yNorm, 0.9);
-          fy -= s * 1.12 * hx * vyFactor;
-          // Sweep outer-left rings cleanly over the left peg & fan the plume across the tank
-          const cornerKick = x < NOZZLE_L ? 0.28 : (x < W * 0.34 ? 0.16 : 0.05);
-          const spread = (dx / jetW) * 0.24 + cornerKick * (1 - yNorm * 0.45);
-          fx += s * spread * hx;
+          const hx = Math.pow(1 - distX / jetW, 1.35);
+          const vyFactor = 0.35 + 0.65 * Math.pow(clamp(y / H, 0, 1), 0.55);
+          fy -= s * 1.42 * hx * vyFactor;
+          fx += s * (dx / jetW) * 0.32 * hx;
         }
-        const vxC = x - W * 0.40;
-        const vyC = y - H * 0.50;
-        const dC = Math.hypot(vxC, vyC) + 60;
-        const swirl = (s * 10) / dC;
-        fx += (-vyC / dC) * swirl * 0.28;
-        fy += (vxC / dC) * swirl * 0.16;
+        // Closed-chamber vortex circulation centered around (0.42*W, 0.44*H)
+        const vxC = x - W * 0.44;
+        const vyC = y - H * 0.44;
+        const dC = Math.hypot(vxC, vyC) + 34;
+        const swirl = (s * 24) / dC;
+        // Clockwise circulation: up on left, right at top, down on right, left at bottom
+        fx += (-vyC / dC) * swirl * 0.44;
+        fy += (vxC / dC) * swirl * 0.32;
       }
 
+      // Right nozzle mirrors: upward plume on right, arching leftward near top, counter-clockwise circulation
       if (state.jetR > 0.02) {
         const s = state.jetR;
         const dx = x - NOZZLE_R;
-        const distX = dx > 0 ? Math.abs(dx) * 0.25 : Math.abs(dx);
-        const jetW = 245;
+        const distX = Math.abs(dx);
+        const jetW = 92;
         if (distX < jetW) {
-          const hx = Math.pow(1 - distX / jetW, 1.1);
-          const vyFactor = 0.16 + 0.84 * Math.pow(yNorm, 0.9);
-          fy -= s * 1.12 * hx * vyFactor;
-          const cornerKick = x > NOZZLE_R ? -0.28 : (x > W * 0.66 ? -0.16 : -0.05);
-          const spread = (dx / jetW) * 0.24 + cornerKick * (1 - yNorm * 0.45);
-          fx += s * spread * hx;
+          const hx = Math.pow(1 - distX / jetW, 1.35);
+          const vyFactor = 0.35 + 0.65 * Math.pow(clamp(y / H, 0, 1), 0.55);
+          fy -= s * 1.42 * hx * vyFactor;
+          fx += s * (dx / jetW) * 0.32 * hx;
         }
-        const vxC = x - W * 0.60;
-        const vyC = y - H * 0.50;
-        const dC = Math.hypot(vxC, vyC) + 60;
-        const swirl = (s * 10) / dC;
-        fx += (vyC / dC) * swirl * 0.28;
-        fy += (-vxC / dC) * swirl * 0.16;
+        const vxC = x - W * 0.56;
+        const vyC = y - H * 0.44;
+        const dC = Math.hypot(vxC, vyC) + 34;
+        const swirl = (s * 24) / dC;
+        // Counter-clockwise: up on right, left at top, down on left, right at bottom
+        fx += (vyC / dC) * swirl * 0.44;
+        fy += (-vxC / dC) * swirl * 0.32;
       }
 
       return { fx, fy };
@@ -1800,8 +1793,8 @@
         this.y = y;
         this.vx = rand(-0.6, 0.6);
         this.vy = rand(-0.5, 0.2);
-        this.radius = 15.4;
-        this.tube = 4.0;
+        this.radius = 14.5;
+        this.tube = 4.2;
         this.innerRadius = this.radius - this.tube;
         this.angle = rand(-0.6, 0.6);
         this.angularVel = rand(-0.04, 0.04);
@@ -1811,7 +1804,6 @@
         this.color = color;
         this.colorKey = colorKey;
         this.peg = null; // non-null when physically threaded around a peg
-        this.pegGrace = 0;
         this.wrongColorNotified = false;
         this.phase = rand(0, Math.PI * 2);
       }
@@ -1821,26 +1813,21 @@
         const fluid = sampleFluidVelocity(this.x, this.y);
 
         if (this.peg) {
-          // Physically slides along the peg shaft with realistic water-shielding & peg friction.
-          // Normal jets make stacked rings bob slightly without ruining your progress;
-          // inverting the toy (gravityY < 0) or rescuing a wrong-color ring pops it cleanly off!
+          // Physically slides along the peg shaft! Can be blasted OFF the top by strong jet or inversion!
           const peg = this.peg;
           const idx = peg.rings.indexOf(this);
           const restY = peg.baseY - 5 - idx * 8.2;
-          const isWrongColor = peg.colorKey && peg.colorKey !== this.colorKey;
-          const jetSensitivity = isWrongColor ? 0.68 : 0.10;
-          if (this.pegGrace > 0) this.pegGrace -= stepDt;
 
-          // Gravity along shaft + damped upward jet force
-          const gNet = state.gravityY * 0.18;
-          this.vy += (gNet + fluid.fy * jetSensitivity) * dt60;
-          this.vy *= Math.pow(0.84, dt60);
+          // Gravity along shaft + upward jet force
+          const gNet = state.gravityY * 0.16;
+          this.vy += (gNet + fluid.fy * 0.72) * dt60;
+          this.vy *= Math.pow(0.86, dt60);
           this.y += this.vy * dt60;
 
           // Center horizontally onto tapered shaft with slight physical wiggle
-          this.x = lerp(this.x, peg.x + clamp(fluid.fx * 1.1, -2.0, 2.0), 0.3);
-          this.angle = lerp(this.angle, 0, 0.24);
-          this.tilt = lerp(this.tilt, 1.14, 0.24);
+          this.x = lerp(this.x, peg.x + clamp(fluid.fx * 1.4, -2.5, 2.5), 0.28);
+          this.angle = lerp(this.angle, 0, 0.22);
+          this.tilt = lerp(this.tilt, 1.14, 0.22);
           this.vx = 0;
 
           // Rest on base or ring below
@@ -1860,14 +1847,14 @@
             }
           }
 
-          // Pop off tip ONLY after entry grace AND when genuinely pushed upward / inverted!
-          if (this.pegGrace <= 0 && this.y < peg.tipY - 8 && (state.gravityY < -0.15 || this.vy < -0.7)) {
+          // Pop off tip if pushed above peg.tipY - 4 (by direct jet or turning upside down!)
+          if (this.y < peg.tipY - 4) {
             peg.rings.splice(idx, 1);
             this.peg = null;
-            this.vy = Math.min(this.vy, -2.2);
-            this.vx = rand(-1.4, 1.4) + fluid.fx * 0.5;
-            this.tiltVel = rand(-0.1, 0.1);
-            this.angularVel = rand(-0.12, 0.12);
+            this.vy = Math.min(this.vy, -2.4);
+            this.vx = rand(-1.5, 1.5) + fluid.fx * 0.6;
+            this.tiltVel = rand(-0.12, 0.12);
+            this.angularVel = rand(-0.14, 0.14);
             this.wrongColorNotified = false;
             recomputeScore();
             sound.playPlasticTap(0.5, (this.x / W) * 2 - 1);
@@ -1876,53 +1863,41 @@
           return;
         }
 
-        // Free ring in closed water chamber — snappy, responsive underwater glide right over pegs!
+        // Free ring in closed water chamber
         const depth = clamp(this.y / H, 0, 1);
-        const gForce = 0.185;
-        const buoyancy = 0.022 * (1 - depth * 0.35);
+        const gForce = 0.155;
+        const buoyancy = 0.028 * (1 - depth * 0.35);
 
-        this.vx += (state.gravityX * (gForce - buoyancy * 0.25) + fluid.fx) * dt60;
+        this.vx += (state.gravityX * (gForce - buoyancy * 0.3) + fluid.fx) * dt60;
         this.vy += (state.gravityY * gForce - (state.gravityY >= 0 ? buoyancy : -buoyancy * 0.5) + fluid.fy) * dt60;
 
-        // Authentic molded AquaPlay floor ramps: gently feeds bottom rings toward left/right nozzles
-        if (this.y > H - 40 && state.gravityY > 0.3) {
-          const fromCenter = this.x - W * 0.5;
-          if (Math.abs(fromCenter) < 62) {
-            this.vx += (fromCenter >= 0 ? 1 : -1) * 0.05 * dt60;
-          } else if (this.x < NOZZLE_L - 8) {
-            this.vx += 0.095 * dt60;
-          } else if (this.x > NOZZLE_R + 8) {
-            this.vx -= 0.095 * dt60;
-          }
-        }
+        // Subtle falling-leaf underwater flutter coupled to 3D tilt
+        this.phase += 0.045 * dt60;
+        const flatness = Math.abs(Math.sin(this.tilt)); // 1 when horizontal/flat, 0 when vertical edge-on
+        this.vx += Math.sin(this.phase) * 0.018 * (0.4 + flatness) * dt60;
 
-        // Organic falling-leaf flutter + tilted glide dispersion
-        this.phase += 0.05 * dt60;
-        const flatness = Math.abs(Math.sin(this.tilt));
-        this.vx += (Math.sin(this.phase) * 0.026 + Math.sin(this.angle) * 0.022) * (0.45 + flatness) * dt60;
-
-        // Anisotropic hydrodynamic drag
-        const dragX = lerp(0.968, 0.952, 1 - flatness);
-        const dragY = lerp(0.968, 0.952, flatness);
+        // Anisotropic hydrodynamic drag (horizontal rings fall slower, edge-on rings cut faster)
+        const dragX = lerp(0.978, 0.962, 1 - flatness);
+        const dragY = lerp(0.982, 0.955, flatness);
         this.vx *= Math.pow(dragX, dt60);
         this.vy *= Math.pow(dragY, dt60);
 
         // Fluid shear torque drives organic 3D tumbling
         const speed = Math.hypot(this.vx, this.vy);
-        this.angularVel += (fluid.fx * 0.007 - this.vx * 0.0016) * dt60;
-        this.tiltVel += (fluid.fy * -0.01 + Math.sin(this.phase) * 0.0035 * (speed + 0.25)) * dt60;
-        this.angularVel *= Math.pow(0.93, dt60);
-        this.tiltVel *= Math.pow(0.92, dt60);
+        this.angularVel += (fluid.fx * 0.008 - this.vx * 0.0018) * dt60;
+        this.tiltVel += (fluid.fy * -0.012 + Math.sin(this.phase) * 0.004 * (speed + 0.3)) * dt60;
+        this.angularVel *= Math.pow(0.94, dt60);
+        this.tiltVel *= Math.pow(0.93, dt60);
 
-        this.vx = clamp(this.vx, -7.8, 7.8);
-        this.vy = clamp(this.vy, -8.5, 8.5);
+        this.vx = clamp(this.vx, -12, 12);
+        this.vy = clamp(this.vy, -14, 14);
         this.x += this.vx * dt60;
         this.y += this.vy * dt60;
         this.angle += this.angularVel * dt60;
         this.tilt += this.tiltVel * dt60;
 
         this.collideWalls();
-        this.collidePegs(dt60);
+        this.collidePegs();
       }
 
       collideWalls() {
@@ -1954,61 +1929,54 @@
         }
       }
 
-      collidePegs(dt60 = 1) {
+      collidePegs() {
         for (const peg of state.pegs) {
+          // 1. Check threading over the peg tip from above!
           const dxTip = this.x - peg.x;
           const dyTip = this.y - peg.tipY;
-          const hasSpace = peg.rings.length < peg.maxRings;
-          const colorMatch = !peg.colorKey || peg.colorKey === this.colorKey;
-
-          // 1. Conical tip funneling: guides aligned descending rings cleanly onto the tapered needle tip
-          if (hasSpace && state.gravityY > 0.1 && this.vy > -0.3 && dyTip >= -34 && dyTip <= 18 && Math.abs(dxTip) < 28) {
-            if (colorMatch) {
-              this.vx += (-dxTip) * 0.026 * dt60;
-              this.vx *= Math.pow(0.91, dt60);
-              this.tilt = lerp(this.tilt, 1.12, 0.11 * dt60);
-            } else if (Math.abs(dxTip) > 8) {
-              this.vx += (dxTip >= 0 ? 1 : -1) * 0.028 * dt60;
-            }
-          }
-
-          // 2. Crisp, satisfying threading over the tapered peg tip from above!
-          const catchR = colorMatch ? 16.5 : 10.5;
           if (
-            hasSpace &&
-            Math.abs(dxTip) < catchR &&
-            dyTip >= -11 && dyTip <= 20 &&
-            this.vy > -0.4 &&
-            state.gravityY > 0.1
+            peg.rings.length < peg.maxRings &&
+            Math.abs(dxTip) < this.innerRadius * 0.92 &&
+            dyTip >= -6 && dyTip <= 12 &&
+            this.vy > -0.35 &&
+            state.gravityY > 0.15
           ) {
             this.peg = peg;
-            this.pegGrace = 0.4;
             peg.rings.push(this);
-            this.x = lerp(this.x, peg.x, 0.72);
-            this.y = Math.max(this.y, peg.tipY + 3);
-            this.vy = Math.max(this.vy * 0.65, 1.1);
-            if (!colorMatch && !this.wrongColorNotified) {
+            this.x = peg.x;
+            this.vy = Math.max(this.vy * 0.55, 0.7);
+            const isMatch = !peg.colorKey || peg.colorKey === this.colorKey;
+            if (!isMatch && !this.wrongColorNotified) {
               this.wrongColorNotified = true;
               showToast(I18N[state.lang].toastWrongColor, 2600);
             }
             recomputeScore();
-            sound.playScore(colorMatch);
-            safeVibrate(colorMatch ? [25, 20, 30] : [50]);
+            sound.playScore(isMatch);
+            safeVibrate(isMatch ? [25, 20, 30] : [50]);
             checkVictory();
             return;
           }
 
-          // 3. Soft deflection against lower shaft ONLY (never trapping rings on the floor!)
-          if (this.y > peg.tipY + 26 && this.y < peg.baseY - 6) {
+          // 2. Physical shaft deflection (so free rings bounce off pegs instead of ghosting through!)
+          if (this.y > peg.tipY + 4 && this.y < peg.baseY + 4) {
             const shaftR = peg.shaftRadiusAt(this.y);
             const dx = this.x - peg.x;
-            const minSep = shaftR + this.radius * 0.52;
+            const minSep = shaftR + this.radius * 0.78;
             if (Math.abs(dx) < minSep) {
               const sign = dx >= 0 ? 1 : -1;
               this.x = peg.x + sign * minSep;
-              if (Math.abs(this.vx) > 1.0) sound.playPlasticTap(Math.abs(this.vx) * 0.16, (this.x / W) * 2 - 1);
-              this.vx = sign * Math.max(Math.abs(this.vx) * 0.3, 0.25);
+              if (Math.abs(this.vx) > 0.9) sound.playPlasticTap(Math.abs(this.vx) * 0.2, (this.x / W) * 2 - 1);
+              this.vx = sign * Math.max(Math.abs(this.vx) * 0.5, 0.55);
+              this.angularVel += sign * 0.05;
             }
+          } else if (Math.hypot(dxTip, dyTip) < peg.tipRadius + this.tube + 2 && Math.abs(dxTip) >= this.innerRadius * 0.75) {
+            // Glancing bounce off rounded peg tip
+            const d = Math.hypot(dxTip, dyTip) || 1;
+            const nx = dxTip / d, ny = dyTip / d;
+            this.vx += nx * 1.1;
+            this.vy += ny * 0.9;
+            this.tiltVel += nx * 0.08;
+            sound.playPlasticTap(0.35, (this.x / W) * 2 - 1);
           }
         }
       }
@@ -2081,7 +2049,7 @@
       constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.rimHalf = 22.5;
+        this.rimHalf = 19;
         this.netH = 26;
         this.netSway = 0;
         this.netSwayVel = 0;
@@ -2174,7 +2142,7 @@
         this.y = y;
         this.vx = rand(-0.6, 0.6);
         this.vy = rand(-0.4, 0.2);
-        this.radius = 9.5;
+        this.radius = 10.2;
         this.angle = rand(0, Math.PI * 2);
         this.angularVel = rand(-0.05, 0.05);
         this.color = color;
@@ -2191,7 +2159,7 @@
           const hoop = this.hoop;
           const idx = hoop.balls.indexOf(this);
           const pocketY = hoop.y + hoop.netH - 9 - idx * 12;
-          if (state.gravityY < -0.3 || fluid.fy < -1.85) {
+          if (state.gravityY < -0.3 || fluid.fy < -1.1) {
             hoop.balls.splice(idx, 1);
             this.hoop = null;
             this.vy = -2.8;
@@ -2210,9 +2178,8 @@
 
         const gForce = 0.16;
         const buoyancy = 0.024;
-        // Solid spheres catch extra direct hydrodynamic impulse to reach mid & top hoops cleanly
-        this.vx += (state.gravityX * (gForce - buoyancy * 0.3) + fluid.fx * 1.25) * dt60;
-        this.vy += (state.gravityY * gForce - (state.gravityY >= 0 ? buoyancy : -buoyancy * 0.5) + fluid.fy * 1.48) * dt60;
+        this.vx += (state.gravityX * (gForce - buoyancy * 0.3) + fluid.fx) * dt60;
+        this.vy += (state.gravityY * gForce - (state.gravityY >= 0 ? buoyancy : -buoyancy * 0.5) + fluid.fy) * dt60;
 
         this.vx *= Math.pow(0.976, dt60);
         this.vy *= Math.pow(0.976, dt60);
@@ -2225,14 +2192,8 @@
         this.y += this.vy * dt60;
         this.angle += this.angularVel * dt60;
 
-        // Molded bottom saddle feeds resting basketballs gently toward left/right jets
-        if (this.y > H - 36 && state.gravityY > 0.3) {
-          const fromCenter = this.x - W * 0.5;
-          if (Math.abs(fromCenter) < 68) this.vx += (fromCenter >= 0 ? 1 : -1) * 0.04 * dt60;
-        }
-
         this.collideWalls();
-        this.collideHoops(dt60);
+        this.collideHoops();
       }
 
       collideWalls() {
@@ -2261,15 +2222,8 @@
         }
       }
 
-      collideHoops(dt60 = 1) {
+      collideHoops() {
         for (const hoop of state.hoops) {
-          // Gentle funneling when dropping right over the mouth of the rim
-          const dxMouth = this.x - hoop.x;
-          const dyMouth = this.y - hoop.y;
-          if (hoop.balls.length < 3 && this.vy > 0 && dyMouth >= -24 && dyMouth <= 10 && Math.abs(dxMouth) < hoop.rimHalf + 6) {
-            this.vx += (-dxMouth) * 0.03 * dt60;
-          }
-
           // Physical collision against Left & Right rim lip circles!
           const lips = [
             { x: hoop.x - hoop.rimHalf, y: hoop.y },
@@ -2279,15 +2233,15 @@
             const dx = this.x - lip.x;
             const dy = this.y - lip.y;
             const d = Math.hypot(dx, dy);
-            const minD = this.radius + 2.4;
+            const minD = this.radius + 2.8;
             if (d < minD && d > 0.001) {
               const nx = dx / d, ny = dy / d;
               this.x = lip.x + nx * minD;
               this.y = lip.y + ny * minD;
               const vn = this.vx * nx + this.vy * ny;
               if (vn < 0) {
-                this.vx -= 1.48 * vn * nx;
-                this.vy -= 1.48 * vn * ny;
+                this.vx -= 1.55 * vn * nx;
+                this.vy -= 1.55 * vn * ny;
                 this.angularVel += (nx * this.vy - ny * this.vx) * 0.04;
                 hoop.netSwayVel += nx * 0.6;
                 sound.playPlasticTap(Math.abs(vn) * 0.25, (this.x / W) * 2 - 1);
@@ -2298,10 +2252,10 @@
           // Clean downward swish through the hoop opening!
           if (
             hoop.balls.length < 3 &&
-            Math.abs(this.x - hoop.x) < hoop.rimHalf - 2 &&
-            this.prevY <= hoop.y + 7 &&
-            this.y > hoop.y + 1 &&
-            this.vy > 0.08
+            Math.abs(this.x - hoop.x) < hoop.rimHalf - 4 &&
+            this.prevY <= hoop.y + 4 &&
+            this.y > hoop.y + 4 &&
+            this.vy > 0.15
           ) {
             this.hoop = hoop;
             hoop.balls.push(this);
@@ -2453,7 +2407,7 @@
     }
 
     // ==================== COLLISION SOLVER (ELASTIC DAMPED) ====================
-    function resolveBodyCollisions(list, restitution, skipFn, spacingFactor = 0.95) {
+    function resolveBodyCollisions(list, restitution, skipFn) {
       for (let i = 0; i < list.length; i++) {
         for (let j = i + 1; j < list.length; j++) {
           const a = list[i], b = list[j];
@@ -2461,7 +2415,7 @@
           const dx = b.x - a.x;
           const dy = b.y - a.y;
           const dist = Math.hypot(dx, dy);
-          const minD = (a.radius + b.radius) * spacingFactor;
+          const minD = a.radius + b.radius - 1.5;
           if (dist < minD && dist > 0.001) {
             const nx = dx / dist, ny = dy / dist;
             const overlap = minD - dist;
@@ -2657,8 +2611,8 @@
       if (state.mode === 'classic2') {
         // Authentic 1982 Estrela 2-peg stacking AquaPlay!
         state.targetScore = 8;
-        state.pegs.push(new Peg(W * 0.35, H - 34, 96, '#f8fafc', null, 5, true));
-        state.pegs.push(new Peg(W * 0.65, H - 34, 96, '#f8fafc', null, 5, true));
+        state.pegs.push(new Peg(W * 0.35, H - 36, 114, '#f8fafc', null, 5, true));
+        state.pegs.push(new Peg(W * 0.65, H - 36, 114, '#f8fafc', null, 5, true));
         const palette = [
           ['#ef4444', 'red'], ['#f97316', 'orange'], ['#facc15', 'yellow'], ['#22c55e', 'green'],
           ['#06b6d4', 'cyan'], ['#3b82f6', 'blue'], ['#a855f7', 'purple'], ['#ec4899', 'pink']
@@ -2770,9 +2724,7 @@
         document.getElementById('winTime').textContent = formatTime(state.elapsedMs);
         document.getElementById('winRecord').textContent = formatTime(parseInt(localStorage.getItem(key), 10));
         document.getElementById('winDesc').textContent = isNew ? I18N[state.lang].winNewRecord : I18N[state.lang].winRegular;
-        setTimeout(() => {
-          if (state.gameWon) document.getElementById('winModal').classList.remove('hidden');
-        }, 650);
+        document.getElementById('winModal').classList.remove('hidden');
       }
     }
 
@@ -2871,11 +2823,11 @@
         shellEl.style.transform = `rotateY(${rotY.toFixed(2)}deg) rotateX(${rotX.toFixed(2)}deg)`;
       }
 
-      // Realistic Piston Pressure Pulse (crisp rubber-dome burst + smooth controllable hold stream)
-      state.pulseL *= Math.pow(0.006, rawDt);
-      state.pulseR *= Math.pow(0.006, rawDt);
-      const targetJetL = state.pulseL * 1.65 + (state.pumpLHeld ? 0.72 : 0);
-      const targetJetR = state.pulseR * 1.65 + (state.pumpRHeld ? 0.72 : 0);
+      // Realistic Piston Pressure Pulse (strong burst on press + gentle residual flow while held)
+      state.pulseL *= Math.pow(0.04, rawDt);
+      state.pulseR *= Math.pow(0.04, rawDt);
+      const targetJetL = state.pulseL * 2.55 + (state.pumpLHeld ? 0.68 : 0);
+      const targetJetR = state.pulseR * 2.55 + (state.pumpRHeld ? 0.68 : 0);
       state.jetL = lerp(state.jetL, targetJetL, 1 - Math.pow(0.0002, rawDt));
       state.jetR = lerp(state.jetR, targetJetR, 1 - Math.pow(0.0002, rawDt));
 
@@ -2901,11 +2853,10 @@
         if (state.mode === 'basket') {
           state.hoops.forEach(h => h.update(stepDt));
           state.balls.forEach(b => b.update(stepDt));
-          resolveBodyCollisions(state.balls, 0.62, b => b.hoop !== null, 0.96);
+          resolveBodyCollisions(state.balls, 0.62, b => b.hoop !== null);
         } else {
           state.rings.forEach(r => r.update(stepDt));
-          // Rings exist in a 3D water chamber with depth, so allow soft 0.68 Z-overlap (no rigid 2D jamming over peg tips!)
-          resolveBodyCollisions(state.rings, 0.36, r => r.peg !== null, 0.68);
+          resolveBodyCollisions(state.rings, 0.44, r => r.peg !== null);
         }
       }
 
@@ -3177,7 +3128,7 @@
     if ('serviceWorker' in navigator) {
       const hadController = !!navigator.serviceWorker.controller;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js?v=2.0.3').then(r => r.update()).catch(() => {});
+        navigator.serviceWorker.register('service-worker.js?v=2.0.4').then(r => r.update()).catch(() => {});
       });
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (hadController) window.location.reload();
