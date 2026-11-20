@@ -823,6 +823,19 @@
       .pump-col { width: 88px; }
     }
   </style>
+    <!-- 4U SEO & AEO Schema -->
+    <link rel="canonical" href="https://4u.ia.br/app/aquaplay/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="4U.IA.BR — 4u-Labs">
+    <meta property="og:url" content="https://4u.ia.br/app/aquaplay/">
+    <meta property="og:title" content="AquaPlay Online Grátis — Clássico Brinquedo dos Anos 80 com Física Real | 4U.IA.BR">
+    <meta property="og:description" content="Jogue o clássico AquaPlay dos anos 80 online grátis! Física hidrodinâmica real de água e vórtices, argolas 3D, 4 modos (incl. Basquete), áudio submerso e giroscópio 360° no celular.">
+    <meta property="og:image" content="https://4u.ia.br/loja/uploads/img-1795055318-f3af5474.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AquaPlay Online Grátis — Clássico Brinquedo dos Anos 80 com Física Real | 4U.IA.BR">
+    <meta name="twitter:description" content="Jogue o clássico AquaPlay dos anos 80 online grátis! Física hidrodinâmica real de água e vórtices, argolas 3D, 4 modos (incl. Basquete), áudio submerso e giroscópio 360° no celular.">
+    <meta name="twitter:image" content="https://4u.ia.br/loja/uploads/img-1795055318-f3af5474.webp">
+    <script type="application/ld+json" data-4u-seo="1">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"AquaPlay Vintage Deluxe","url":"https://4u.ia.br/app/aquaplay/","image":"https://4u.ia.br/loja/uploads/img-1795055318-f3af5474.webp","description":"Jogue o clássico AquaPlay dos anos 80 online grátis! Física hidrodinâmica real de água e vórtices, argolas 3D, 4 modos (incl. Basquete), áudio submerso e giroscópio 360° no celular.","applicationCategory":"GameApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. HTML5.","inLanguage":["pt-BR","en"],"isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"BRL"},"featureList":["Simulação hidrodinâmica de vórtices e bolhas em tempo real","Giroscópio 360° no celular para deslocar as argolas inclinando o aparelho","4 modos: 2 Pinos 1982, Pirâmide 6, Cores e Basquete Aquático","Áudio submerso procedural e visual retrô anos 80"],"publisher":{"@type":"Organization","name":"4u-Labs","url":"https://4u.ia.br/"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Dá para jogar o AquaPlay no celular inclinando o aparelho?","acceptedAnswer":{"@type":"Answer","text":"Sim! Em smartphones compatíveis, o giroscópio 360° move a gravidade e a água quando você inclina o celular, exatamente como no brinquedo físico dos anos 80."}},{"@type":"Question","name":"Como jogar no computador?","acceptedAnswer":{"@type":"Answer","text":"Use os botões na tela, as setas / teclas Z e X para as bombas esquerda e direita, Q e E (ou arraste a carcaça) para inclinar e Espaço para agitar."}},{"@type":"Question","name":"Precisa baixar aplicativo?","acceptedAnswer":{"@type":"Answer","text":"Não. É gratuito, funciona direto no navegador e pode ser instalado como PWA na tela inicial."}}]}]}</script>
 </head>
 <body>
   <canvas id="confettiCanvas"></canvas>
@@ -963,6 +976,15 @@
         <a href="https://4u.ia.br/loja/" target="_blank" rel="noopener" data-i18n="storeLink">Loja de Apps</a> •
         <a href="https://github.com/4u-Labs/aquaplay" target="_blank" rel="noopener">GitHub</a>
       </div>
+    
+      <details id="aquaplaySeoFaq" style="margin-top:8px;text-align:left;background:rgba(15,23,42,0.72);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:6px 10px;">
+        <summary style="cursor:pointer;font-weight:700;color:#93c5fd;list-style-position:inside;">Sobre o AquaPlay 1982 &amp; Perguntas Frequentes (FAQ)</summary>
+        <div style="margin-top:6px;display:grid;gap:6px;color:#cbd5e1;font-size:0.7rem;line-height:1.45;">
+          <p><strong>AquaPlay Vintage Deluxe</strong> recria gratuitamente no navegador o clássico brinquedo aquático dos anos 80 e 90 com simulação hidrodinâmica real de vórtices, argolas 3D em camadas, áudio submerso e giroscópio 360° para celular.</p>
+          <p><strong>Como jogar no celular:</strong> incline o smartphone para deslocar as argolas na água e use os polegares nos botões ESQ/DIR para disparar jatos de ar.</p>
+          <p><strong>Modos incluídos:</strong> 2 Pinos 1982, Pirâmide 6 Pinos, Desafio das Cores e Basquete Aquático. Conheça mais apps retrô e utilitários gratuitos na <a href="https://4u.ia.br/loja/" target="_blank" rel="noopener" style="color:#fbbf24;">Loja 4U.IA.BR</a>.</p>
+        </div>
+      </details>
     </footer>
   </div>
 
@@ -3135,7 +3157,7 @@
     if ('serviceWorker' in navigator) {
       const hadController = !!navigator.serviceWorker.controller;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js?v=2.0.6').then(r => r.update()).catch(() => {});
+        navigator.serviceWorker.register('service-worker.js?v=2.0.7').then(r => r.update()).catch(() => {});
       });
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (hadController) window.location.reload();
