@@ -7,7 +7,8 @@
   <meta name="description" content="O clássico brinquedo aquático dos anos 80 e 90 recriado com física hidrodinâmica de vórtices, argolas 3D, colisão real em pinos e aros, áudio submerso e giroscópio 360°.">
   <meta name="theme-color" content="#d97706">
   <link rel="manifest" href="manifest.json?v=2.0.0">
-  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20261120-2">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico?v=20261120-2">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3134,7 +3135,7 @@
     if ('serviceWorker' in navigator) {
       const hadController = !!navigator.serviceWorker.controller;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js?v=2.0.5').then(r => r.update()).catch(() => {});
+        navigator.serviceWorker.register('service-worker.js?v=2.0.6').then(r => r.update()).catch(() => {});
       });
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (hadController) window.location.reload();
